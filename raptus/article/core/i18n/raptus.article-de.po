@@ -1,0 +1,76 @@
+# Simon Käser <skaeser@raptus.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: raptus.article\n"
+"POT-Creation-Date: 2010-02-10 13:05+0000\n"
+"PO-Revision-Date: 2010-01-11 14:03+0000\n"
+"Last-Translator: Simon Käser <skaeser@raptus.com>\n"
+"Language-Team: German <skaeser@raptus.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: raptus.article\n"
+"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
+
+#. Default: "An article"
+#: profiles/default/types/Article.xml
+msgid "An article"
+msgstr "Ein Artikel"
+
+#. Default: "Article"
+#: profiles/default/types/Article.xml
+msgid "Article"
+msgstr "Artikel"
+
+#. Default: "Component selection"
+#: browser/components.pt:11
+msgid "Component selection"
+msgstr "Komponentenauswahl"
+
+#: browser/components.py:24
+msgid "Components saved successfully"
+msgstr "Komponenten erfolgreich gespeichert"
+
+#: browser/related.py:24
+msgid "List of related content of the article."
+msgstr "Liste der Verweise des Artikels."
+
+#. Default: "Related content"
+#: browser/related.pt:4
+msgid "Related content"
+msgstr "Verweise"
+
+#: browser/components.py:26
+msgid "Saving components failed"
+msgstr "Beim Speichern der Komponenten ist ein Fehler aufgetreten"
+
+#. Default: "Select the desired components shown by this article."
+#: browser/components.pt:15
+msgid "Select the desired components shown by this article."
+msgstr ""
+"Wählen Sie die gewünschten Komponenten aus welche für diesen Artikel "
+"angezeigt werden sollen."
+
+#. Default: "There are no components available."
+#: browser/components.pt:19
+msgid "There are no components available."
+msgstr "Es stehen keine Komponenten zur Verfügung."
+
+#. Default: "Hide description"
+#: content/article.py:57
+msgid "label_hide_description"
+msgstr "Beschreibung ausblenden"
+
+#. Default: "Hide title"
+#: content/article.py:42
+msgid "label_hide_title"
+msgstr "Titel ausblenden"
+
+#. Default: "Save and view"
+#: browser/components.pt:49
+msgid "label_save_and_view"
+msgstr "Speichern und anzeigen"

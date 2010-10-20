@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<object name="Article"
+   meta_type="Factory-based Type Information with dynamic views"
+   i18n:domain="raptus.article" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property name="title" i18n:translate="">Article</property>
+  <property name="description"
+    i18n:translate="">An article</property>
+  <property name="content_meta_type">Article</property>
+  <property name="content_icon">++resource++article_icon.gif</property>
+  <property name="product">raptus.article.core</property>
+  <property name="factory">addArticle</property>
+  <property name="immediate_view">atct_edit</property>
+  <property name="global_allow">True</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types" purge="False">
+    <element value="Folder" />
+  </property>
+  <property name="allow_discussion">False</property>
+  <property name="default_view">@@view</property>
+  <property name="view_methods">
+    <element value="@@view" />
+  </property>
+  <alias from="(Default)" to="(dynamic view)" />
+  <alias from="edit" to="atct_edit" />
+  <alias from="sharing" to="@@sharing" />
+  <alias from="view" to="(selected layout)" />
+  <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${folder_url}/" visible="True"
+    i18n:attributes="title" i18n:domain="plone">
+    <permission value="View"/>
+  </action>
+  <action title="Edit" action_id="edit" category="object" condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user|python:True"
+    url_expr="string:${object_url}/edit" visible="True"
+    i18n:attributes="title" i18n:domain="plone">
+    <permission value="Modify portal content"/>
+  </action>
+  <action title="References" action_id="references" category="object"
+    condition_expr="object/archetype_tool/has_graphviz"
+    url_expr="string:${object_url}/reference_graph" visible="True"
+    i18n:attributes="title" i18n:domain="plone">
+    <permission value="Modify portal content"/>
+    <permission value="Review portal content"/>
+  </action>
+  <action title="Folder Listing" action_id="folderlisting" category="folder"
+    condition_expr="object/isPrincipiaFolderish"
+    url_expr="string:${folder_url}/view" visible="False"
+    i18n:attributes="title" i18n:domain="plone">
+    <permission value="View"/>
+  </action>
+  <action title="Components" action_id="components" category="folder"
+    url_expr="string:${folder_url}/@@components" visible="True"
+    i18n:attributes="title" i18n:domain="plone">
+    <permission value="raptus.article: Manage Components"/>
+  </action>
+</object>

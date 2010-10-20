@@ -1,0 +1,190 @@
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+#components ul {
+  margin:2em 0;
+  padding:0;
+  list-style:none;
+}
+
+#components ul li {
+  display:block;
+  clear:both;
+  background:none;
+  margin:-1px 0 0 0;
+  padding:5px 11px;
+  list-style:none;
+  position:relative;
+  border-width:&dtml-borderWidth; 0;
+  border-style:&dtml-borderStyle;;
+  border-color:&dtml-globalBorderColor; &dtml-backgroundColor;;
+}
+
+#components ul li a {
+  border:none;
+}
+
+#components ul li label {
+  cursor:pointer;
+}
+
+#components ul li input {
+  float:right;
+  margin:3px 5px 0 10px;
+}
+
+#components ul li img {
+  float:left;
+  margin:0 1em 0 0;
+}
+
+#components ul li strong {
+  display:block;
+  font-weight:normal;
+  font-size:15px;
+  line-height:20px;
+}
+
+#components ul li span {
+  display:block;
+  font-weight:normal;
+  margin:1em 0 0 0;
+}
+
+#components ul li .information {
+  display:none;
+  position:absolute;
+  right:40px;
+  top:30px;
+  background-color:&dtml-globalBackgroundColor;;
+  border:&dtml-borderWidth; &dtml-borderStyle; &dtml-globalBorderColor;;
+  border-top:none;
+  padding:0.5em 1em;
+  margin:0;
+  width:40%;
+  z-index:1;
+  border-radius:0 0 5px 5px;
+  -moz-border-radius:0 0 5px 5px;
+  -o-border-radius:0 0 5px 5px;
+  -webkit-border-radius:0 0 5px 5px;
+  box-shadow: 2px 2px 2px #aaa;
+  -moz-box-shadow: 2px 2px 2px #aaa;
+  -webkit-box-shadow: 2px 2px 2px #aaa;
+}
+
+#components ul li.hover {
+  padding:5px 10px;
+  background-color:&dtml-globalBackgroundColor;;
+  border-width:&dtml-borderWidth;;
+  border-color:&dtml-globalBorderColor;;
+  box-shadow: 2px 2px 2px #aaa;
+  -moz-box-shadow: 2px 2px 2px #aaa;
+  -webkit-box-shadow: 2px 2px 2px #aaa;
+}
+
+#components ul li.hover .information {
+  display:block;
+  
+}
+
+#components ul li .information span {
+  margin:0;
+}
+
+#components .actionButtons {
+  clear:both;
+}
+
+.component {
+  margin:0 0 1em 0;
+}
+
+.componentBlock {
+  margin:3em 0;
+  padding:1em 2em;
+  border:&dtml-borderWidth; &dtml-borderStyle; &dtml-globalBorderColor;;
+  background-color:&dtml-globalBackgroundColor;;
+  overflow:hidden;
+}
+
+.componentLeft {
+  float:left;
+  clear:left;
+  padding:0 1em 0 0;
+}
+
+.componentRight {
+  float:right;
+  clear:right;
+  padding:0 0 0 1em;
+}
+
+.componentFull {
+  text-align:center;
+}
+
+ul li.component a {
+  border-bottom:none;
+}
+
+ul.manageableList li,
+.component {
+  position:relative;
+}
+
+ul.manageableList li .manage,
+.component .manage {
+  position:absolute;
+  z-index:1;
+  top:2px;
+  right:4px;
+  padding:2px 5px;
+  background-color:&dtml-contentViewBackgroundColor;;
+  border:&dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -o-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow: 1px 1px 4px #aaa;
+  -moz-box-shadow: 1px 1px 4px #aaa;
+  -webkit-box-shadow: 1px 1px 4px #aaa;
+  opacity:0.6;
+  -moz-opacity:0.6;
+  -o-opacity:0.6;
+  -webkit-opacity:0.6;
+}
+
+ul.manageableList li .manage:hover,
+.component .manage:hover {
+  opacity:1;
+  -moz-opacity:1;
+  -o-opacity:1;
+  -webkit-opacity:1;
+}
+
+ul.manageableList li .manage a,
+.component .manage a {
+  display:inline !important;
+  border:none;
+}
+
+ul.manageableList li .manage a img,
+.component .manage a img {
+  display:inline !important;
+}
+
+.clearfix:after,
+.component:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.clearfix, .component {display: inline-block;}
+/* Hides from IE-mac \*/
+* html .clearfix, * html .component {height: 1%;}
+.clearfix, .component {display: block;}
+/* End hide from IE-mac */
+
+/* </dtml-with> */

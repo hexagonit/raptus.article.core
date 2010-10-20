@@ -1,0 +1,40 @@
+# Simon Käser <skaeser@raptus.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: raptus.article\n"
+"POT-Creation-Date: 2010-01-11 14:03+0000\n"
+"PO-Revision-Date: 2010-01-11 14:03+0000\n"
+"Last-Translator: Simon Käser <skaeser@raptus.com>\n"
+"Language-Team: German <skaeser@raptus.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
+
+#. Default: "Components"
+#: raptus.article.core/raptus/article/core/profiles/default/types/Article.xml
+msgid "Components"
+msgstr "Komponenten"
+
+msgid "article_view"
+msgstr "Artikelansicht"
+
+#. Default: "Add new item to the default page"
+msgid "heading_default_page_add_new_item"
+msgstr "Zum Standardartikel hinzufügen"
+
+#. Default: "Select the type of item you want to add to the default page of the folder."
+msgid "description_default_page_add_new_item"
+msgstr "Wählen Sie die Art von Artikel aus, die Sie dem Standardartikel des Ordner hinzufügen möchten."
+
+#. Default: "Add to default page"
+msgid "folder_add_to_default_page"
+msgstr "Zum Standardartikel hinzufügen"
+
+msgid "Add content to the default page"
+msgstr "Inhalte zum Standardartikel hinzufügen"

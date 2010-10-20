@@ -1,0 +1,734 @@
+Developer Manual
+================
+
+This manual will give you an overview of the code of and teach you how to build
+components for raptus.article.
+
+This manual will cover:
+
+- Introduction
+    - Target
+    - Architecture
+    - Features / key benefits
+- Code overview
+    - The component adapter
+    - ZCML
+    - Content
+    - Interfaces
+    - Indices  
+    - Overrides
+- Existing components
+    - Dependencies
+- Adding a new component
+    - Introduction
+    - Provider for MyContent objects
+    - Component selection
+    - Components and viewlets
+    - Update profile
+- FAQ
+
+
+Introduction
+============
+
+Target
+------
+The main target of raptus.article is to provide the content editor with a 
+pre configured set of layout parts (called components) which he may use to
+build his page layout. The Article content type provided by raptus.article.core
+is a drop in replacement for the default Page content type.
+
+Note that the components (layout parts) used by raptus.article are not linked
+directly to the zope 3 component architecture although they are built on it.
+We will use the word component for the components of raptus.article in the 
+following document and will explicitly note if it is about a component of
+the zope 3 architecture.
+
+
+Architecture
+------------
+The architecture of raptus.article makes heavy use of the zope 3 viewlet architecture.
+A component is basically a viewlet with some metadata like a title, a descriptive text
+and an image. The viewlets used by the components are bound to the marker interface of
+the view of the article content type which ensures that they are only rendered when viewing
+an article. The viewlets are also bound to a unique marker interface which makes it 
+possible to show and hide them in context by providing this interface or not.
+
+
+Features / key benefits
+-----------------------
+- raptus.article uses the existing zope 3 architecture, there is no new architecture you
+  have to learn
+
+- Heavily based on the viewlets architecture and using its features to:
+  - Order our components globally (viewlets.xml / @@manage-viewlets)
+  - Activate/deactivate our components globally (viewlets.xml / @@manage-viewlets)
+  - Show/Hide our components in context (marker interface)
+
+
+Components View
+---------------
+The components view of is available for the article content type and is accessed through the
+content views tabs. The view is basically a enhanced and filtered version of the interfaces 
+tab in the ZMI. It lists all registered and activated components by their title, description
+and image and allows to show or hide them. By saving the view simply sets or unsets the
+marker interfaces mapped to the components which will show or hide them in the view of the
+article. This basic functionality is provided by the `raptus.article.core <http://pypi.python.org/pypi/raptus.article.core>`_
+package.
+
+
+Code overview
+=============
+
+The component adapter
+---------------------
+A component is an adapter implementing IComponent and adapting IArticle which links the
+required parts for selecting and rendering. The following parts are part of a component:
+
+Viewlet
+```````
+
+As mentioned earlier each component needs a viewlet which is responsible for rendering
+the component in the article view.
+
+Unique marker interface
+```````````````````````
+
+Each viewlet also requires a unique marker interfaces responsible for hiding and
+showing it in context of an article.
+
+Title
+`````
+
+The title is used in the components view of the article.
+
+Description
+```````````
+
+A short descriptive text for the component used in the components view of the article.
+
+Image
+``````
+
+A small presentation image showing how the component will displayed in the article
+used in the components view of the article.
+
+
+ZCML
+----
+New components are registered through zcml by using the component directive
+of the newly provided article namespace.::
+
+    <article:component
+        name="related"
+        component=".related.Component"
+        viewlet=".related.Viewlet"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
+
+The definition for the zcml directive is located in the file meta.zcml
+in the IComponentDirective interface.
+
+The schema of the component directive consists of the following parameters:
+
++---------------+-------------------------------------------------+
+| Attribute     | Description                                     |
++===============+=================================================+
+| **name**      | Component name                                  |
++---------------+-------------------------------------------------+
+| **component** | Component class                                 |
++---------------+-------------------------------------------------+
+| **viewlet**   | Viewlet class                                   |
++---------------+-------------------------------------------------+
+| **manager**   | Viewlet manager                                 |
++---------------+-------------------------------------------------+
+| selection     | For which object this component may be selected |
+|               | used if renders child objects like images       |
++---------------+-------------------------------------------------+
+| image         | Defaults to the one specified in the component  |
++---------------+-------------------------------------------------+
+| permission    | Permission needed to view the viewlet defaults  |
+|               | to "zope.Public"                                |
++---------------+-------------------------------------------------+
+
+The directive will then register the component adapter, the viewlet for the
+specified manager using the specified permission, the image if present
+and the component selection adapter if specified.
+
+
+Content
+-------
+- article - Base content for the raptus.article
+
+Interfaces
+----------
+The following interfaces are defined by raptus.article.core.
+
+- **IArticle** (Marker interface for the article content type)
+
+- **IArticleView** (Marker interface for the article view)
+
+- **IComponents** (Provides information about available and active components)
+    - getComponents - method (Returns a list of available components)
+    - activeComponents - method (Returns a list of the active components)
+    
+- **IComponent** (A component definition)
+    - title - attribute (User friendly title of the component)
+    - description - attribute (User friendly description of the component)
+    - image - attribute (Presentation image for the component)
+    - interface - attribute (The unique marker interface the viewlet is bound to)
+    - viewlet - attribute (The name of the viewlet rendering the component)
+
+- **IComponentFilter** (Filters and sorts components based on the registration of their viewlets)
+    - filter - method (Returns a filtered list of components)
+
+- **IComponentSelection** (A component selection registering a component for selection on a content type)
+    
+- **IDefaultComponents** (Provider to define default components for newly created articles)
+    - getComponents - method (Returns a list of components which should be activated)
+        
+- **IManageable** (Catalog results converter used for the manage macro for objects which are manageable)
+    - getList - method (Returns a list of dicts holding the specific links for viewing, editing, sorting 
+      and deleting the object based on a list of catalog brains)
+
+
+Indices
+-------
+raptus.article.core adds a new index named "component" used for the component selection on content types
+contained in articles.
+
+
+Overrides
+---------
+In the zcml file /browser/overrides.zcml we override the following
+browser components:
+
+- plone_contentmenu_factory (/browser/menu.py)
+- folder_factories (/browser/folderfactories.py)
+
+Which allows adding new content to default pages set on a folder.
+
+
+Existing components
+===================
+Here is the list of all currently available raptus.article packages:
+
+- `raptus.article.additionalwysiwyg <http://pypi.python.org/pypi/raptus.article.additionalwysiwyg/>`_
+  (Provides an additional WYSIWYG text field for the articles)
+  
+- `raptus.article.contentfader <http://pypi.python.org/pypi/raptus.article.contentfader>`_
+  (Provides a component which continually fades in and out the contained articles)
+  
+- `raptus.article.contentflow <http://pypi.python.org/pypi/raptus.article.contentflow>`_
+  (Provides a content flow component like the one used in iTunes)
+  
+- `raptus.article.fader <http://pypi.python.org/pypi/raptus.article.fader>`_
+  (Provides a component which continually fades in and out the contained images)
+  
+- `raptus.article.files <http://pypi.python.org/pypi/raptus.article.files>`_
+  (Provides support for adding attachments to articles)
+  
+- `raptus.article.flash <http://pypi.python.org/pypi/raptus.article.flash>`_
+  (Provides support for flash movies)
+  
+- `raptus.article.form <http://pypi.python.org/pypi/raptus.article.form>`_
+  (Provides support for PloneFormGen)
+  
+- `raptus.article.gallery <http://pypi.python.org/pypi/raptus.article.gallery>`_
+  (Provides basic gallery components)
+  
+- `raptus.article.header <http://pypi.python.org/pypi/raptus.article.header>`_
+  (Provides header image support by integrating raptus.header in article)
+  
+- `raptus.article.hidecolumns <http://pypi.python.org/pypi/raptus.article.hidecolumns>`_
+  (Provides functionality to hide the left or right portlet column per article)
+  
+- `raptus.article.images <http://pypi.python.org/pypi/raptus.article.images>`_
+  (Provides support for adding images to articles)
+  
+- `raptus.article.lightbox <http://pypi.python.org/pypi/raptus.article.lightbox>`_
+  (Provides an inline lightbox component showing the images contained in the article)
+  
+- `raptus.article.lightboxgallery <http://pypi.python.org/pypi/raptus.article.lightboxgallery>`_
+  (Provides an inline lightbox component with a horizontal gallery showing the images contained in the article)
+  
+- `raptus.article.links <http://pypi.python.org/pypi/raptus.article.links>`_
+  (Provides support for adding links to articles)
+  
+- `raptus.article.listings <http://pypi.python.org/pypi/raptus.article.listings>`_
+  (Provides basic listing components which display articles contained in the article)
+  
+- `raptus.article.maps <http://pypi.python.org/pypi/raptus.article.maps>`_
+  (Provides a maps content type to be added to articles)
+  
+- `raptus.article.media <http://pypi.python.org/pypi/raptus.article.media>`_
+  (Provides audio and video support for articles)
+  
+- `raptus.article.multilanguagefields <http://pypi.python.org/pypi/raptus.article.multilanguagefields>`_
+  (Provides support for raptus.multilanguagefields in article)
+  
+- `raptus.article.nesting <http://pypi.python.org/pypi/raptus.article.nesting>`_
+  (Provides nesting support for articles)
+  
+- `raptus.article.randomcontent <http://pypi.python.org/pypi/raptus.article.randomcontent>`_
+  (Provides a component which displays a random article)
+  
+- `raptus.article.randomimage <http://pypi.python.org/pypi/raptus.article.randomimage>`_
+  (Provides components which display a random image contained in the article)
+  
+- `raptus.article.reference <http://pypi.python.org/pypi/raptus.article.reference>`_
+  (Provides support for internal or external references on nested articles)
+  
+- `raptus.article.table <http://pypi.python.org/pypi/raptus.article.table>`_
+  (Provides a table component for articles)
+  
+- `raptus.article.teaser <http://pypi.python.org/pypi/raptus.article.teaser>`_
+  (Provides support for a teaser image)
+  
+- `raptus.article.upload <http://pypi.python.org/pypi/raptus.article.upload>`_
+  (Provides multiupload functionality for articles using collective.uploadify)
+
+
+Dependencies
+------------
+List of dependencies between the different raptus.article packages
+
+* raptus.article.additionalwysiwyg
+    * archetypes.schemaextender
+    * raptus.article.core
+* raptus.article.contentfader
+    * raptus.article.nesting
+        * raptus.article.core
+    * raptus.article.teaser
+        * archetypes.schemaextender
+        * raptus.article.core
+    * raptus.inlinelightbox
+* raptus.article.contentflow
+    * raptus.article.nesting
+        * archetypes.schemaextender
+        * raptus.article.core
+    * raptus.article.teaser
+        * archetypes.schemaextender
+        * plone.app.imaging
+        * Products.jsImagePopups
+        * raptus.article.core
+    * raptus.contentflow
+* raptus.article.default
+    * raptus.article.files
+        * raptus.article.core
+    * raptus.article.gallery
+        * raptus.article.images
+            * archetypes.schemaextender
+            * plone.app.imaging
+            * raptus.article.core
+    * raptus.article.links
+        * raptus.article.core
+    * raptus.article.listings
+        * raptus.article.nesting
+            * archetypes.schemaextender
+            * raptus.article.core
+    * raptus.article.reference
+        * raptus.article.nesting
+            * archetypes.schemaextender
+            * raptus.article.core
+    * raptus.article.teaser
+        * raptus.article.core
+* raptus.article.fader
+    * raptus.article.images
+        * raptus.article.core
+    * raptus.inlinelightbox
+* raptus.article.flash
+    * hexagonit.swfheader
+    * Products.ContentTypeValidator
+    * raptus.article.core
+* raptus.article.form
+    * Products.PloneFormGen
+    * raptus.article.core
+* raptus.article.header
+    * raptus.article.core
+    * raptus.header
+* raptus.article.hidecolumns
+    * archetypes.schemaextender
+    * raptus.article.core
+* raptus.article.lightbox
+    * raptus.article.images
+        * raptus.article.core
+    * raptus.inlinelightbox
+* raptus.article.lightboxgallery
+    * raptus.article.images
+        * archetypes.schemaextender
+        * plone.app.imaging
+        * raptus.article.core
+    * raptus.carousel
+    * raptus.inlinelightbox
+* raptus.article.maps
+    * raptus.article.core
+    * raptus.googlemaps
+* raptus.article.media
+    * collective.flowplayer
+    * plone.app.imaging
+    * Products.ContentTypeValidator
+    * raptus.article.core
+* raptus.article.multilanguagefields
+    * raptus.article.core
+    * raptus.multilanguageplone
+        * archetypes.schemaextender
+        * raptus.multilanguagefields
+* raptus.article.randomcontent
+    * raptus.article.nesting
+        * archetypes.schemaextender
+        * raptus.article.core
+* raptus.article.randomimage
+    * raptus.article.images
+        * archetypes.schemaextender
+        * plone.app.imaging
+        * raptus.article.core
+* raptus.article.table
+    * archetypes.schemaextender
+    * raptus.article.core
+* raptus.article.upload
+    * collective.uploadify
+    * raptus.article.files
+        * raptus.article.core
+    * raptus.article.images
+        * archetypes.schemaextender
+        * plone.app.imaging
+        * raptus.article.core
+
+
+Add new component
+=================
+
+Introduction
+------------
+This is a short manual on how to create a new content type used in the article. If you already have
+a content type and you would like to integrate with raptus.article this manual is of use too.
+
+In this example we will be adding a new content type called MyContent which will be addable in
+articles and two component which will render a list of the contained MyContent objects one above
+and one below the content body.
+
+Provider for MyContent objects
+------------------------------
+First we write a new adapter which will return all MyContent objects contained in an article.
+To do so we need an interface defining the functionality of the adapter which we place
+in interfaces.py::
+
+    from zope.interface import Interface
+    
+    class IMyContents(Interface):
+        """ Provider for mycontent objects contained in an article
+        """
+    
+        def getMyContents(**kwargs):
+            """ Returns a list of mycontents (catalog brains)
+            """
+
+Now we write an adapter implementing this interface and adapting IArticle and place it in 
+adapters.py::
+
+    from zope import interface, component
+
+    from Products.CMFCore.utils import getToolByName
+
+    from raptus.article.core.interfaces import IArticle
+    from my.content.interfaces import IMyContents
+
+    class MyContents(object):
+        """ Provider for mycontent objects contained in an article
+        """
+        interface.implements(IMyContents)
+        component.adapts(IArticle)
+    
+        def __init__(self, context):
+            self.context = context
+        
+        def getMyContents(self, **kwargs):
+            """ Returns a list of MyContent (catalog brains)
+            """
+            catalog = getToolByName(self.context, 'portal_catalog')
+            return catalog(portal_type='MyContent', path={'query': '/'.join(self.context.getPhysicalPath()),
+                                                          'depth': 1}, sort_on='getObjPositionInParent', **kwargs)
+
+Last but not least we have to register the adapter using zcml::
+
+    <adapter
+      factory=".adapters.MyContents" />
+
+
+Component selection
+-------------------
+To allow the selection of the components a MyContent object shall be displayed in
+a new field called **components** is required. We therefor have to alter the schema
+of the MyContent class and add one new field::
+
+    ...
+    
+    from raptus.article.core.componentselection import ComponentSelectionWidget
+    
+    ...
+    
+    atapi.LinesField('components',
+        enforceVocabulary = True,
+        vocabulary_factory = 'componentselectionvocabulary',
+        storage = atapi.AnnotationStorage(),
+        schemata = 'settings',
+        widget = ComponentSelectionWidget(
+            description = _(u'description_component_selection_table', default=u'Select the components in which this content should be displayed.'),
+            label= _(u'label_component_selection', default=u'Component selection'),
+        )
+    ),
+    
+    ...
+
+To allow the component to search for the MyContent objects who have him selected
+we use the index created by raptus.article.core named "component". To do so we need
+to register a new indexer for this field which we place in index.py::
+
+    from zope import interface, component
+    from plone.indexer.interfaces import IIndexer
+    from Products.ZCatalog.interfaces import IZCatalog
+    from my.content.interfaces import IMyComponent
+    
+    class Index(object):
+        interface.implements(IIndexer)
+        component.adapts(IMyContent, IZCatalog)
+        def __init__(self, obj, catalog):
+            self.obj = obj
+        def __call__(self):
+            return self.obj.Schema()['components'].get(self.obj)
+
+We also have to register this index using zcml::
+
+    <adapter 
+      factory=".index.Index"
+      name="component" />
+
+And if we would like to have all available components selected in the components field
+we have to register a default provider for archetypes which is already implemented in
+raptus.article.core and only has to be registered in zcml::
+
+    <adapter 
+      factory="raptus.article.core.componentselection.ComponentSelectionDefault"
+      for=".interfaces.IMyContent"
+      name="components" />
+
+This manual will not cover the basic steps to create a new content type documentation to
+do so is available on `plone.org <http://plone.org/documentation>`_
+
+The next step is to create the components itself.
+
+Components and viewlets
+-----------------------
+As earlier described a component consists of the following parts:
+
+- title: Title of your component
+- description: Description of your component
+- image: If you want, design an own image, but you can also choose one of the existing images.
+  Have a look on the existing extensions.
+- interface: Unique marker interface for the viewlet
+- viewlet: Name of your viewlet
+
+Marker interface
+````````````````
+So we first create our marker interface and place it in browser/mycontents.py::
+
+    from zope import interface
+    
+    ...
+    
+    class IMyContentAbove(interface.Interface):
+        """ Marker interface for the mycontent viewlet displayed above the content body
+        """
+
+Component
+`````````
+The next step is to create the component adapter responsible for providing meta data used in
+the components view and linking it with the viewlet. We place also it in browser/mycontents.py::
+
+    from zope import interface, component
+    
+    from raptus.article.core import RaptusArticleMessageFactory as _
+    from raptus.article.core import interfaces
+    
+    ...
+    
+    class ComponentAbove(object):
+        """ Component which lists mycontent objects above the content body
+        """
+        interface.implements(interfaces.IComponent, interfaces.IComponentSelection)
+        component.adapts(interfaces.IArticle)
+    
+        title = _(u'MyContent above body')
+        description = _(u'List of mycontents contained in the article above the content body.')
+        image = '++resource++mycontent_above.gif'
+        interface = IMyContentAbove
+        viewlet = 'my.content.mycontent.above'
+    
+        def __init__(self, context):
+           self.context = context
+
+Viewlet
+```````
+Now we will write the corresponding viewlet class based on ViewletBase.
+
+Note that if we define our template with using the index attribute we will be able to overwrite 
+it using zcml in a theme project.
+
+::
+
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    from plone.app.layout.viewlets.common import ViewletBase
+    from raptus.article.core.interfaces import IManageable
+    from my.content.interfaces import IMyContents
+    
+    ...
+    
+    class ViewletAbove(ViewletBase):
+        """ Viewlet listing the mycontents above the content body
+        """
+        index = ViewPageTemplateFile('mycontents.pt')
+        component = 'mycontent.above'
+    
+        def mycontents(self):
+          provider = IMyContents(self.context)
+          manageable = interfaces.IManageable(self.context)
+          items = manageable.getList(provider.getMyContents(component=self.component), self.component)
+          for item in items:
+              item.update({'title': item['brain'].Title,
+                           'description': item['brain'].Description})
+          return items
+
+Next we will write the page template and place it in mycontents.pt::
+
+    <ul class=""
+        i18n:domain="raptus.article"
+        tal:condition="view/mycontents"
+        tal:attributes="class string:visualNoMarker manageableList mycontents">
+      <tal:item repeat="item view/mycontents">
+      <li class="component"
+          tal:attributes="class string:component">
+        <metal:manage use-macro="context/raptus_article_macros/macros/manage" />
+        <h2 tal:content="item/title">
+          Title
+        </h2>
+        <p tal:condition="item/description"
+           tal:content="item/description">
+          Description
+        </p>
+      </li>
+      </tal:item>
+    </ul>
+
+Second component
+````````````````
+The same we do for our second component and also place it in the file browser/mycontents.py::
+
+    class IMyContentBelow(interface.Interface):
+        """ Marker interface for the mycontent viewlet displayed below the content body
+        """
+        
+    class ComponentBelow(object):
+        """ Component which lists mycontent objects below the content body
+        """
+        interface.implements(interfaces.IComponent, interfaces.IComponentSelection)
+        component.adapts(interfaces.IArticle)
+    
+        title = _(u'MyContent above body')
+        description = _(u'List of mycontents contained in the article below the content body.')
+        image = '++resource++mycontent_below.gif'
+        interface = IMyContentBelow
+        viewlet = 'my.content.mycontent.below'
+    
+        def __init__(self, context):
+           self.context = context
+    
+    class ViewletBelow(ViewletAbove):
+        """ Viewlet listing the mycontents below the content body
+        """
+        component = 'mycontent.below'
+
+ZCML
+````
+Now we have to register our newly created components using zcml::
+
+    <configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:article="http://namespaces.zope.org/article"
+        i18n_domain="raptus.article">
+    
+      <article:component
+        name="mycontent.above"
+        component=".mycontents.ComponentAbove"
+        selection="..interfaces.IMyContent"
+        viewlet=".mycontents.ViewletAbove"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody" />
+    
+      <article:component
+        name="mycontent.below"
+        component=".mycontents.ComponentBelow"
+        selection="..interfaces.IMyContent"
+        viewlet=".mycontents.ViewletBelow"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
+    
+    </configure>
+
+
+Update profile
+--------------
+Last but not least we edit our generic setup profile. First we have to add MyContent to the 
+addable types of the Article to make it possible to add MyContent objects in articles. To do 
+so we have to add the Article to the types.xml file and create a Article.xml in profiles/default/types.
+
+types.xml::
+
+    <?xml version="1.0"?>
+    <object name="portal_types" meta_type="Plone Types Tool">
+    
+      ...
+    
+      <object name="Article"
+        meta_type="Factory-based Type Information with dynamic views" />
+    
+      ...
+    
+    </object>
+
+Article.xml::
+
+    <?xml version="1.0"?>
+    <object name="Article"
+       meta_type="Factory-based Type Information with dynamic views"
+       i18n:domain="raptus.article" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+      <property name="allowed_content_types" purge="False">
+        <element value="MyContent" />
+      </property>
+    </object>
+
+Next we add our newly created viewlets into viewlets.xml to define their default position::
+
+    <?xml version="1.0"?>
+    <object>
+    
+      ...
+    
+      <order manager="plone.abovecontentbody" skinname="*">
+        <viewlet name="my.content.mycontent.above" insert-before="*" />
+      </order>
+      <order manager="plone.belowcontentbody" skinname="*">
+        <viewlet name="my.content.mycontent.below" insert-after="*" />
+      </order>
+    
+      ...
+    
+    </object>
+
+FAQ
+===
+
+:Q: If I start my instance, I'll get this Error: ConfigurationError: ('Unknown directive', u'http://namespaces.zope.org/article', u'component')
+
+:A: You have to include the raptus.article.core package in your configure.zcml. Otherwise the article zcml namespace is not defined
+
+:Q: I would like to add my new content type in my article. If I'll save and create the content, I'll get the this Error: KeyError: 'components'
+
+:A: The problem is you have to extend the schema of your content type with the ComponentSelectionDefault field. Have a look to "add new component"

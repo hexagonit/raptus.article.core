@@ -1,0 +1,76 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2010-02-10 13:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: raptus.article\n"
+
+#. Default: "An article"
+#: ./profiles/default/types/Article.xml
+msgid "An article"
+msgstr ""
+
+#. Default: "Article"
+#: ./profiles/default/types/Article.xml
+msgid "Article"
+msgstr ""
+
+#. Default: "Component selection"
+#: ./browser/components.pt:11
+msgid "Component selection"
+msgstr ""
+
+#: ./browser/components.py:24
+msgid "Components saved successfully"
+msgstr ""
+
+#: ./browser/related.py:24
+msgid "List of related content of the article."
+msgstr ""
+
+#. Default: "Related content"
+#: ./browser/related.pt:4
+msgid "Related content"
+msgstr ""
+
+#: ./browser/components.py:26
+msgid "Saving components failed"
+msgstr ""
+
+#. Default: "Select the desired components shown by this article."
+#: ./browser/components.pt:15
+msgid "Select the desired components shown by this article."
+msgstr ""
+
+#. Default: "There are no components available."
+#: ./browser/components.pt:19
+msgid "There are no components available."
+msgstr ""
+
+#. Default: "Hide description"
+#: ./content/article.py:57
+msgid "label_hide_description"
+msgstr ""
+
+#. Default: "Hide title"
+#: ./content/article.py:42
+msgid "label_hide_title"
+msgstr ""
+
+#. Default: "Save and view"
+#: ./browser/components.pt:49
+msgid "label_save_and_view"
+msgstr ""
+

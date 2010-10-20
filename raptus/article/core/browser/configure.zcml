@@ -1,0 +1,44 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:article="http://namespaces.zope.org/article"
+    i18n_domain="raptus.article">
+
+    <browser:page
+        for="..interfaces.IArticle"
+        name="components"
+        class=".components.Components"
+        permission="raptus.article.manageComponents"
+        />
+
+    <browser:page
+        for="..interfaces.IArticle"
+        name="view"
+        class=".view.View"
+        permission="zope.Public"
+        />
+      
+    <browser:resource
+        name="components.js"
+        file="components.js"
+        />
+      
+    <browser:resource
+        name="article_icon.gif"
+        image="article_icon.gif"
+        />
+
+    <article:component
+        name="related"
+        component=".related.Component"
+        viewlet=".related.Viewlet"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
+
+    <browser:viewlet
+        for="..interfaces.IArticle"
+        name="plone.belowcontentbody.relateditems"
+        class=".related.RelatedItemsViewlet"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        permission="zope.Public" />
+
+</configure>

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:omit-tag="">
+  <metal:manage define-macro="manage"
+                tal:define="view item/view|nothing;
+                            edit item/edit|nothing;
+                            delete item/delete|nothing;
+                            up item/up|nothing;
+                            down item/down|nothing;
+                            gif python:exists('here/getZopeInfo')">
+    <div class="manage"
+         i18n:domain="plone"
+         tal:condition="python: edit or delete or up or down">
+      <a name="" tal:attributes="name item/anchor"></a>
+      <a href="" title="view"
+         tal:condition="view"
+         tal:attributes="href view"
+         i18n:attributes="title label_view">
+        <img src="search_icon.png" alt="view"
+             tal:attributes="src python:'search_icon.'+(gif and 'gif' or 'png')"
+             i18n:attributes="alt label_view"/>
+      </a>
+      <a href="" title="edit"
+         tal:condition="edit"
+         tal:attributes="href edit"
+         i18n:attributes="title label_edit">
+        <img src="edit.png" alt="edit"
+             tal:attributes="src python:'edit.'+(gif and 'gif' or 'png')"
+             i18n:attributes="alt label_edit" />
+      </a>
+      <a href="" title="delete"
+         tal:condition="delete"
+         tal:attributes="href delete"
+         i18n:attributes="title label_delete">
+        <img src="delete_icon.png" alt="delete"
+             tal:attributes="src python:'delete_icon.'+(gif and 'gif' or 'png')"
+             i18n:attributes="alt label_delete" />
+      </a>
+      <a href="" title="Move item up"
+         tal:condition="up"
+         tal:attributes="href up"
+         i18n:attributes="title title_move_item_up">
+        <img src="arrowUp.png" alt="Move item up"
+             tal:attributes="src python:'arrowUp.'+(gif and 'gif' or 'png')"
+             i18n:attributes="alt title_move_item_up" />
+      </a>
+      <a href="" title="Move item down"
+         tal:condition="down"
+         tal:attributes="href down"
+         i18n:attributes="title title_move_item_down">
+        <img src="arrowDown.png" alt="Move item down"
+             tal:attributes="src python:'arrowDown.'+(gif and 'gif' or 'png')"
+             i18n:attributes="alt title_move_item_down" />
+      </a>
+    </div>
+  </metal:manage>
+</html>

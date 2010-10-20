@@ -1,0 +1,56 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    i18n_domain="raptus.article">
+    
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Include the sub-packages that use their own configure.zcml files. -->
+    <include file="meta.zcml" />
+    <include file="permissions.zcml" />
+    <include package=".browser" />
+    <include package=".content" />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+      name="default"
+      title="raptus.article.core"
+      directory="profiles/default"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+      
+    <adapter
+      factory=".components.Components" />
+      
+    <adapter
+      factory=".componentfilter.ComponentFilter" />
+      
+    <adapter
+      factory=".manageable.Manageable" />
+      
+    <utility
+      factory=".componentselection.ComponentSelectionVocabulary"
+      name="componentselectionvocabulary" />
+
+    <!-- File System Directory Views registration -->
+    <cmf:registerDirectory
+      name="raptus_article_core"
+      recursive="True"
+      />
+
+    <subscriber
+      for=".interfaces.IArticle
+           Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".componentsdefault.SetDefaults"
+      />
+             
+    <five:implements
+      class="plone.app.viewletmanager.manager.ManageViewlets"
+      interface="raptus.article.core.interfaces.IArticleView"
+      />
+
+</configure>

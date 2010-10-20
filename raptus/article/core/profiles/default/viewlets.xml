@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object>
+
+ <order manager="plone.belowcontentbody" skinname="*">
+  <viewlet name="raptus.article.related" insert-before="*" />
+ </order>
+
+</object>

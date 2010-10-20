@@ -1,0 +1,7 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="raptus.article">
+
+    <include package=".browser" file="overrides.zcml" />
+
+</configure>

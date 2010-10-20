@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="raptus.article">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+           i18n:domain="raptus.article">
+
+      <h1 class="documentFirstHeading" i18n:translate="">
+          Component selection
+      </h1>
+      
+      <p class="documentDescription" i18n:translate="">
+          Select the desired components shown by this article.
+      </p>
+      
+      <p class="discreet" i18n:translate=""
+         tal:condition="python:not len(view.components)">
+          There are no components available.
+      </p>
+
+      <form id="components" action="@@components" method="post"
+            tal:condition="python:len(view.components)">
+        <ul>
+          <tal:item repeat="component view/components">
+          <li tal:define="even repeat/component/even"
+              tal:attributes="class python:even and 'even' or 'odd'">
+            <label class="clearfix">
+              <input type="checkbox" name="form.components:list" value=""
+                     tal:attributes="value component/name;
+                                     checked python:component['selected'] and 'selected' or ''" />
+              <img src=""
+                   tal:condition="component/image" tal:attributes="src component/image" />
+              <strong tal:content="component/title">
+                Title
+              </strong>
+              <span tal:content="component/description">
+                Description
+              </span>
+            </label>
+          </li>
+          </tal:item>
+        </ul>
+        <div class="actionButtons">
+          <input type="submit" name="form.submitted" value="Save" class="context"
+                 i18n:domain="plone" i18n:attributes="value label_save" />
+          <input type="submit" name="form.view" value="Save and view" class="context"
+                 i18n:attributes="value label_save_and_view" />
+        </div>
+      </form>
+      <script type="text/javascript" src="++resource++components.js"></script>
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

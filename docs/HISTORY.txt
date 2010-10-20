@@ -1,0 +1,7 @@
+Changelog
+=========
+
+2.0b3 (2010-10-20)
+------------------
+
+* First public release
