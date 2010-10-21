@@ -1,14 +1,21 @@
 Introduction
 ============
 
-This package initialize a configurable article content type, which replaces the 
+This package provides a configurable article content type, which replaces the 
 default Page content type.
 
-This package is a dependency of raptus.article.default. Following features for 
-raptus.article are provided by this package:
+The following features for raptus.article are provided by this package:
 
+Content
+-------
     * Article - Page Type - folderish
-    * Related Items - Component - Component showing related Items. 
+
+Components
+----------
+    * Related Items - Component - Component showing related Items.
+
+Other
+-----
     * zcml namespace (article) - used to initialize new components.
 
 Installation
@@ -194,7 +201,5 @@ and meta.zcml:
 Copyright and credits
 =====================
 
-raptus.article is copyrighted by raptus_, and licensed under the GPL. 
+raptus.article is copyrighted by `Raptus AG <http://raptus.com>`_ and licensed under the GPL. 
 See LICENSE.txt for details.
-
-.. _raptus: http://raptus.com/ 
