@@ -1,30 +1,36 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-     xmlns:tal="http://xml.zope.org/namespaces/tal"
-     xmlns:metal="http://xml.zope.org/namespaces/metal"
-     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-     class="related"
-     tal:condition="view/related"
-     i18n:domain="raptus.article">
-  <h2 i18n:translate="">
-    Related content
-  </h2>
-  <ul class="visualNoMarker">
-    <li tal:repeat="item view/related">
-      <a href=""
-         tal:attributes="href string:${item/url};
-                         title item/description">
-        <img src="" alt=""
-             tal:condition="item/icon"
-             tal:attributes="src item/icon" />
-        <span tal:content="item/title">
-          Title
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      tal:omit-tag="">
+
+  <div class="related"
+       tal:condition="view/related"
+       i18n:domain="raptus.article">
+    <h2 i18n:translate="">
+      Related content
+    </h2>
+    <ul class="visualNoMarker">
+      <li tal:repeat="item view/related">
+        <a href=""
+           tal:attributes="href string:${item/url};
+                           title item/description">
+          <img src="" alt=""
+               tal:condition="item/icon"
+               tal:attributes="src item/icon" />
+          <span tal:content="item/title">
+            Title
+          </span>
+        </a>
+        <span class="discreet"
+              tal:condition="item/description"
+              tal:content="item/description">
+          Description
         </span>
-      </a>
-      <span class="discreet"
-            tal:condition="item/description"
-            tal:content="item/description">
-        Description
-      </span>
-    </li>
-  </ul>
-</div>
+      </li>
+    </ul>
+  </div>
+
+</html>
