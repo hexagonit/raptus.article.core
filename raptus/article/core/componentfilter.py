@@ -45,7 +45,8 @@ class ComponentFilter(object):
             manager = component.getMultiAdapter((self.context, self.request, component.getMultiAdapter((self.context, self.request), name=u'view')), iface, name=name)
             manager.update()
             for viewlet in manager.viewlets:
-                order.append(viewlet.__name__)
+                if hasattr(viewlet, '__name__'):
+                    order.append(viewlet.__name__)
         # no longer provide the interfaces previously set
         for iface in notprovided:
             interface.noLongerProvides(self.context, iface)
