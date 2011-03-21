@@ -9,6 +9,8 @@
                             delete item/delete|nothing;
                             up item/up|nothing;
                             down item/down|nothing;
+                            show item/show|nothing;
+                            hide item/hide|nothing;
                             gif python:exists('here/getZopeInfo')">
     <div class="manage"
          i18n:domain="plone"
@@ -53,6 +55,22 @@
         <img src="arrowDown.png" alt="Move item down"
              tal:attributes="src python:'arrowDown.'+(gif and 'gif' or 'png')"
              i18n:attributes="alt title_move_item_down" />
+      </a>
+      <a href="" title="Show item in this component"
+         i18n:domain="raptus.article"
+         tal:condition="show"
+         tal:attributes="href show"
+         i18n:attributes="title title_show_in_component">
+        <img src="++resource++article_show.png" alt="Show item in this component"
+             i18n:attributes="alt title_show_in_component" />
+      </a>
+      <a href="" title="Hide item in this component"
+         i18n:domain="raptus.article"
+         tal:condition="hide"
+         tal:attributes="href hide"
+         i18n:attributes="title title_hide_in_component">
+        <img src="++resource++article_hide.png" alt="Hide item in this component"
+             i18n:attributes="alt title_hide_in_component" />
       </a>
     </div>
   </metal:manage>

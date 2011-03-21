@@ -10,7 +10,6 @@ from zope.app.publisher.interfaces.browser import AddMenu
 from Acquisition import aq_inner
 
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-from Products.CMFPlone import PloneMessageFactory as _
 
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 

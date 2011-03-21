@@ -17,28 +17,47 @@
         class=".view.View"
         permission="zope.Public"
         />
-      
+
     <browser:resource
         name="components.js"
         file="components.js"
         />
-      
+
     <browser:resource
         name="article_icon.gif"
         image="article_icon.gif"
+        />
+
+    <browser:resource
+        name="article_show.png"
+        image="article_show.png"
+        />
+
+    <browser:resource
+        name="article_hide.png"
+        image="article_hide.png"
         />
 
     <article:component
         name="related"
         component=".related.Component"
         viewlet=".related.Viewlet"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody" />
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        />
 
     <browser:viewlet
         for="..interfaces.IArticle"
         name="plone.belowcontentbody.relateditems"
         class=".related.RelatedItemsViewlet"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-        permission="zope.Public" />
+        permission="zope.Public"
+        />
+
+    <browser:page
+        for="..interfaces.IArticle"
+        name="article_showhideitem"
+        class=".showhide.ShowHideItem"
+        permission="raptus.article.manageComponents"
+        />
 
 </configure>

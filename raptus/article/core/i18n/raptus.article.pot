@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-02-10 13:05+0000\n"
+"POT-Creation-Date: 2011-03-21 15:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgid "Article"
 msgstr ""
 
 #. Default: "Component selection"
-#: ./browser/components.pt:11
+#: ./browser/components.pt:14
 msgid "Component selection"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgid "List of related content of the article."
 msgstr ""
 
 #. Default: "Related content"
-#: ./browser/related.pt:4
+#: ./browser/related.pt:12
 msgid "Related content"
 msgstr ""
 
@@ -50,27 +50,37 @@ msgid "Saving components failed"
 msgstr ""
 
 #. Default: "Select the desired components shown by this article."
-#: ./browser/components.pt:15
+#: ./browser/components.pt:18
 msgid "Select the desired components shown by this article."
 msgstr ""
 
 #. Default: "There are no components available."
-#: ./browser/components.pt:19
+#: ./browser/components.pt:22
 msgid "There are no components available."
 msgstr ""
 
 #. Default: "Hide description"
-#: ./content/article.py:57
+#: ./content/article.py:58
 msgid "label_hide_description"
 msgstr ""
 
 #. Default: "Hide title"
-#: ./content/article.py:42
+#: ./content/article.py:43
 msgid "label_hide_title"
 msgstr ""
 
 #. Default: "Save and view"
-#: ./browser/components.pt:49
+#: ./browser/components.pt:52
 msgid "label_save_and_view"
+msgstr ""
+
+#. Default: "Hide item in this component"
+#: ./skins/raptus_article_core/raptus_article_macros.pt:67
+msgid "title_hide_in_component"
+msgstr ""
+
+#. Default: "Show item in this component"
+#: ./skins/raptus_article_core/raptus_article_macros.pt:59
+msgid "title_show_in_component"
 msgstr ""
 

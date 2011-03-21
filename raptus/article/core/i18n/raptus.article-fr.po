@@ -2,10 +2,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: raptus.article\n"
-"POT-Creation-Date: 2010-01-11 14:03+0000\n"
+"POT-Creation-Date: 2011-03-21 15:37+0000\n"
 "PO-Revision-Date: 2010-01-11 14:03+0000\n"
 "Last-Translator: Steve Beyeler <sbeyeler@raptus.com>\n"
 "Language-Team: French <sbeyeler@raptus.com>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,7 +28,7 @@ msgid "Article"
 msgstr "Article"
 
 #. Default: "Component selection"
-#: browser/components.pt:11
+#: browser/components.pt:14
 msgid "Component selection"
 msgstr "Choix des composants"
 
@@ -40,7 +41,7 @@ msgid "List of related content of the article."
 msgstr "Liste du contenu associé à cet article."
 
 #. Default: "Related content"
-#: browser/related.pt:4
+#: browser/related.pt:12
 msgid "Related content"
 msgstr "Contenu associé"
 
@@ -49,27 +50,37 @@ msgid "Saving components failed"
 msgstr "Un erreur s'est produite lors de la sauvegarde des composants"
 
 #. Default: "Select the desired components shown by this article."
-#: browser/components.pt:15
+#: browser/components.pt:18
 msgid "Select the desired components shown by this article."
 msgstr ""
 "Sélectionnez les composants que vous désirez afficher dans cet article."
 
 #. Default: "There are no components available."
-#: browser/components.pt:19
+#: browser/components.pt:22
 msgid "There are no components available."
 msgstr "Aucun composant n'est disponible."
 
 #. Default: "Hide description"
-#: content/article.py:57
+#: content/article.py:58
 msgid "label_hide_description"
 msgstr "Masquer la description"
 
 #. Default: "Hide title"
-#: content/article.py:42
+#: content/article.py:43
 msgid "label_hide_title"
 msgstr "Masquer le titre"
 
 #. Default: "Save and view"
-#: browser/components.pt:49
+#: browser/components.pt:52
 msgid "label_save_and_view"
 msgstr "Sauvegarder et afficher"
+
+#. Default: "Hide item in this component"
+#: skins/raptus_article_core/raptus_article_macros.pt:67
+msgid "title_hide_in_component"
+msgstr "Masquer l'élément dans ce composant"
+
+#. Default: "Show item in this component"
+#: skins/raptus_article_core/raptus_article_macros.pt:59
+msgid "title_show_in_component"
+msgstr "Insérer l'élément dans ce composant"

@@ -99,6 +99,20 @@
   margin:0 0 1em 0;
 }
 
+.hidden {
+  opacity:0.2;
+  -moz-opacity:0.2;
+  -o-opacity:0.2;
+  -webkit-opacity:0.2;
+}
+
+.hidden:hover {
+  opacity:0.6;
+  -moz-opacity:0.6;
+  -o-opacity:0.6;
+  -webkit-opacity:0.6;
+}
+
 .componentBlock {
   margin:3em 0;
   padding:1em 2em;

@@ -22,3 +22,18 @@ msgstr ""
 
 msgid "article_view"
 msgstr ""
+
+#. Default: "Add new item to the default page"
+msgid "heading_default_page_add_new_item"
+msgstr ""
+
+#. Default: "Select the type of item you want to add to the default page of the folder."
+msgid "description_default_page_add_new_item"
+msgstr ""
+
+#. Default: "Add to default page"
+msgid "folder_add_to_default_page"
+msgstr ""
+
+msgid "Add content to the default page"
+msgstr ""
