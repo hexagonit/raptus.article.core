@@ -1,10 +1,17 @@
 Changelog
 =========
 
-2.0b7 (2011-03-21)
+2.0b8 (2011-03-21)
 ------------------
 
 * Added links to the manageable adapter to show and hide items in a component
+
+2.0b7 (2011-01-20)
+------------------
+
+* Fixed AttributeError raised if a Viewlet has been customized ttw, which resulted
+  in a TTWViewletRenderer object which has no __name__ attribute
+  (Thanks to Ron Zayac for reporting it)
 
 2.0b6 (2010-11-25)
 ------------------
