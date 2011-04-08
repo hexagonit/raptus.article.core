@@ -31,3 +31,4 @@ setup(name='raptus.article.core',
       # -*- Entry points: -*-
       """,
       )
+
