@@ -26,16 +26,23 @@ class TestInstall(RACoreIntegrationTestCase):
 
     # types.xml
     # factorytool.xml
+    # tinymce.xml
     def test_article_installed(self):
         """Test if Raptus Article is in the list of Portal Types."""
 
-        # test that Article is present in portal_types
+        # test that Article is added to portal_types
         types = getToolByName(self.portal, 'portal_types')
         self.failUnless('Article' in types.objectIds())
 
-        # test that Article is present in portal_factory
+        # test that Article is added to portal_factory
         factory = getToolByName(self.portal, 'portal_factory')
         self.failUnless('Article' in factory.getFactoryTypes().keys())
+
+        # test that Article is added to TinyMCE
+        tinymce = getToolByName(self.portal, 'portal_tinymce')
+        self.failUnless('Article' in tinymce.linkable)
+        self.failUnless('Article' in tinymce.containsobjects)
+        self.failUnless('Article' in tinymce.containsanchors)
 
     # Document.xml
     def test_document_disabled(self):
