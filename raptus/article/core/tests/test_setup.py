@@ -23,6 +23,7 @@ class TestInstall(RACoreIntegrationTestCase):
         self.assertTrue('raptus.article.css' in ids,
                         'raptus.article.css not found in portal_css')
 
+    # skins.xml
     def test_skins_folders_registered(self):
         """Test if all ./skins folders are registered."""
         skins = getToolByName(self.portal, 'portal_skins')
@@ -31,6 +32,7 @@ class TestInstall(RACoreIntegrationTestCase):
         self.assertTrue('raptus_article_core' in skin_layer,
                     'raptus_article_core skin folder is not registered')
 
+    # rolemap.xml
     def test_permission_mappings(self):
         """Test correct assigning of permissions."""
 
@@ -46,6 +48,7 @@ class TestInstall(RACoreIntegrationTestCase):
             ('Manager', 'Editor', 'Owner')
             )
 
+    # propertiestool.xml
     def test_site_properties(self):
         """Test if site properties are correctly set."""
 
