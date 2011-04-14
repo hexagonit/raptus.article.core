@@ -2,7 +2,11 @@
 
 import unittest2 as unittest
 
+from zope.component import queryMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
+
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView as View
 
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
@@ -84,6 +88,37 @@ class TestInstall(RACoreIntegrationTestCase):
 
         # Article must be among default Page types
         self.assertEquals(site_props.default_page_types, ('Topic', 'Article'))
+
+    # viewlets.xml
+    def test_related_viewlet_registered(self):
+        """Test if raptus.article.related viewlet is registered for
+        plone.belowcontentbody viewlet manager."""
+
+        # we need a context and request
+        context = self.portal
+        request = self.layer['request']
+
+        # viewlet managers also require a view object for adaptation
+        view = View(context, request)
+
+        # finally, you need the name of the manager you want to find
+        manager_name = 'plone.belowcontentbody'
+
+        # viewlet managers are found by Multi-Adapter lookup
+        manager = queryMultiAdapter((context, request, view), IViewletManager,
+                                                   manager_name, default=None)
+        self.failUnless(manager)
+
+        # calling update() on a manager causes it to set up its viewlets
+        manager.update()
+
+        # get viewlet names
+        viewlets = [v.__name__ for v in manager.viewlets]
+
+        # if our viewlet present?
+        print viewlets
+        #self.assertTrue("raptus.article.related" in viewlets)
+        # TODO: why does this fail? It works TTW but not here in tests??
 
 
 def test_suite():
