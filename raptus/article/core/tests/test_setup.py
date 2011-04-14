@@ -25,6 +25,12 @@ class TestInstall(RACoreIntegrationTestCase):
         qi = getToolByName(self.portal, 'portal_quickinstaller')
         self.assertTrue(qi.isProductInstalled('raptus.article.core'))
 
+    # import_steps.xml
+    def test_custom_setuphandlers(self):
+        """Test if custom install code in setuphandlers.py."""
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        self.assertTrue('component' in catalog.indexes())
+
     # cssregistry.xml
     def test_css_registered(self):
         """Test if CSS files are registered with portal_css."""
