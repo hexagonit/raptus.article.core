@@ -10,8 +10,8 @@ from raptus.article.core.interfaces import IComponents
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
-class TestView(RACoreIntegrationTestCase):
-    """Test @@components BrowserView."""
+class TestGetComponents(RACoreIntegrationTestCase):
+    """Test getComponents() method of raptus.article.core.components."""
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -22,19 +22,43 @@ class TestView(RACoreIntegrationTestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Article', 'article')
 
-    # def test_component_filter(self):
-    #     """Test filtering and sorting of components
-    #     based on the registrations of their viewlets.
-    #     """
-        #TODO
+    def test_no_available_components(self):
+        """Test when there are no available components."""
+        # TODO: how to remove the raptus.core.related component that is
+        # added by default
 
-    def test_get_components(self):
-        """Test retrieving the list of available components."""
+    def test_single_avaiable_component(self):
+        """Test when only a single component is available."""
         components = IComponents(self.portal.article).getComponents()
-        self.assertEquals(u'related', components[0][0])
+        self.assertEquals(len(components), 1)
 
-    def test_active_components(self):
-        """Test retrieving the list of active components."""
+        name, comp = components[0]
+        self.assertEquals(u'related', name)
+
+    def test_multiple_avaiable_components(self):
+        """Test retrieving the list of available components."""
+        #TODO: for now we only have one component available for tests
+
+
+class TestActiveComponents(RACoreIntegrationTestCase):
+    """Test activeComponents() method of raptus.article.core.components."""
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_no_active_components(self):
+        """Test when no components are active."""
+        # TODO: how to remove the raptus.core.related component that is
+        # added by default
+
+    def test_single_active_components(self):
+        """Test when only a single component is active."""
 
         # enable raptus.article.related component on our article
         components = IComponents(self.portal.article).getComponents()
@@ -43,6 +67,10 @@ class TestView(RACoreIntegrationTestCase):
         # retrive active components
         components = IComponents(self.portal.article).activeComponents()
         self.assertEquals(u'related', components[0][0])
+
+    def test_multiple_avaiable_components(self):
+        """Test retrieving the list of available components."""
+        #TODO: for now we only have one component available for tests
 
 
 def test_suite():
