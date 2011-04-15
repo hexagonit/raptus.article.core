@@ -24,8 +24,18 @@ class TestGetComponents(RACoreIntegrationTestCase):
 
     def test_no_available_components(self):
         """Test when there are no available components."""
-        # TODO: how to remove the raptus.core.related component that is
-        # added by default
+        # Remove the raptus.core.related component that is
+        # there by default
+        from raptus.article.core.browser.related import Component
+        from raptus.article.core.interfaces import IArticle
+        sm = self.portal.getSiteManager()
+        sm.unregisterAdapter(Component, provided=IArticle)
+
+        # TODO: the line above does not work. Study ZCA in greater
+        # detail and make it work :)
+
+        # components = IComponents(self.portal.article).getComponents()
+        # self.assertEquals(len(components), 0)
 
     def test_single_avaiable_component(self):
         """Test when only a single component is available."""
@@ -54,8 +64,18 @@ class TestActiveComponents(RACoreIntegrationTestCase):
 
     def test_no_active_components(self):
         """Test when no components are active."""
-        # TODO: how to remove the raptus.core.related component that is
-        # added by default
+        # Remove the raptus.core.related component that is
+        # there by default
+        from raptus.article.core.browser.related import Component
+        from raptus.article.core.browser.related import IRelated
+        sm = self.portal.getSiteManager()
+        sm.unregisterAdapter(Component, provided=IRelated)
+
+        # TODO: the line above does not work. Study ZCA in greater
+        # detail and make it work :)
+
+        # components = IComponents(self.portal.article).activeComponents()
+        # self.assertEquals(len(components), 0)
 
     def test_single_active_components(self):
         """Test when only a single component is active."""
@@ -65,8 +85,10 @@ class TestActiveComponents(RACoreIntegrationTestCase):
         alsoProvides(self.portal.article, components[0][1].interface)
 
         # retrive active components
-        components = IComponents(self.portal.article).activeComponents()
-        self.assertEquals(u'related', components[0][0])
+        active_components = IComponents(self.portal.article).activeComponents()
+
+        name, comp = active_components[0]
+        self.assertEquals(u'related', name)
 
     def test_multiple_avaiable_components(self):
         """Test retrieving the list of available components."""
