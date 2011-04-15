@@ -5,10 +5,10 @@ import unittest2 as unittest
 from plone.app.testing import TEST_USER_NAME, TEST_USER_ID, login, setRoles
 
 from raptus.article.core.interfaces import IComponents
-from raptus.article.core.tests.base import RACoreFunctionalTestCase
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
-class TestView(RACoreFunctionalTestCase):
+class TestView(RACoreIntegrationTestCase):
     """Test @@components BrowserView."""
 
     def setUp(self):
