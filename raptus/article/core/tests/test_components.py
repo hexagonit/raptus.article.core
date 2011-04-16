@@ -1,16 +1,55 @@
 # -*- coding: utf-8 -*-
 
-import unittest2 as unittest
-
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 from zope.interface import alsoProvides
 
-from plone.app.testing import TEST_USER_NAME, TEST_USER_ID, login, setRoles
-
-from raptus.article.core.interfaces import IComponents
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
+import mock
+import unittest2 as unittest
 
 
-class TestGetComponents(RACoreIntegrationTestCase):
+class TestGetComponents(unittest.TestCase):
+    """Unit tests for the getComponents() method of
+    raptus.article.core.components.
+    """
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_no_available_components(self, zope_component):
+        """Test when there are no available components."""
+        from raptus.article.core.components import Components
+        from raptus.article.core.interfaces import IComponent
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = []
+
+        components = Components(context).getComponents()
+        self.assertEquals(0, len(components))
+        zope_component.getAdapters.assert_called_once_with((context, ), IComponent)
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_multiple_available_components(self, zope_component):
+        """Test when multiple available components are available."""
+        from raptus.article.core.components import Components
+        from raptus.article.core.interfaces import IComponent
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = [
+            ('related', 'raptus.article.core.browser.related.Component'),
+            ('foobar', 'raptus.article.core.browser.foobar.Component'),
+        ]
+
+        components = Components(context).getComponents()
+        self.assertEquals(components, [
+            ('related', 'raptus.article.core.browser.related.Component'),
+            ('foobar', 'raptus.article.core.browser.foobar.Component'),
+        ])
+        zope_component.getAdapters.assert_called_once_with((context, ), IComponent)
+
+
+class TestGetComponentsIntegration(RACoreIntegrationTestCase):
     """Test getComponents() method of raptus.article.core.components."""
 
     def setUp(self):
@@ -22,35 +61,94 @@ class TestGetComponents(RACoreIntegrationTestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Article', 'article')
 
-    def test_no_available_components(self):
+    def test_default_components(self):
         """Test when there are no available components."""
         # Remove the raptus.core.related component that is
         # there by default
-        from raptus.article.core.browser.related import Component
-        from raptus.article.core.interfaces import IArticle
-        sm = self.portal.getSiteManager()
-        sm.unregisterAdapter(Component, provided=IArticle)
-
-        # TODO: the line above does not work. Study ZCA in greater
-        # detail and make it work :)
-
-        # components = IComponents(self.portal.article).getComponents()
-        # self.assertEquals(len(components), 0)
-
-    def test_single_avaiable_component(self):
-        """Test when only a single component is available."""
+        from raptus.article.core.interfaces import IComponents
         components = IComponents(self.portal.article).getComponents()
         self.assertEquals(len(components), 1)
 
         name, comp = components[0]
         self.assertEquals(u'related', name)
 
-    def test_multiple_avaiable_components(self):
-        """Test retrieving the list of available components."""
-        #TODO: for now we only have one component available for tests
+
+class TestActiveComponents(unittest.TestCase):
+    """Test the raptus.article.core.components.Components.activeComponents()
+    logic in all edge cases.
+    """
+
+    def makeComponent(self, active):
+        """Creates a mock component that is either active or passive."""
+        comp = mock.Mock(spec='interface'.split())
+        comp.interface.providedBy.return_value = active
+        return comp
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_no_components(self, zope_component):
+        """Test when there are no components registered."""
+        from raptus.article.core.components import Components
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = []
+
+        components = Components(context)
+        self.assertEquals(len(components.getComponents()), 0)
+        self.assertEquals(len(components.activeComponents()), 0)
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_no_active_components(self, zope_component):
+        """Test when there are components but none are active."""
+        from raptus.article.core.components import Components
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = [
+            ('related', self.makeComponent(active=False)),
+            ('foobar', self.makeComponent(active=False)),
+        ]
+
+        components = Components(context)
+        self.assertEquals(len(components.getComponents()), 2)
+        self.assertEquals(len(components.activeComponents()), 0)
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_mixed_components(self, zope_component):
+        """Test when there are both active and inactive components."""
+        from raptus.article.core.components import Components
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = [
+            ('related', self.makeComponent(active=False)),
+            ('foobar', self.makeComponent(active=True)),
+            ('gallery', self.makeComponent(active=False)),
+        ]
+
+        components = Components(context)
+        self.assertEquals(len(components.getComponents()), 3)
+        self.assertEquals(len(components.activeComponents()), 1)
+        self.assertEquals(components.activeComponents()[0][0], 'foobar')
+
+    @mock.patch('raptus.article.core.components.component')
+    def test_all_active_components(self, zope_component):
+        """Test when all available components are active."""
+        from raptus.article.core.components import Components
+
+        context = mock.sentinel.context
+        zope_component.getAdapters.return_value = [
+            ('related', self.makeComponent(active=True)),
+            ('foobar', self.makeComponent(active=True)),
+            ('gallery', self.makeComponent(active=True)),
+        ]
+
+        components = Components(context)
+        self.assertEquals(len(components.getComponents()), 3)
+        self.assertEquals(len(components.activeComponents()), 3)
+
+        active_components = [comp[0] for comp in components.activeComponents()]
+        self.assertEquals(active_components, 'related foobar gallery'.split())
 
 
-class TestActiveComponents(RACoreIntegrationTestCase):
+class TestActiveComponentsIntegration(RACoreIntegrationTestCase):
     """Test activeComponents() method of raptus.article.core.components."""
 
     def setUp(self):
@@ -62,23 +160,9 @@ class TestActiveComponents(RACoreIntegrationTestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Article', 'article')
 
-    def test_no_active_components(self):
-        """Test when no components are active."""
-        # Remove the raptus.core.related component that is
-        # there by default
-        from raptus.article.core.browser.related import Component
-        from raptus.article.core.browser.related import IRelated
-        sm = self.portal.getSiteManager()
-        sm.unregisterAdapter(Component, provided=IRelated)
-
-        # TODO: the line above does not work. Study ZCA in greater
-        # detail and make it work :)
-
-        # components = IComponents(self.portal.article).activeComponents()
-        # self.assertEquals(len(components), 0)
-
-    def test_single_active_components(self):
+    def test_default_active_components(self):
         """Test when only a single component is active."""
+        from raptus.article.core.interfaces import IComponents
 
         # enable raptus.article.related component on our article
         components = IComponents(self.portal.article).getComponents()
@@ -89,10 +173,6 @@ class TestActiveComponents(RACoreIntegrationTestCase):
 
         name, comp = active_components[0]
         self.assertEquals(u'related', name)
-
-    def test_multiple_avaiable_components(self):
-        """Test retrieving the list of available components."""
-        #TODO: for now we only have one component available for tests
 
 
 def test_suite():
