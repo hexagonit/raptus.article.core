@@ -6,31 +6,34 @@ from plone.app.layout.viewlets import interfaces as viewletmanagers
 
 from raptus.article.core import interfaces
 
-ORDERED_VIEWLET_MANAGERS = (('plone.htmlhead', viewletmanagers.IHtmlHead),
-                            ('plone.htmlhead.links', viewletmanagers.IHtmlHeadLinks),
-                            ('plone.portaltop', viewletmanagers.IPortalTop),
-                            ('plone.portalheader', viewletmanagers.IPortalHeader),
-                            ('plone.contentviews', viewletmanagers.IContentViews),
-                            ('plone.abovecontent', viewletmanagers.IAboveContent),
-                            ('plone.abovecontenttitle', viewletmanagers.IAboveContentTitle),
-                            ('plone.documentactions', viewletmanagers.IDocumentActions),
-                            ('plone.belowcontenttitle', viewletmanagers.IBelowContentTitle),
-                            ('plone.abovecontentbody', viewletmanagers.IAboveContentBody),
-                            ('plone.belowcontentbody', viewletmanagers.IBelowContentBody),
-                            ('plone.belowcontent', viewletmanagers.IBelowContent),
-                            ('plone.portalfooter', viewletmanagers.IPortalFooter))
+ORDERED_VIEWLET_MANAGERS = (
+            ('plone.htmlhead', viewletmanagers.IHtmlHead),
+            ('plone.htmlhead.links', viewletmanagers.IHtmlHeadLinks),
+            ('plone.portaltop', viewletmanagers.IPortalTop),
+            ('plone.portalheader', viewletmanagers.IPortalHeader),
+            ('plone.contentviews', viewletmanagers.IContentViews),
+            ('plone.abovecontent', viewletmanagers.IAboveContent),
+            ('plone.abovecontenttitle', viewletmanagers.IAboveContentTitle),
+            ('plone.documentactions', viewletmanagers.IDocumentActions),
+            ('plone.belowcontenttitle', viewletmanagers.IBelowContentTitle),
+            ('plone.abovecontentbody', viewletmanagers.IAboveContentBody),
+            ('plone.belowcontentbody', viewletmanagers.IBelowContentBody),
+            ('plone.belowcontent', viewletmanagers.IBelowContent),
+            ('plone.portalfooter', viewletmanagers.IPortalFooter)
+    )
+
 
 class ComponentFilter(object):
-    """ Filters and sorts components based on the registration of their viewlets
-    """
+    """Filters and sorts components based on the registration of their
+    viewlets."""
     interface.implements(interfaces.IComponentFilter)
     component.adapts(interface.Interface, IHTTPRequest, IBrowserView)
-    
+
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
         self.view = view
-    
+
     def filter(self, components):
         """ Returns a filtered list of components
         """
