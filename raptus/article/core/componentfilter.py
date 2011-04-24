@@ -43,21 +43,35 @@ class ComponentFilter(object):
             return []
 
         order = []
+        
         # temporary provide all interfaces of the registered components
-        notprovided = []
-        for name, comp in components:
-            if not comp.interface.providedBy(self.context):
-                notprovided.append(comp.interface)
-                interface.alsoProvides(self.context, comp.interface)
+        notprovided = self.provide_all_interfaces(components)
+        
         for name, iface in ORDERED_VIEWLET_MANAGERS:
             manager = component.getMultiAdapter((self.context, self.request, component.getMultiAdapter((self.context, self.request), name=u'view')), iface, name=name)
             manager.update()
             for viewlet in manager.viewlets:
                 if hasattr(viewlet, '__name__'):
                     order.append(viewlet.__name__)
+        
         # no longer provide the interfaces previously set
-        for iface in notprovided:
-            interface.noLongerProvides(self.context, iface)
+        self.unprovide_notprovided(notprovided)
+        
         components = [(name, comp) for name, comp in components if comp.viewlet in order]
         components.sort(lambda x, y: cmp(order.index(x[1].viewlet), order.index(y[1].viewlet)))
         return components
+
+    def provide_all_interfaces(self, components):
+        """Make context provide all interfaces of all registered components.
+        Return those interfaces that were not provided (for later use)."""
+        notprovided = []
+        for name, comp in components:
+            if not comp.interface.providedBy(self.context):
+                notprovided.append(comp.interface)
+                interface.alsoProvides(self.context, comp.interface)
+        return notprovided
+
+    def unprovide_notprovided(self, interfaces):
+        """Make context no longer provide passed interfaces."""
+        for iface in interfaces:
+            interface.noLongerProvides(self.context, iface)

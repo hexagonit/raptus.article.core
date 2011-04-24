@@ -10,25 +10,97 @@ import mock
 import unittest2 as unittest
 
 
-class TestFilterComponents(unittest.TestCase):
+class TestProvideAllInterfaces(unittest.TestCase):
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.componentfilter.provide_all_interfaces()."""
+
+    def makeComponent(self, provided, iface):
+        """Creates a mock component that is either active or passive."""
+        comp = mock.Mock(spec='interface'.split())
+        comp.interface.providedBy.return_value = provided
+        comp.interface.iface.return_value = iface
+        return comp
+
+    def test_no_components(self):
+        """Test when there are no components."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # test
+        components = filter.provide_all_interfaces([])
+        self.assertEquals(0, len(components))
+
+    def test_all_interfaces_provided(self):
+        """Test when all components' interfaces are already provided."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # prepare dummy components
+        components = [
+            ('foo', self.makeComponent(provided=True, iface='foo')),
+            ('bar', self.makeComponent(provided=True, iface='bar')),
+            ]
+
+        # test
+        components = filter.provide_all_interfaces(components)
+        self.assertEquals(0, len(components))
+
+    @mock.patch('raptus.article.core.componentfilter.interface')
+    def test_no_interfaces_provided(self, zope_interface):
+        """Test when none of components' interfaces are already provided."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        zope_interface.alsoProvides.return_value = True
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # prepare dummy components
+        components = [
+            ('foo', self.makeComponent(provided=False, iface='foo')),
+            ('bar', self.makeComponent(provided=False, iface='bar')),
+            ]
+
+        # test
+        interfaces = filter.provide_all_interfaces(components)
+        self.assertEquals(2, len(interfaces))
+        self.assertEquals([i.iface() for i in interfaces], 'foo bar'.split())
+
+
+class TestFilter(unittest.TestCase):
     """Unit tests for logic of all edge cases in
     raptus.article.core.components.componentfilter.filter()."""
 
     def test_no_components(self):
-        """Test when there are components."""
+        """Test when there are no components."""
         from raptus.article.core.componentfilter import ComponentFilter
 
+        # prepare instance of ComponentFilter
         context = mock.sentinel.context
         request = mock.sentinel.request
         view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
 
-        sorter = ComponentFilter(context, request, view)
-        components = sorter.filter([])
+        # test
+        components = filter.filter([])
         self.assertEquals(0, len(components))
 
 
-class TestFilterComponentsIntegration(RACoreIntegrationTestCase):
-    """Test filter() method of raptus.article.core.componentfilter."""
+class TestFilterIntegration(RACoreIntegrationTestCase):
+    """Test filter() method of raptus.article.core.componentfilter"""
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -48,14 +120,14 @@ class TestFilterComponentsIntegration(RACoreIntegrationTestCase):
         context = self.portal.article
         request = self.layer['request']
         view = self.portal.restrictedTraverse('article')
-        sorter = ComponentFilter(context, request, view)
+        filter = ComponentFilter(context, request, view)
 
         # get a list of RA components to pass into filtering
         components = IComponents(self.portal.article).getComponents()
         self.assertEquals(len(components), 1)
 
         # test
-        sorted_components = sorter.filter(components)
+        sorted_components = filter.filter(components)
         self.assertEquals(len(sorted_components), 1)
 
         name, comp = sorted_components[0]
