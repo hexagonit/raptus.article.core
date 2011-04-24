@@ -1,10 +1,14 @@
-from zope import interface, component
+import logging
 
+from zope import interface, component
+from zope.component.interfaces import ComponentLookupError
 from zope.publisher.interfaces.http import IHTTPRequest
 from zope.publisher.interfaces.browser import IBrowserView
 from plone.app.layout.viewlets import interfaces as viewletmanagers
 
 from raptus.article.core import interfaces
+
+logger = logging.getLogger('raptus.article.core')
 
 ORDERED_VIEWLET_MANAGERS = (
             ('plone.htmlhead', viewletmanagers.IHtmlHead),
@@ -63,7 +67,11 @@ class ComponentFilter(object):
         """Return all viewlets ordered by their viewlet manager."""
         order = []
         for name, iface in ORDERED_VIEWLET_MANAGERS:
-            manager = self.get_viewlet_manager(name, iface)
+            try:
+                manager = self.get_viewlet_manager(name, iface)
+            except ComponentLookupError:
+                logger.warning("Couldn't find '%s' viewlet manager." % name)
+                continue
             manager.update()
             for viewlet in manager.viewlets:
                 if hasattr(viewlet, '__name__'):
