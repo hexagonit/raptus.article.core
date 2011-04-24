@@ -147,6 +147,36 @@ class TestUnprovideNotprovided(unittest.TestCase):
         self.assertEquals(zope_interface.noLongerProvides.call_count, 2)
 
 
+class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
+    """Test get_viewlet_manager() method of
+    raptus.article.core.componentfilter."""
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_retrieve_viewlet_manager(self):
+        """Test retriving a viewlet manager."""
+        from raptus.article.core.componentfilter import ComponentFilter
+        from plone.app.layout.viewlets.interfaces import IHtmlHead
+
+        # prepare instance of ComponentFilter
+        context = self.portal.article
+        request = self.layer['request']
+        view = self.portal.restrictedTraverse('article')
+        filter = ComponentFilter(context, request, view)
+
+        # test
+        manager = filter.get_viewlet_manager('plone.htmlhead', IHtmlHead)
+        self.assertTrue(manager)
+        self.assertTrue(IHtmlHead.providedBy(manager))
+
+
 class TestFilter(unittest.TestCase):
     """Unit tests for logic of all edge cases in
     raptus.article.core.components.componentfilter.filter()."""
