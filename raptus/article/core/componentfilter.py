@@ -45,13 +45,8 @@ class ComponentFilter(object):
         # temporary provide all interfaces of the registered components
         notprovided = self.provide_all_interfaces(components)
 
-        order = []
-        for name, iface in ORDERED_VIEWLET_MANAGERS:
-            manager = self.get_viewlet_manager(name, iface)
-            manager.update()
-            for viewlet in manager.viewlets:
-                if hasattr(viewlet, '__name__'):
-                    order.append(viewlet.__name__)
+        # get a list of all viewlets, ordered by their viewlet manager
+        order = self.get_ordered_viewlets()
 
         # no longer provide the interfaces previously set
         self.unprovide_notprovided(notprovided)
@@ -59,6 +54,17 @@ class ComponentFilter(object):
         components = [(name, comp) for name, comp in components if comp.viewlet in order]
         components.sort(lambda x, y: cmp(order.index(x[1].viewlet), order.index(y[1].viewlet)))
         return components
+
+    def get_ordered_viewlets(self):
+        """Return all viewlets ordered by their viewlet manager."""
+        order = []
+        for name, iface in ORDERED_VIEWLET_MANAGERS:
+            manager = self.get_viewlet_manager(name, iface)
+            manager.update()
+            for viewlet in manager.viewlets:
+                if hasattr(viewlet, '__name__'):
+                    order.append(viewlet.__name__)
+        return order
 
     def get_viewlet_manager(self, name, iface):
         """Get viewlet managers with a Multi-Adapter lookup."""

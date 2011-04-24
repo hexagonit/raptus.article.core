@@ -147,6 +147,37 @@ class TestUnprovideNotprovided(unittest.TestCase):
         self.assertEquals(zope_interface.noLongerProvides.call_count, 2)
 
 
+class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
+    """Test get_ordered_viewlets() method of
+    raptus.article.core.componentfilter."""
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_get_ordered_viewlets(self):
+        """Test retriving a list of viewlets ordered by their viewlet
+        managers."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = self.portal.article
+        request = self.layer['request']
+        view = self.portal.restrictedTraverse('article')
+        filter = ComponentFilter(context, request, view)
+
+        # test
+        order = filter.get_ordered_viewlets()
+        self.assertEquals(len(order), 29)
+        self.assertEquals(order[0], u'plone.htmlhead.dublincore')
+        self.assertEquals(order[len(order) - 1], u'plone.analytics')
+
+
 class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
     """Test get_viewlet_manager() method of
     raptus.article.core.componentfilter."""
