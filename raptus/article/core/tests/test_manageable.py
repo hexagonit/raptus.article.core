@@ -57,6 +57,26 @@ class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
         ordered.providedBy.return_value = False
         self.assertEquals(IManageable(article).sort, False)
 
+    def test_sort_url(self):
+        """Test that sort url is correctly compiled."""
+        from raptus.article.core.interfaces import IManageable
+        article = self.portal.article
+
+        url = IManageable(article).sort_url
+        self.assertEquals(url,
+            'http://nohost/plone/article/article_moveitem?' +
+            'anchor=%s&delta=%s&item_id=%s')
+
+    def test_show_hide_url(self):
+        """Test that show/hide url is correctly compiled."""
+        from raptus.article.core.interfaces import IManageable
+        article = self.portal.article
+
+        url = IManageable(article).show_hide_url
+        self.assertEquals(url,
+            'http://nohost/plone/article/@@article_showhideitem?' +
+            'anchor=%s&action=%s&uid=%s&component=%s')
+
     def test_delete_flag(self):
         """Test if delete flag is correctly set."""
         from raptus.article.core.interfaces import IManageable
