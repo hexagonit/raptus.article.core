@@ -12,9 +12,8 @@ import unittest2 as unittest
 
 
 class TestGetComponents(unittest.TestCase):
-    """Unit tests for the getComponents() method of
-    raptus.article.core.components.
-    """
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.Components.getComponents()."""
 
     @mock.patch('raptus.article.core.components.component')
     def test_no_available_components(self, zope_component):
@@ -62,9 +61,7 @@ class TestGetComponentsIntegration(RACoreIntegrationTestCase):
         self.portal.invokeFactory('Article', 'article')
 
     def test_default_components(self):
-        """Test when there are no available components."""
-        # Remove the raptus.core.related component that is
-        # there by default
+        """Test components available by default."""
         from raptus.article.core.interfaces import IComponents
         components = IComponents(self.portal.article).getComponents()
         self.assertEquals(len(components), 1)
@@ -74,9 +71,8 @@ class TestGetComponentsIntegration(RACoreIntegrationTestCase):
 
 
 class TestActiveComponents(unittest.TestCase):
-    """Test the raptus.article.core.components.Components.activeComponents()
-    logic in all edge cases.
-    """
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.Components.activeComponents()."""
 
     def makeComponent(self, active):
         """Creates a mock component that is either active or passive."""
@@ -161,7 +157,7 @@ class TestActiveComponentsIntegration(RACoreIntegrationTestCase):
         self.portal.invokeFactory('Article', 'article')
 
     def test_default_active_components(self):
-        """Test when only a single component is active."""
+        """Test when default component is active."""
         from raptus.article.core.interfaces import IComponents
 
         # enable raptus.article.related component on our article
