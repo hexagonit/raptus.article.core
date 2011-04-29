@@ -6,6 +6,7 @@ import unittest2 as unittest
 
 from zope.configuration import xmlconfig
 
+from plone.testing import z2
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.testing import PLONE_FIXTURE
@@ -22,6 +23,7 @@ class RACoreIntegrationLayer(PloneSandboxLayer):
         import raptus.article.core
         xmlconfig.file('configure.zcml',
                        raptus.article.core, context=configurationContext)
+        z2.installProduct(app, 'raptus.article.core')
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
