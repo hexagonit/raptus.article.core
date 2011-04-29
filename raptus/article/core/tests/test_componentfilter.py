@@ -300,6 +300,61 @@ class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
         self.assertTrue(IHtmlHead.providedBy(manager))
 
 
+class TestSortComponents(unittest.TestCase):
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.componentfilter.sort_components()."""
+
+    def makeComponent(self, viewlet):
+        """Creates a mock component."""
+        class MockedComponent(mock.Mock):
+            @property
+            def viewlet(self):
+                return viewlet
+        return MockedComponent()
+
+    def test_no_components(self):
+        """Test when there are no components."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # test
+        components = filter.sort_components([], [])
+        self.assertEquals(0, len(components))
+
+    def test_sort_components(self):
+        """Test sorting components."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        components = [
+            ('foo', self.makeComponent('foo')),
+            ('bar', self.makeComponent('bar')),
+            ('gallery', self.makeComponent('gallery')),
+        ]
+
+        order = (
+            'bar',
+            'gallery',
+            'foo',
+        )
+
+        # test
+        sorted_comps = filter.sort_components(components, order)
+        self.assertEquals(3, len(sorted_comps))
+        self.assertEquals([comp[0] for comp in sorted_comps],
+                          'bar gallery foo'.split())
+
+
 class TestFilter(unittest.TestCase):
     """Unit tests for logic of all edge cases in
     raptus.article.core.components.componentfilter.filter()."""
