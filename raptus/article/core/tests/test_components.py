@@ -37,14 +37,14 @@ class TestGetComponents(unittest.TestCase):
 
         context = mock.sentinel.context
         zope_component.getAdapters.return_value = [
-            ('related', 'raptus.article.core.browser.related.Component'),
-            ('foobar', 'raptus.article.core.browser.foobar.Component'),
+            ('foo', 'raptus.article.core.browser.foo.Component'),
+            ('bar', 'raptus.article.core.browser.bar.Component'),
         ]
 
         components = Components(context).getComponents()
         self.assertEquals(components, [
-            ('related', 'raptus.article.core.browser.related.Component'),
-            ('foobar', 'raptus.article.core.browser.foobar.Component'),
+            ('foo', 'raptus.article.core.browser.foo.Component'),
+            ('bar', 'raptus.article.core.browser.bar.Component'),
         ])
         zope_component.getAdapters.assert_called_once_with((context, ),
                                                             IComponent)
@@ -101,8 +101,8 @@ class TestActiveComponents(unittest.TestCase):
 
         context = mock.sentinel.context
         zope_component.getAdapters.return_value = [
-            ('related', self.makeComponent(active=False)),
-            ('foobar', self.makeComponent(active=False)),
+            ('foo', self.makeComponent(active=False)),
+            ('bar', self.makeComponent(active=False)),
         ]
 
         components = Components(context)
@@ -116,15 +116,15 @@ class TestActiveComponents(unittest.TestCase):
 
         context = mock.sentinel.context
         zope_component.getAdapters.return_value = [
-            ('related', self.makeComponent(active=False)),
-            ('foobar', self.makeComponent(active=True)),
+            ('foo', self.makeComponent(active=False)),
+            ('bar', self.makeComponent(active=True)),
             ('gallery', self.makeComponent(active=False)),
         ]
 
         components = Components(context)
         self.assertEquals(len(components.getComponents()), 3)
         self.assertEquals(len(components.activeComponents()), 1)
-        self.assertEquals(components.activeComponents()[0][0], 'foobar')
+        self.assertEquals(components.activeComponents()[0][0], 'bar')
 
     @mock.patch('raptus.article.core.components.component')
     def test_all_active_components(self, zope_component):
@@ -133,8 +133,8 @@ class TestActiveComponents(unittest.TestCase):
 
         context = mock.sentinel.context
         zope_component.getAdapters.return_value = [
-            ('related', self.makeComponent(active=True)),
-            ('foobar', self.makeComponent(active=True)),
+            ('foo', self.makeComponent(active=True)),
+            ('bar', self.makeComponent(active=True)),
             ('gallery', self.makeComponent(active=True)),
         ]
 
@@ -143,7 +143,7 @@ class TestActiveComponents(unittest.TestCase):
         self.assertEquals(len(components.activeComponents()), 3)
 
         active_components = [comp[0] for comp in components.activeComponents()]
-        self.assertEquals(active_components, 'related foobar gallery'.split())
+        self.assertEquals(active_components, 'foo bar gallery'.split())
 
 
 class TestActiveComponentsIntegration(RACoreIntegrationTestCase):
