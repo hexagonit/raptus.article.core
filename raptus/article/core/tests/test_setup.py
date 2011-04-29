@@ -25,10 +25,17 @@ class TestInstall(RACoreIntegrationTestCase):
                         'raptus.article.css not found in portal_css')
 
     # types.xml
+    # factorytool.xml
     def test_article_installed(self):
         """Test if Raptus Article is in the list of Portal Types."""
+
+        # test that Article is present in portal_types
         types = getToolByName(self.portal, 'portal_types')
         self.failUnless('Article' in types.objectIds())
+
+        # test that Article is present in portal_factory
+        factory = getToolByName(self.portal, 'portal_factory')
+        self.failUnless('Article' in factory.getFactoryTypes().keys())
 
     # Document.xml
     def test_document_disabled(self):
