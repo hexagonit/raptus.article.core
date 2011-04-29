@@ -69,12 +69,18 @@ class ComponentFilter(object):
         """Return all viewlets ordered by their viewlet manager."""
         order = []
         for name, iface in ORDERED_VIEWLET_MANAGERS:
+            
+            # get viewlet manager and run update() so it registers
+            # it's viewlets
             try:
                 manager = self.get_viewlet_manager(name, iface)
             except ComponentLookupError:
                 logger.warning("Couldn't find '%s' viewlet manager." % name)
                 continue
             manager.update()
+            
+            # go through all manager's viewlets and add them to list of
+            # ordered viewlets
             for viewlet in manager.viewlets:
                 if hasattr(viewlet, '__name__'):
                     order.append(viewlet.__name__)
