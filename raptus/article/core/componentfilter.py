@@ -60,7 +60,7 @@ class ComponentFilter(object):
         components = [(name, comp) for name, comp in components
                                                   if comp.viewlet in order]
 
-        # sort components based on ??? TODO
+        # sort components based on their position in 'order'
         components.sort(lambda x, y: cmp(order.index(x[1].viewlet),
                                          order.index(y[1].viewlet)))
         return components
@@ -69,7 +69,7 @@ class ComponentFilter(object):
         """Return all viewlets ordered by their viewlet manager."""
         order = []
         for name, iface in ORDERED_VIEWLET_MANAGERS:
-            
+
             # get viewlet manager and run update() so it registers
             # it's viewlets
             try:
@@ -78,7 +78,7 @@ class ComponentFilter(object):
                 logger.warning("Couldn't find '%s' viewlet manager." % name)
                 continue
             manager.update()
-            
+
             # go through all manager's viewlets and add them to list of
             # ordered viewlets
             for viewlet in manager.viewlets:
