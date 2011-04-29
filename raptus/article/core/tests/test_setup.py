@@ -18,6 +18,13 @@ class TestInstall(RACoreIntegrationTestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
 
+    def test_product_installed(self):
+        """Test if raptus.article.core is installed with
+        portal_quickinstaller."""
+
+        qi = getToolByName(self.portal, 'portal_quickinstaller')
+        self.assertTrue(qi.isProductInstalled('raptus.article.core'))
+
     # cssregistry.xml
     def test_css_registered(self):
         """Test if CSS files are registered with portal_css."""
