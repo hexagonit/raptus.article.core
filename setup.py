@@ -4,7 +4,11 @@ import os
 version = '2.0b8'
 
 install_requires = ['setuptools']
-tests_require = ['plone.app.testing', 'unittest2']
+tests_require = [
+    'mock',
+    'plone.app.testing',
+    'unittest2',
+    ]
 
 setup(name='raptus.article.core',
       version=version,
