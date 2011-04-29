@@ -14,6 +14,7 @@ class TestInstall(RACoreIntegrationTestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
 
+    # cssregistry.xml
     def test_css_registered(self):
         """Test if CSS files are registered with portal_css."""
         resources = self.portal.portal_css.getResources()
@@ -22,6 +23,19 @@ class TestInstall(RACoreIntegrationTestCase):
 
         self.assertTrue('raptus.article.css' in ids,
                         'raptus.article.css not found in portal_css')
+
+    # types.xml
+    def test_article_installed(self):
+        """Test if Raptus Article is in the list of Portal Types."""
+        types = getToolByName(self.portal, 'portal_types')
+        self.failUnless('Article' in types.objectIds())
+
+    # Document.xml
+    def test_document_disabled(self):
+        """Test that Document is not allowed to be added."""
+        types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(types, 'Document')
+        self.failIf(document_fti.global_allow)
 
     # skins.xml
     def test_skins_folders_registered(self):
