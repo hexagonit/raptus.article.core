@@ -40,6 +40,12 @@ class TestInstall(RACoreIntegrationTestCase):
             ('Manager', 'Contributor', 'Owner')
             )
 
+        # Test permission mapping for managing Components
+        self.assertEquals(
+            self.portal._raptus_article__Manage_Components_Permission,
+            ('Manager', 'Editor', 'Owner')
+            )
+
     def test_site_properties(self):
         """Test if site properties are correcty set."""
 
