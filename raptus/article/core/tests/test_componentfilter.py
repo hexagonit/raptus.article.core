@@ -147,6 +147,53 @@ class TestUnprovideNotprovided(unittest.TestCase):
         self.assertEquals(zope_interface.noLongerProvides.call_count, 2)
 
 
+class TestGetOrderedViewlets(unittest.TestCase):
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.componentfilter.get_ordered_viewlets()."""
+
+    def test_no_viewlet_managers(self):
+        """Test retriving an ordered list of viewlets when no viewlet managers
+        are specified."""
+        from raptus.article.core.componentfilter import ComponentFilter
+        from raptus.article.core import componentfilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # override ORDERED_VIEWLET_MANAGERS to be an empty list
+        componentfilter.ORDERED_VIEWLET_MANAGERS = []
+
+        # test
+        order = filter.get_ordered_viewlets()
+        self.assertEquals(len(order), 0)
+
+    @mock.patch(
+    'raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
+    def test_invalid_manager(self, get_viewlet_manager):
+        """Test retriving a list of ordered viewlets when a viewlet manager
+        is invalid and cannot be found."""
+        from zope.component.interfaces import ComponentLookupError
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # self.get_viewlet_manager(name, iface) throws the ComponentLookupError
+        get_viewlet_manager.return_value = None
+        get_viewlet_manager.side_effect = ComponentLookupError('foo')
+
+        # test that get_ordered_viewlets does not crash when it receives
+        # the ComponentLookupError
+        order = filter.get_ordered_viewlets()
+        self.assertEquals(len(order), 0)
+
+
 class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
     """Test get_ordered_viewlets() method of
     raptus.article.core.componentfilter."""
