@@ -151,6 +151,22 @@ class TestGetOrderedViewlets(unittest.TestCase):
     """Unit tests for logic of all edge cases in
     raptus.article.core.components.componentfilter.get_ordered_viewlets()."""
 
+    def makeNamelessViewlet(self, name):
+        """Creates a mock viewlet withouth a __name__."""
+        viewlet = mock.Mock(spec="nothing".split())
+        return viewlet
+
+    def makeViewletManager(self, viewlets):
+        """Creates a mock viewlet manager."""
+
+        # define a mocked viewlet manager
+        class MockedManager(mock.Mock):
+            @property
+            def viewlets(self):
+                return viewlets
+
+        return MockedManager()
+
     def test_no_viewlet_managers(self):
         """Test retriving an ordered list of viewlets when no viewlet managers
         are specified."""
@@ -187,6 +203,35 @@ class TestGetOrderedViewlets(unittest.TestCase):
         # self.get_viewlet_manager(name, iface) throws the ComponentLookupError
         get_viewlet_manager.return_value = None
         get_viewlet_manager.side_effect = ComponentLookupError('foo')
+
+        # test that get_ordered_viewlets does not crash when it receives
+        # the ComponentLookupError
+        order = filter.get_ordered_viewlets()
+        self.assertEquals(len(order), 0)
+
+    @mock.patch(
+    'raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
+    def test_viewlet_without_name(self, get_viewlet_manager):
+        """Test retriving a list of ordered viewlets when a viewlet does not
+        have a __name__."""
+        from raptus.article.core.componentfilter import ComponentFilter
+        from raptus.article.core import componentfilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # override ORDERED_VIEWLET_MANAGERS to only have one item
+        componentfilter.ORDERED_VIEWLET_MANAGERS = [('foo', 'bar')]
+
+        # create mocked viewlet and viewlet manager
+        viewlet = self.makeNamelessViewlet('mocked.viewlet')
+        manager = self.makeViewletManager((viewlet, ))
+
+        # override get_viewlet_manager() to return our mocked manager
+        get_viewlet_manager.return_value = manager
 
         # test that get_ordered_viewlets does not crash when it receives
         # the ComponentLookupError

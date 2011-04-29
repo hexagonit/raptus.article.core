@@ -82,8 +82,12 @@ class ComponentFilter(object):
             # go through all manager's viewlets and add them to list of
             # ordered viewlets
             for viewlet in manager.viewlets:
-                if hasattr(viewlet, '__name__'):
-                    order.append(viewlet.__name__)
+                if not hasattr(viewlet, '__name__'):
+                    logger.warning("Viewlet '%s' does not have a __name__, so \
+                                    it cannot be added it to the list of \
+                                    ordered viewlets." % viewlet)
+                    continue
+                order.append(viewlet.__name__)
         return order
 
     def get_viewlet_manager(self, name, iface):
