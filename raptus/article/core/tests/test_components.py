@@ -2,6 +2,8 @@
 
 import unittest2 as unittest
 
+from zope.interface import alsoProvides
+
 from plone.app.testing import TEST_USER_NAME, TEST_USER_ID, login, setRoles
 
 from raptus.article.core.interfaces import IComponents
@@ -21,21 +23,26 @@ class TestView(RACoreIntegrationTestCase):
         self.portal.invokeFactory('Article', 'article')
 
     # def test_component_filter(self):
-    #     """Test filtering and sorting of components based on the registrations
-    #     of their viewlets.
+    #     """Test filtering and sorting of components
+    #     based on the registrations of their viewlets.
     #     """
         #TODO
 
     def test_get_components(self):
-        """Test retrieving the list of available components.
-        """
+        """Test retrieving the list of available components."""
         components = IComponents(self.portal.article).getComponents()
         self.assertEquals(u'related', components[0][0])
 
-    # def test_active_components(self):
-    #     """Test retrieving the list of active components.
-    #     """
-    #     #TODO
+    def test_active_components(self):
+        """Test retrieving the list of active components."""
+
+        # enable raptus.article.related component on our article
+        components = IComponents(self.portal.article).getComponents()
+        alsoProvides(self.portal.article, components[0][1].interface)
+
+        # retrive active components
+        components = IComponents(self.portal.article).activeComponents()
+        self.assertEquals(u'related', components[0][0])
 
 
 def test_suite():
