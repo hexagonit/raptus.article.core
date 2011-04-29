@@ -19,7 +19,7 @@ class Manageable(object):
         self.sort = IOrderedContainer.providedBy(self.context) and self.mship.checkPermission(permissions.ModifyPortalContent, self.context)
         self.sort_url = '%s/article_moveitem?anchor=%%s&delta=%%s&item_id=%%s' % self.context.absolute_url()
         self.show_hide_url = '%s/@@article_showhideitem?anchor=%%s&action=%%s&uid=%%s&component=%%s' % self.context.absolute_url()
-        self.delete = self.mship.checkPermission(permissions.DeleteObjects, self.context)
+        self.delete = self.mship.checkPermission(permissions.DeleteObjects, self.context) or False
     
     def getList(self, brains, component=''):
         """
