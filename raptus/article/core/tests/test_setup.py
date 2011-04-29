@@ -31,7 +31,7 @@ class TestInstall(RACoreIntegrationTestCase):
         self.assertTrue('raptus_article_core' in skin_layer,
                     'raptus_article_core skin folder is not registered')
 
-    def test_rolemap(self):
+    def test_permission_mappings(self):
         """Test correct assigning of permissions."""
 
         # Test permission mapping for adding an Article
@@ -47,11 +47,11 @@ class TestInstall(RACoreIntegrationTestCase):
             )
 
     def test_site_properties(self):
-        """Test if site properties are correcty set."""
+        """Test if site properties are correctly set."""
 
         site_props = self.portal.portal_properties.site_properties
 
-        # Meta-keywords must be enabled
+        # Article must be among default Page types
         self.assertEquals(site_props.default_page_types, ('Topic', 'Article'))
 
 
