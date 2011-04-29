@@ -79,6 +79,32 @@ class TestProvideAllInterfaces(unittest.TestCase):
         self.assertEquals(2, len(interfaces))
         self.assertEquals([i.iface() for i in interfaces], 'foo bar'.split())
 
+    @mock.patch('raptus.article.core.componentfilter.interface')
+    def test_some_interfaces_provided(self, zope_interface):
+        """Test when some of components' interfaces are already provided."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        zope_interface.alsoProvides.return_value = True
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # prepare dummy components
+        components = [
+            ('foo', self.makeComponent(provided=False, iface='foo')),
+            ('bar', self.makeComponent(provided=True, iface='bar')),
+            ('gallery', self.makeComponent(provided=False, iface='gallery')),
+            ]
+
+        # test
+        interfaces = filter.provide_all_interfaces(components)
+        self.assertEquals(2, len(interfaces))
+        self.assertEquals([i.iface() for i in interfaces],
+                          'foo gallery'.split())
+
 
 class TestFilter(unittest.TestCase):
     """Unit tests for logic of all edge cases in
