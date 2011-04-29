@@ -37,6 +37,11 @@ class ComponentFilter(object):
     def filter(self, components):
         """ Returns a filtered list of components
         """
+
+        # prevent crashing if passing in an empty list of components
+        if not components:
+            return []
+
         order = []
         # temporary provide all interfaces of the registered components
         notprovided = []
