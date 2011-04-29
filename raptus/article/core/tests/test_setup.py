@@ -75,23 +75,19 @@ class TestInstall(RACoreIntegrationTestCase):
         skin_layer = skins.getSkinPath('Plone Default')
 
         self.assertTrue('raptus_article_core' in skin_layer,
-                    'raptus_article_core skin folder is not registered')
+                        'raptus_article_core skin folder is not registered')
 
     # rolemap.xml
     def test_permission_mappings(self):
         """Test correct assigning of permissions."""
 
         # Test permission mapping for adding an Article
-        self.assertEquals(
-            self.portal._raptus_article__Add_Article_Permission,
-            ('Manager', 'Contributor', 'Owner')
-            )
+        self.assertEquals(('Manager', 'Contributor', 'Owner'),
+                          self.portal._raptus_article__Add_Article_Permission)
 
         # Test permission mapping for managing Components
-        self.assertEquals(
-            self.portal._raptus_article__Manage_Components_Permission,
-            ('Manager', 'Editor', 'Owner')
-            )
+        self.assertEquals(('Manager', 'Editor', 'Owner'),
+                          self.portal._raptus_article__Manage_Components_Permission)
 
     # propertiestool.xml
     def test_site_properties(self):
@@ -118,8 +114,7 @@ class TestInstall(RACoreIntegrationTestCase):
         manager_name = 'plone.belowcontentbody'
 
         # viewlet managers are found by Multi-Adapter lookup
-        manager = queryMultiAdapter((context, request, view), IViewletManager,
-                                                   manager_name, default=None)
+        manager = queryMultiAdapter((context, request, view), IViewletManager, manager_name, default=None)
         self.failUnless(manager)
 
         # calling update() on a manager causes it to set up its viewlets

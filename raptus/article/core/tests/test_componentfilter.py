@@ -186,8 +186,7 @@ class TestGetOrderedViewlets(unittest.TestCase):
         order = filter.get_ordered_viewlets()
         self.assertEquals(len(order), 0)
 
-    @mock.patch(
-    'raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
+    @mock.patch('raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
     def test_invalid_manager(self, get_viewlet_manager):
         """Test retriving a list of ordered viewlets when a viewlet manager
         is invalid and cannot be found."""

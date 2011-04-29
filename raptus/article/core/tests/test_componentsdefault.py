@@ -51,12 +51,10 @@ class TestSetDefaults(unittest.TestCase):
         # test
         SetDefaults(article, event)
 
-        zope_component.getAdapters.assert_called_once_with((article,),
-                                                           IDefaultComponents)
+        zope_component.getAdapters.assert_called_once_with((article,), IDefaultComponents)
 
         self.assertEquals(zope_interface.alsoProvides.call_count, 2)
-        zope_interface.alsoProvides.assert_called_with(article,
-                                                       components[1].interface)
+        zope_interface.alsoProvides.assert_called_with(article, components[1].interface)
 
 
 def test_suite():

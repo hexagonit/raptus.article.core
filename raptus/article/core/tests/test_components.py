@@ -26,8 +26,7 @@ class TestGetComponents(unittest.TestCase):
 
         components = Components(context).getComponents()
         self.assertEquals(0, len(components))
-        zope_component.getAdapters.assert_called_once_with((context, ),
-                                                            IComponent)
+        zope_component.getAdapters.assert_called_once_with((context, ), IComponent)
 
     @mock.patch('raptus.article.core.components.component')
     def test_multiple_available_components(self, zope_component):
@@ -46,8 +45,7 @@ class TestGetComponents(unittest.TestCase):
             ('foo', 'raptus.article.core.browser.foo.Component'),
             ('bar', 'raptus.article.core.browser.bar.Component'),
         ])
-        zope_component.getAdapters.assert_called_once_with((context, ),
-                                                            IComponent)
+        zope_component.getAdapters.assert_called_once_with((context, ), IComponent)
 
 
 class TestGetComponentsIntegration(RACoreIntegrationTestCase):
