@@ -15,7 +15,7 @@ class TestProvideAllInterfaces(unittest.TestCase):
     raptus.article.core.components.componentfilter.provide_all_interfaces()."""
 
     def makeComponent(self, provided, iface):
-        """Creates a mock component that is either active or passive."""
+        """Creates a mock component that is either provided or not."""
         comp = mock.Mock(spec='interface'.split())
         comp.interface.providedBy.return_value = provided
         comp.interface.iface.return_value = iface
@@ -104,6 +104,47 @@ class TestProvideAllInterfaces(unittest.TestCase):
         self.assertEquals(2, len(interfaces))
         self.assertEquals([i.iface() for i in interfaces],
                           'foo gallery'.split())
+
+
+class TestUnprovideNotprovided(unittest.TestCase):
+    """Unit tests for logic of all edge cases in
+    raptus.article.core.components.componentfilter.unprovide_notprovided()."""
+
+    def makeInterface(self):
+        """Creates a mock interface."""
+        comp = mock.Mock(spec='interface'.split())
+        comp.interface.noLongerProvides.return_value = True
+        return comp
+
+    def test_no_interfaces(self):
+        """Test when there are no interfaces in notprovided list."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        # test
+        filter.unprovide_notprovided([])
+
+    @mock.patch('raptus.article.core.componentfilter.interface')
+    def test_unprovide_interfaces(self, zope_interface):
+        """Test unproviding interfaces notprovided list."""
+        from raptus.article.core.componentfilter import ComponentFilter
+
+        # prepare instance of ComponentFilter
+        context = mock.sentinel.context
+        request = mock.sentinel.request
+        view = mock.sentinel.view
+        filter = ComponentFilter(context, request, view)
+
+        zope_interface.noLongerProvides.return_value = True
+
+        # test
+        filter.unprovide_notprovided("foo bar".split())
+        self.assertEquals(zope_interface.noLongerProvides.call_count, 2)
 
 
 class TestFilter(unittest.TestCase):
