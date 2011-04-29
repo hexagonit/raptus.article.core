@@ -3,6 +3,9 @@ import os
 
 version = '2.0b8'
 
+install_requires = ['setuptools']
+tests_require = ['plone.app.testing', 'unittest2']
+
 setup(name='raptus.article.core',
       version=version,
       description="Provides a configurable article content type (replaces the default Page content type).",
@@ -23,13 +26,13 @@ setup(name='raptus.article.core',
       namespace_packages=['raptus', 'raptus.article'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          'setuptools',
-          'unittest2',
-          # -*- Extra requirements: -*-
-      ],
+      install_requires=install_requires,
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
 
