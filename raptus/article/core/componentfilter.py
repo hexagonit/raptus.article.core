@@ -57,10 +57,12 @@ class ComponentFilter(object):
 
         # compile a list of components whose viewlets are present in the list
         # of ordered viewlets
-        components = [(name, comp) for name, comp in components if comp.viewlet in order]
+        components = [(name, comp) for name, comp in components
+                                                  if comp.viewlet in order]
 
         # sort components based on ??? TODO
-        components.sort(lambda x, y: cmp(order.index(x[1].viewlet), order.index(y[1].viewlet)))
+        components.sort(lambda x, y: cmp(order.index(x[1].viewlet),
+                                         order.index(y[1].viewlet)))
         return components
 
     def get_ordered_viewlets(self):
