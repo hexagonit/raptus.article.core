@@ -13,12 +13,23 @@ class TestView(RACoreFunctionalTestCase):
     def setUp(self):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
-        
-        # add initial test content
-        setRoles(portal, TEST_USER_ID, ['Manager'])
-        login(portal, TEST_USER_NAME)
-        portal.invokeFactory('Article', 'article')
-    
+
+    def test_component_filter(self):
+        """Test filtering and sorting of components based on the registrations
+        of their viewlets.
+        """
+        #TODO
+
+    def test_get_components(self):
+        """Test retrieving the list of available components.
+        """
+        #TODO
+
+    def test_active_components(self):
+        """Test retrieving the list of active components.
+        """
+        #TODO
+
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
     above."""
