@@ -25,14 +25,14 @@ class Manageable(object):
     def getList(self, brains, component=''):
         """
         Returns a list of dicts holding the specific links for viewing, editing, sorting and
-        deleting and the obj.
+        deleting the obj.
         """
         items = []
         i = 0
         l = len(brains)
-        pos = [getObjPositionInParent(brain.getObject())() for brain in brains]
-        for brain in brains:
-            obj = brain.getObject()
+        objects = [brain.getObject() for brain in brains]
+        pos = self.get_positions(objects)
+        for obj in objects:
             try:
                 components = obj.Schema()['components'].get(obj)
             except:
@@ -52,3 +52,8 @@ class Manageable(object):
             items.append(item)
             i += 1
         return items
+
+    def get_positions(self, objects):
+        """Returns a list of objPositionInParent values for passed objects."""
+        return [getObjPositionInParent(obj)() for obj in objects]
+        

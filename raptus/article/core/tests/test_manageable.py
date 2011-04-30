@@ -11,6 +11,53 @@ import mock
 import unittest2 as unittest
 
 
+class MockedGetObjPositionInParent(object):
+    """A class that mocks getObjPositionInParent of CatalogTool
+    that is wrapped with @indexer(Interface) decorator.
+    """
+
+    def __init__(self, obj):
+        self.obj = obj
+
+    def __call__(self):
+        return self.obj.position
+
+
+class TestGetPositions(unittest.TestCase):
+    """Testing edge cases of r.a.core.manageable.get_positions()"""
+
+    def makeObject(self, position):
+        """Prepare a mock object that has a position."""
+        obj = mock.Mock(spec='position'.split())
+        obj.position = position
+        return obj
+
+    def makeManageable(self):
+        """Prepares an instance of Manageable."""
+        from raptus.article.core.manageable import Manageable
+        context = mock.Mock(spec='absolute_url'.split())
+        return Manageable(context)
+
+    @mock.patch('raptus.article.core.manageable.getToolByName')
+    @mock.patch('raptus.article.core.manageable.getObjPositionInParent', MockedGetObjPositionInParent)
+    def test_positions(self, tool_by_name):
+        """Test retrieving positions of objects."""
+
+        manageable = self.makeManageable()
+
+        # patch getToolByName so Manageable.__init__() does not crash
+        tool_by_name.return_value = mock.Mock(spec='checkPermission')
+
+        # prepare mocked objects
+        objects = [
+            self.makeObject(1),
+            self.makeObject(2),
+            self.makeObject(5),
+            ]
+
+        positions = manageable.get_positions(objects)
+        self.assertEquals(positions, [1, 2, 5])
+
 class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
     """Test how flags are set in __init__() of Manageable."""
 
