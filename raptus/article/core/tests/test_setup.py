@@ -99,6 +99,7 @@ class TestInstall(RACoreIntegrationTestCase):
         self.assertEquals(site_props.default_page_types, ('Topic', 'Article'))
 
     # viewlets.xml
+    @unittest.expectedFailure
     def test_related_viewlet_registered(self):
         """Test if raptus.article.related viewlet is registered for
         plone.belowcontentbody viewlet manager."""
@@ -124,8 +125,7 @@ class TestInstall(RACoreIntegrationTestCase):
         viewlets = [v.__name__ for v in manager.viewlets]
 
         # if our viewlet present?
-        print viewlets
-        #self.assertTrue("raptus.article.related" in viewlets)
+        self.assertTrue("raptus.article.related" in viewlets)
         # TODO: why does this fail? It works TTW but not here in tests??
 
 
