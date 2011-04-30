@@ -71,8 +71,7 @@ class ComponentFilter(object):
         # 'order' is a list of viewlet names
         # sort by comparing items in 'order' to return values of
         # <comp object>.viewlet
-        components.sort(lambda x, y: cmp(order.index(x[1].viewlet),
-                                         order.index(y[1].viewlet)))
+        components.sort(key=lambda x: order.index(x[1].viewlet))
         return components
 
     def get_ordered_viewlets(self):
