@@ -53,7 +53,8 @@ class ComponentFilter(object):
         order = self.get_ordered_viewlets()
 
         # no longer provide the interfaces previously set
-        self.unprovide_notprovided(notprovided)
+        for iface in notprovided:
+            interface.noLongerProvides(self.context, iface)
 
         # compile a list of components whose viewlets are present in the list
         # of ordered viewlets
@@ -118,8 +119,3 @@ class ComponentFilter(object):
                 notprovided.append(comp.interface)
                 interface.alsoProvides(self.context, comp.interface)
         return notprovided
-
-    def unprovide_notprovided(self, interfaces):
-        """Make context no longer provide passed interfaces."""
-        for iface in interfaces:
-            interface.noLongerProvides(self.context, iface)
