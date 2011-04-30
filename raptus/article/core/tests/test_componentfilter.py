@@ -133,7 +133,7 @@ class TestGetOrderedViewlets(unittest.TestCase):
         is invalid and cannot be found."""
 
         cf = self.makeComponentFilter()
-        
+
         # self.get_viewlet_manager(name, iface) throws the ComponentLookupError
         from zope.component.interfaces import ComponentLookupError
         get_viewlet_manager.return_value = None
@@ -193,7 +193,7 @@ class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
         """Test retriving a list of viewlets ordered by their viewlet
         managers."""
         cf = self.makeComponentFilter()
-        
+
         order = cf.get_ordered_viewlets()
         self.assertEquals(len(order), 29)
         self.assertEquals(order[0], u'plone.htmlhead.dublincore')
@@ -225,7 +225,7 @@ class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
         """Test retriving a viewlet manager."""
         from plone.app.layout.viewlets.interfaces import IHtmlHead
         cf = self.makeComponentFilter()
-        
+
         manager = cf.get_viewlet_manager('plone.htmlhead', IHtmlHead)
         self.assertTrue(manager)
         self.assertTrue(IHtmlHead.providedBy(manager))
@@ -260,7 +260,7 @@ class TestSortComponents(unittest.TestCase):
     def test_sort_components(self):
         """Test sorting components."""
         cf = self.makeComponentFilter()
-        
+
         components = [
             ('foo', self.makeComponent('foo')),
             ('bar', self.makeComponent('bar')),
@@ -322,7 +322,7 @@ class TestFilterIntegration(RACoreIntegrationTestCase):
         """Test sorting components available by default."""
 
         cf = self.makeComponentFilter()
-        
+
         # get a list of RA components to pass into filtering
         from raptus.article.core.interfaces import IComponents
         components = IComponents(self.portal.article).getComponents()

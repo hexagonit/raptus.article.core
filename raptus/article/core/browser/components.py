@@ -16,7 +16,7 @@ class Components(BrowserView):
     """
 
     template = ViewPageTemplateFile('components.pt')
-    
+
     def __call__(self):
         if self.request.get('form.submitted', False) or self.request.get('form.view', False):
             statusmessage = IStatusMessage(self.request)
@@ -27,7 +27,7 @@ class Components(BrowserView):
         if self.request.get('form.view', False):
             return self.request.RESPONSE.redirect(self.context.absolute_url())
         return self.template()
-    
+
     def _save(self):
         try:
             context = aq_inner(self.context)
@@ -41,7 +41,7 @@ class Components(BrowserView):
         except:
             return False
         return True
-    
+
     @property
     @memoize
     def components(self):
