@@ -8,6 +8,11 @@ from zope.viewlet.interfaces import IViewletManager
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView as View
 
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import login
+from plone.app.testing import setRoles
+
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
@@ -99,13 +104,17 @@ class TestInstall(RACoreIntegrationTestCase):
         self.assertEquals(site_props.default_page_types, ('Topic', 'Article'))
 
     # viewlets.xml
-    @unittest.expectedFailure
     def test_related_viewlet_registered(self):
         """Test if raptus.article.related viewlet is registered for
         plone.belowcontentbody viewlet manager."""
 
+        # add test Article
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
         # we need a context and request
-        context = self.portal
+        context = self.portal.article
         request = self.layer['request']
 
         # viewlet managers also require a view object for adaptation
@@ -124,9 +133,8 @@ class TestInstall(RACoreIntegrationTestCase):
         # get viewlet names
         viewlets = [v.__name__ for v in manager.viewlets]
 
-        # if our viewlet present?
-        self.assertTrue("raptus.article.related" in viewlets)
-        # TODO: why does this fail? It works TTW but not here in tests??
+        # is our viewlet present?
+        self.assertTrue("plone.belowcontentbody.relateditems" in viewlets)
 
 
 def test_suite():
