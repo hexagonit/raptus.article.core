@@ -154,8 +154,10 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Article', 'article')
 
-    def test_getList_with_subfolder(self):
-        """Test what getList() returns for a Folder inside an Article."""
+    def test_getList_full(self):
+        """Test full result dictionary that getList() returns
+        for a Folder inside an Article.
+        """
 
         # add sub-content to our test article
         self.portal.article.invokeFactory('Folder', 'subfolder')
@@ -163,27 +165,33 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
         # get Catalog brains of test content
         catalog = getToolByName(self.portal, 'portal_catalog')
         brains = catalog(sort_on='getObjPositionInParent',
-                         path={'query': '/'.join(self.portal.article.getPhysicalPath())},)
+                         path={'query': '/'.join(self.portal.article.getPhysicalPath()),
+                               'depth': 1},)
 
         # get list to test it
         manageable = self.makeManageable(self.portal.article)
-        results = manageable.getList(brains)
+        results = manageable.getList(brains, 'raptus.related')
         self.assertEquals(len(results), 1)
 
         item = results[0]
         self.assertEquals(len(item.keys()), 11)
 
-        self.assertEquals(item['show'], None)
-        self.assertEquals(item['hide'], None)
         self.assertEquals(item['up'], None)
         self.assertEquals(item['down'], None)
-        self.assertEquals(item['anchor'], 'subfolder')
+        self.assertEquals(item['anchor'], 'raptus.relatedsubfolder')
         self.assertEquals(item['id'], 'subfolder')
         self.assertEquals(item['brain'], brains[0])
         self.assertEquals(item['obj'], self.portal.article.subfolder)
+
         self.assertEquals(item['edit'], 'http://nohost/plone/article/subfolder/edit')
         self.assertEquals(item['view'], 'http://nohost/plone/article/subfolder/view')
         self.assertEquals(item['delete'], 'http://nohost/plone/article/subfolder/delete_confirmation')
+
+        self.assertEquals(item['hide'], None)
+        self.assertEquals(item['show'],
+            'http://nohost/plone/article/@@article_showhideitem?' +
+            'anchor=raptus.relatedsubfolder&action=show&uid=%s&component=raptus.related'
+            % self.portal.article.subfolder.UID())
 
     def test_getList_up_down(self):
         """Test up/down URLs returned by getList() for Images contained
