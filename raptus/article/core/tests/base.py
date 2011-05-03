@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement
 
+import webbrowser
+from tempfile import gettempdir
 import os
 
 import unittest2 as unittest
@@ -97,16 +100,19 @@ class RACoreFunctionalTestCase(RACoreIntegrationTestCase):
         # did we get the logged-in message?
         self.failUnless("You are now logged in" in browser.contents)
 
-    def start_zserver(self):
+    def start_zserver(self, web_browser_name='firefox'):
         """Start ZServer so we can inspect site state with a normal browser
         like FireFox."""
         from Testing.ZopeTestCase.utils import startZServer
         echo = startZServer()
-        os.system('open http://%s:%s/plone' % echo)
+        webbrowser.get(web_browser_name).open('http://%s:%s/plone' % echo)
 
-    def open_html(self, browser):
+    def open_html(self, browser, web_browser_name='firefox'):
         """Dumps self.browser.contents (HTML) to a file and opens it with
         a normal browser."""
-        file = open('/tmp/raptus.article.core.testbrowser.html', 'w')
-        file.write(browser.contents)
-        os.system('open /tmp/raptus.article.core.testbrowser.html')
+        tmp_filename = 'raptus.article.core.testbrowser.html'
+        filepath = os.path.join(gettempdir(), tmp_filename)
+        with open(filepath, 'w') as file:
+            file.write(browser.contents)
+        webbrowser.get(web_browser_name).open('file://' + filepath)
+
