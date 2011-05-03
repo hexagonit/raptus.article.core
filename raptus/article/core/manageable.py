@@ -9,7 +9,8 @@ from raptus.article.core.interfaces import IManageable
 
 
 class Manageable(object):
-    """ Provider information dict used for the manage macro for objects which are manageable
+    """Provider information dict used for the manage macro for objects
+    which are manageable.
     """
     interface.implements(IManageable)
     component.adapts(interface.Interface)
