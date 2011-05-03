@@ -33,6 +33,9 @@ class Manageable(object):
         l = len(brains)
         objects = [brain.getObject() for brain in brains]
         pos = self.get_positions(objects)
+
+        # iterate through objects and set variables we need
+        # in the template
         for obj in objects:
             try:
                 components = obj.Schema()['components'].get(obj)
@@ -57,4 +60,3 @@ class Manageable(object):
     def get_positions(self, objects):
         """Returns a list of objPositionInParent values for passed objects."""
         return [getObjPositionInParent(obj)() for obj in objects]
-        

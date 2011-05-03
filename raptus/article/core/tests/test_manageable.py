@@ -11,52 +11,47 @@ import mock
 import unittest2 as unittest
 
 
-class MockedGetObjPositionInParent(object):
-    """A class that mocks getObjPositionInParent of CatalogTool
-    that is wrapped with @indexer(Interface) decorator.
-    """
+class TestGetPositionsIntegration(RACoreIntegrationTestCase):
+    """Test integration Plone's API for retrieving position
+    in parent."""
 
-    def __init__(self, obj):
-        self.obj = obj
-
-    def __call__(self):
-        return self.obj.position
-
-
-class TestGetPositions(unittest.TestCase):
-    """Testing edge cases of r.a.core.manageable.get_positions()"""
-
-    def makeObject(self, position):
-        """Prepare a mock object that has a position."""
-        obj = mock.Mock(spec='position'.split())
-        obj.position = position
-        return obj
-
-    def makeManageable(self):
+    def makeManageable(self, article=None):
         """Prepares an instance of Manageable."""
-        from raptus.article.core.manageable import Manageable
-        context = mock.Mock(spec='absolute_url'.split())
-        return Manageable(context)
+        from raptus.article.core.interfaces import IManageable
+        if not article:
+            article = self.portal.article
+        return IManageable(article)
 
-    @mock.patch('raptus.article.core.manageable.getToolByName')
-    @mock.patch('raptus.article.core.manageable.getObjPositionInParent', MockedGetObjPositionInParent)
-    def test_positions(self, tool_by_name):
-        """Test retrieving positions of objects."""
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_catalog_api(self):
+        """Test if we correctly use CatalogTool's API for retrieving
+        object's position in parent."""
+        # get number of items in self.portal and use that to
+        # calculate the expected positions of newly created content
+        # deduct -1 because position values start with 0
+        position = len(self.portal.getChildNodes()) - 1
+
+        # create some articles
+        self.portal.invokeFactory('Article', 'article2')
+        self.portal.invokeFactory('Article', 'article3')
 
         manageable = self.makeManageable()
 
-        # patch getToolByName so Manageable.__init__() does not crash
-        tool_by_name.return_value = mock.Mock(spec='checkPermission')
-
-        # prepare mocked objects
         objects = [
-            self.makeObject(1),
-            self.makeObject(2),
-            self.makeObject(5),
+            self.portal.article2,
+            self.portal.article3,
             ]
 
-        positions = manageable.get_positions(objects)
-        self.assertEquals(positions, [1, 2, 5])
+        self.assertEquals([position + 1, position + 2], manageable.get_positions(objects))
+
 
 class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
     """Test how flags are set in __init__() of Manageable."""
