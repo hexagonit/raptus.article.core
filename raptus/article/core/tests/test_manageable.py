@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFCore.utils import getToolByName
+
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
@@ -131,6 +133,57 @@ class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
         # Logout -> deleting is rejected
         logout()
         self.assertEquals(IManageable(article).delete, False)
+
+
+class TestGetListIntegration(RACoreIntegrationTestCase):
+    """Integration test for Manageable.getList()."""
+
+    def makeManageable(self, article=None):
+        """Prepares an instance of Manageable."""
+        from raptus.article.core.interfaces import IManageable
+        if not article:
+            article = self.portal.article
+        return IManageable(article)
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_getList_with_subfolder(self):
+        """Test what getList() returns for a Folder inside an Article."""
+
+        # add sub-content to our test article
+        self.portal.article.invokeFactory('Folder', 'subfolder')
+
+        # get Catalog brains of test content
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        brains = catalog(sort_on='getObjPositionInParent',
+                         path={'query': '/'.join(self.portal.article.subfolder.getPhysicalPath())},)
+
+        # get list to test it
+        manageable = self.makeManageable(self.portal.article.subfolder)
+        results = manageable.getList(brains)
+        self.assertEquals(len(results), 1)
+
+        item = results[0]
+        self.assertEquals(len(item.keys()), 11)
+
+        self.assertEquals(item['show'], None)
+        self.assertEquals(item['hide'], None)
+        self.assertEquals(item['up'], None)
+        self.assertEquals(item['down'], None)
+        self.assertEquals(item['anchor'], 'subfolder')
+        self.assertEquals(item['id'], 'subfolder')
+        self.assertEquals(item['brain'], brains[0])
+        self.assertEquals(item['obj'], self.portal.article.subfolder)
+        self.assertEquals(item['edit'], 'http://nohost/plone/article/subfolder/edit')
+        self.assertEquals(item['view'], 'http://nohost/plone/article/subfolder/view')
+        self.assertEquals(item['delete'], 'http://nohost/plone/article/subfolder/delete_confirmation')
 
 
 def test_suite():
