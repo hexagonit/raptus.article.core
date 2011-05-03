@@ -185,6 +185,38 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
         self.assertEquals(item['view'], 'http://nohost/plone/article/subfolder/view')
         self.assertEquals(item['delete'], 'http://nohost/plone/article/subfolder/delete_confirmation')
 
+    def test_getList_up_down(self):
+        """Test up/down URLs returned by getList() for Images contained
+        in an Article.
+        """
+        # allow adding Images to Articles
+        portal_types = getToolByName(self.portal, 'portal_types')
+        types = list(portal_types.Article.allowed_content_types)
+        types.append('Image')
+        portal_types.Article.allowed_content_types = tuple(types)
+
+        # add sub-content to our test article
+        self.portal.article.invokeFactory('Image', 'Image1')
+        self.portal.article.invokeFactory('Image', 'Image2')
+        self.portal.article.invokeFactory('Image', 'Image3')
+
+        # get Catalog brains of test content
+        catalog = getToolByName(self.portal, 'portal_catalog')
+        brains = catalog(sort_on='getObjPositionInParent',
+                         path={'query': '/'.join(self.portal.article.getPhysicalPath()),
+                               'depth': 1},)
+
+        # get list to test it
+        manageable = self.makeManageable(self.portal.article)
+        results = manageable.getList(brains, 'raptus.related')
+        self.assertEquals(len(results), 3)
+
+        item = results[1]
+        self.assertEquals(item['up'],
+            'http://nohost/plone/article/article_moveitem?anchor=raptus.relatedImage2&delta=-1&item_id=Image2')
+        self.assertEquals(item['down'],
+            'http://nohost/plone/article/article_moveitem?anchor=raptus.relatedImage2&delta=1&item_id=Image2')
+
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
