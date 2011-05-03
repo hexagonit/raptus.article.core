@@ -31,12 +31,12 @@ class Manageable(object):
         items = []
         i = 0
         l = len(brains)
-        objects = [brain.getObject() for brain in brains]
-        pos = self.get_positions(objects)
+        pos = self.get_positions(brain.getObject() for brain in brains)
 
         # iterate through objects and set variables we need
         # in the template
-        for obj in objects:
+        for brain in brains:
+            obj = brain.getObject()
             try:
                 components = obj.Schema()['components'].get(obj)
             except:
