@@ -15,7 +15,8 @@ import unittest2 as unittest
 
 class TestGetPositionsIntegration(RACoreIntegrationTestCase):
     """Test integration Plone's API for retrieving position
-    in parent."""
+    in parent.
+    """
 
     def makeManageable(self, article=None):
         """Prepares an instance of Manageable."""
@@ -35,7 +36,8 @@ class TestGetPositionsIntegration(RACoreIntegrationTestCase):
 
     def test_catalog_api(self):
         """Test if we correctly use CatalogTool's API for retrieving
-        object's position in parent."""
+        object's position in parent.
+        """
         # get number of items in self.portal and use that to
         # calculate the expected positions of newly created content
         # deduct -1 because position values start with 0
@@ -69,7 +71,8 @@ class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
 
     def test_sort_flag_based_on_permission(self):
         """Test if sort flag is correctly set based on
-        ModifyPortalContent permission."""
+        ModifyPortalContent permission.
+        """
         from raptus.article.core.interfaces import IManageable
 
         # this article provides IOrderedContainer by default,
@@ -87,7 +90,8 @@ class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
     @mock.patch('raptus.article.core.manageable.IOrderedContainer')
     def test_sort_flag_based_on_interface(self, ordered):
         """Test if sort flag is correctly set based on
-        IOrderedContainer interface."""
+        IOrderedContainer interface.
+        """
         from raptus.article.core.interfaces import IManageable
 
         # We are logged in as Manager by default, so we can focus on testing
