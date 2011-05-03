@@ -163,10 +163,10 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
         # get Catalog brains of test content
         catalog = getToolByName(self.portal, 'portal_catalog')
         brains = catalog(sort_on='getObjPositionInParent',
-                         path={'query': '/'.join(self.portal.article.subfolder.getPhysicalPath())},)
+                         path={'query': '/'.join(self.portal.article.getPhysicalPath())},)
 
         # get list to test it
-        manageable = self.makeManageable(self.portal.article.subfolder)
+        manageable = self.makeManageable(self.portal.article)
         results = manageable.getList(brains)
         self.assertEquals(len(results), 1)
 
