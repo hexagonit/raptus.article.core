@@ -16,11 +16,13 @@ class Manageable(object):
     component.adapts(interface.Interface)
 
     def __init__(self, context):
+        self.pos = []
         self.component = ''
         self.context = context
         self.mship = getToolByName(self.context, 'portal_membership')
-        self.sort = IOrderedContainer.providedBy(self.context) and self.mship.checkPermission(permissions.ModifyPortalContent, self.context) or False
         self.delete = self.mship.checkPermission(permissions.DeleteObjects, self.context) or False
+        self.sort = (IOrderedContainer.providedBy(self.context)
+                    and self.mship.checkPermission(permissions.ModifyPortalContent, self.context)) or False
 
     def getList(self, brains, component=''):
         """
