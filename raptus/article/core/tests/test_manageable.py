@@ -25,24 +25,11 @@ class TestBuildAnchor(unittest.TestCase):
         return manageable
 
     def test_no_component(self):
-        """Test return value when self.component is not set."""
+        """Return only item_id if self.component is not set."""
         manageable = self.makeManageable()
         self.assertEquals('foo', manageable.build_anchor('foo'))
 
-    def test_nonstring_component(self):
-        """Test return value when self.component is not string."""
-        manageable = self.makeManageable(1)
-        self.assertEquals('1foo', manageable.build_anchor('foo'))
 
-    def test_nonstring_item_id(self):
-        """Test return value when self.component is not string."""
-        manageable = self.makeManageable('foo')
-        self.assertEquals('foo1', manageable.build_anchor(1))
-
-    def test_normal(self):
-        """Test return value when both values are strings."""
-        manageable = self.makeManageable('foo')
-        self.assertEquals('foobar', manageable.build_anchor('bar'))
 
 
 class TestGetPositionsIntegration(RACoreIntegrationTestCase):
