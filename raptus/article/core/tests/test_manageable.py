@@ -13,6 +13,38 @@ import mock
 import unittest2 as unittest
 
 
+class TestBuildAnchor(unittest.TestCase):
+    """Test edge cases of Manageable.build_anchor()."""
+
+    def makeManageable(self, component=''):
+        """Prepares an instance of Manageable."""
+        from raptus.article.core.manageable import Manageable
+        context = mock.Mock(spec='absolute_url portal_membership'.split())
+        manageable = Manageable(context)
+        manageable.component = component
+        return manageable
+
+    def test_no_component(self):
+        """Test return value when self.component is not set."""
+        manageable = self.makeManageable()
+        self.assertEquals('foo', manageable.build_anchor('foo'))
+
+    def test_nonstring_component(self):
+        """Test return value when self.component is not string."""
+        manageable = self.makeManageable(1)
+        self.assertEquals('1foo', manageable.build_anchor('foo'))
+
+    def test_nonstring_item_id(self):
+        """Test return value when self.component is not string."""
+        manageable = self.makeManageable('foo')
+        self.assertEquals('foo1', manageable.build_anchor(1))
+
+    def test_normal(self):
+        """Test return value when both values are strings."""
+        manageable = self.makeManageable('foo')
+        self.assertEquals('foobar', manageable.build_anchor('bar'))
+
+
 class TestGetPositionsIntegration(RACoreIntegrationTestCase):
     """Test integration Plone's API for retrieving position
     in parent.
