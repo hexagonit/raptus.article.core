@@ -19,8 +19,6 @@ class Manageable(object):
         self.context = context
         self.mship = getToolByName(self.context, 'portal_membership')
         self.sort = IOrderedContainer.providedBy(self.context) and self.mship.checkPermission(permissions.ModifyPortalContent, self.context) or False
-        self.sort_url = '%s/article_moveitem?anchor=%%s&delta=%%s&item_id=%%s' % self.context.absolute_url()
-        self.show_hide_url = '%s/@@article_showhideitem?anchor=%%s&action=%%s&uid=%%s&component=%%s' % self.context.absolute_url()
         self.delete = self.mship.checkPermission(permissions.DeleteObjects, self.context) or False
 
     def getList(self, brains, component=''):
@@ -30,29 +28,38 @@ class Manageable(object):
         """
         items = []
         i = 0
-        l = len(brains)
-        pos = self.get_positions(brain.getObject() for brain in brains)
 
-        # iterate through objects and set variables we need
+        self.component = component
+        self.len = len(brains)
+        self.pos = self.get_positions(brain.getObject() for brain in brains)
+
+        # iterate through objects and set dict values we need
         # in the template
         for brain in brains:
             obj = brain.getObject()
+
+            # get a list of components for which this item is shown
             try:
                 components = obj.Schema()['components'].get(obj)
             except:
                 components = []
-            modify = self.mship.checkPermission(permissions.ModifyPortalContent, obj)
-            item = {'obj': obj,
+
+            # Build URL anchor string that is used in constructing URLs
+            anchor = self.build_anchor(brain.id)
+
+            item = {
+                    'obj': obj,
                     'brain': brain,
                     'id': brain.id,
-                    'anchor': '%s%s' % (component, brain.id),
-                    'up': self.sort and i > 0 and self.sort_url % ('%s%s' % (component, brain.id), pos[(i-1)] - pos[i], brain.id) or None,
-                    'down': self.sort and i < l - 1 and self.sort_url % ('%s%s' % (component, brain.id), pos[(i+1)] - pos[i], brain.id) or None,
+                    'anchor': anchor,
+                    'up': self.build_url_up(i, brain, anchor),
+                    'down': self.build_url_down(i, brain, anchor),
                     'view': '%s/view' % brain.getURL(),
-                    'edit': modify and '%s/edit' % brain.getURL() or None,
-                    'delete': self.delete and self.mship.checkPermission(permissions.DeleteObjects, obj) and '%s/delete_confirmation' % brain.getURL() or None,
-                    'show': modify and component and not component in components and self.show_hide_url % ('%s%s' % (component, brain.id), 'show', brain.UID, component) or None,
-                    'hide': modify and component and component in components and self.show_hide_url % ('%s%s' % (component, brain.id), 'hide', brain.UID, component) or None}
+                    'edit': self.build_url_edit(brain),
+                    'delete': self.build_url_delete(brain),
+                    'show': self.build_url_show_hide(components, brain, 'show'),
+                    'hide': self.build_url_show_hide(components, brain, 'hide'),
+                   }
             items.append(item)
             i += 1
         return items
@@ -60,3 +67,102 @@ class Manageable(object):
     def get_positions(self, objects):
         """Returns a list of objPositionInParent values for passed objects."""
         return [getObjPositionInParent(obj)() for obj in objects]
+
+    def build_anchor(self, item_id):
+        """Build URL anchor id that will be used in URLs for
+        moving/deleting/showing/hiding items on listings.
+        """
+        return '%s%s' % (self.component, item_id)
+
+    def build_url_up(self, i, brain, anchor):
+        """Builds an URL that can be later called to move
+        this item up on the list of items contained in an article.
+        """
+        # sorting is not enabled/allowed
+        if not self.sort:
+            return None
+
+        # this is the first item on the list, it cannot be moved higher
+        if i == 0:
+            return None
+
+        mapping = dict(
+            item_id=brain.id,
+            anchor=anchor,
+            url=self.context.absolute_url(),
+            delta=self.pos[(i - 1)] - self.pos[i]
+            )
+
+        return '%(url)s/article_moveitem?anchor=%(anchor)s&delta=%(delta)s&item_id=%(item_id)s' % mapping
+
+    def build_url_down(self, i, brain, anchor):
+        """Builds an URL that can be later called to move
+        this item down on the list of items contained in an article.
+        """
+        # sorting is not enabled/allowed
+        if not self.sort:
+            return None
+
+        # this is the last item on the list, it cannot be moved lower
+        if i == (self.len - 1):
+            return None
+
+        mapping = dict(
+            item_id=brain.id,
+            anchor=anchor,
+            url=self.context.absolute_url(),
+            delta=self.pos[(i + 1)] - self.pos[i]
+            )
+
+        return '%(url)s/article_moveitem?anchor=%(anchor)s&delta=%(delta)s&item_id=%(item_id)s' % mapping
+
+    def build_url_edit(self, brain):
+        """Builds an URL that can be used to edit this item."""
+        # User does not have permissions to modify this item
+        if not self.mship.checkPermission(permissions.ModifyPortalContent, brain.getObject()):
+            return None
+        return '%s/edit' % brain.getURL()
+
+    def build_url_delete(self, brain):
+        """Builds an URL that can be used to delete this item."""
+        # User does not have permissions to delete items in this container
+        if not self.delete:
+            return None
+
+        # User does not have permissions to delete this item
+        if not self.mship.checkPermission(permissions.DeleteObjects, brain.getObject()):
+            return None
+
+        # TODO: why do we need both of the above, shouldn't it be enough only to check
+        # for delete permission on the item and not also on the container?
+
+        return '%s/delete_confirmation' % brain.getURL()
+
+    def build_url_show_hide(self, components, brain, action):
+        """Builds an URL that can be used to show this item."""
+        # User does not have permissions to modify this item
+        if not self.mship.checkPermission(permissions.ModifyPortalContent, brain.getObject()):
+            return None
+
+        # This is a generic getList request, there is no specific component
+        if not self.component:
+            return None
+
+        # if item is already shown we don't need the 'show' link
+        if action == 'show' and self.component in components:
+            return None
+
+        # if item is already hidden we don't need the 'hide' link
+        if action == 'hide' and self.component not in components:
+            return None
+
+        mapping = dict(
+            item_id=brain.id,
+            anchor=self.build_anchor(brain.id),
+            action=action,
+            uid=brain.UID,
+            component=self.component,
+            url=self.context.absolute_url(),
+            )
+
+        return'%(url)s/@@article_showhideitem?anchor=%(anchor)s&action=%(action)s&uid=%(uid)s&component=%(component)s' % mapping
