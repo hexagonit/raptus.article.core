@@ -32,6 +32,50 @@ class TestBuildAnchor(unittest.TestCase):
 
 
 
+class TestBuildUrlUp(unittest.TestCase):
+    """Test edge cases of Manageable.build_url_up()."""
+
+    def makeManageable(self, component='', sort=True, pos=[]):
+        """Prepares an instance of Manageable."""
+        from raptus.article.core.manageable import Manageable
+        context = mock.Mock(spec='absolute_url portal_membership'.split())
+        context.absolute_url.return_value = 'http://test'
+        manageable = Manageable(context)
+        manageable.component = component
+        manageable.sort = sort
+        manageable.pos = pos
+        return manageable
+
+    def test_sort_false(self):
+        """Return None when self.sort is False."""
+        manageable = self.makeManageable(sort=False)
+        self.assertEquals(None, manageable.build_url_up(None, None, None))
+
+    def test_first_item(self):
+        """Return None when item is already on the top of the list."""
+        manageable = self.makeManageable()
+        self.assertEquals(None, manageable.build_url_up(0, None, None))
+
+    def test_delta(self):
+        """Return delta between current item and the item above it."""
+        # prepare a list of positions
+        pos = [0, 1]
+
+        # prepare brain object for build_url_up()
+        brain = mock.Mock(spec='id'.split())
+        brain.id = 'foo'
+
+        manageable = self.makeManageable(pos=pos)
+
+        url = manageable.build_url_up(1, brain, 'foobar')
+        self.assertTrue(url.find('delta=-1'))
+
+        # try a different pos value
+        manageable.pos = [3, 9]
+        url = manageable.build_url_up(1, brain, 'foobar')
+        self.assertTrue(url.find('delta=-6'))
+
+
 class TestGetPositionsIntegration(RACoreIntegrationTestCase):
     """Test integration Plone's API for retrieving position
     in parent.
