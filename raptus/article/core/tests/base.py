@@ -115,4 +115,3 @@ class RACoreFunctionalTestCase(RACoreIntegrationTestCase):
         with open(filepath, 'w') as file:
             file.write(browser.contents)
         webbrowser.get(web_browser_name).open('file://' + filepath)
-
