@@ -30,8 +30,6 @@ class TestBuildAnchor(unittest.TestCase):
         self.assertEquals('foo', manageable.build_anchor('foo'))
 
 
-
-
 class TestBuildUrlUp(unittest.TestCase):
     """Test edge cases of Manageable.build_url_up()."""
 
