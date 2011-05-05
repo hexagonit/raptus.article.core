@@ -143,12 +143,12 @@ class Manageable(object):
 
     def build_url_show_hide(self, components, brain, action):
         """Builds an URL that can be used to show this item."""
-        # User does not have permissions to modify this item
-        if not self.mship.checkPermission(permissions.ModifyPortalContent, brain.getObject()):
-            return None
-
         # This is a generic getList request, there is no specific component
         if not self.component:
+            return None
+
+        # User does not have permissions to modify this item
+        if not self.mship.checkPermission(permissions.ModifyPortalContent, brain.getObject()):
             return None
 
         # if item is already shown we don't need the 'show' link
