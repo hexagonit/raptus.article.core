@@ -119,6 +119,26 @@ class TestBuildUrlDown(unittest.TestCase):
         self.assertTrue(url.find('delta=6'))
 
 
+class TestBuildUrlEdit(unittest.TestCase):
+    """Test edge cases of Manageable.build_url_edit()."""
+
+    def makeManageable(self, component='', checkPermission=True):
+        """Prepares an instance of Manageable."""
+        from raptus.article.core.manageable import Manageable
+        context = mock.Mock(spec='absolute_url portal_membership'.split())
+        context.absolute_url.return_value = 'http://test'
+        context.portal_membership.checkPermission.return_value = checkPermission
+        manageable = Manageable(context)
+        manageable.component = component
+        return manageable
+
+    def test_not_allowed(self):
+        """Return None when user is not alowed to edit this item."""
+        manageable = self.makeManageable(checkPermission=False)
+        brain = mock.Mock(spec='getObject'.split())
+        self.assertEquals(None, manageable.build_url_edit(brain))
+
+
 class TestGetPositionsIntegration(RACoreIntegrationTestCase):
     """Test integration Plone's API for retrieving position
     in parent.
