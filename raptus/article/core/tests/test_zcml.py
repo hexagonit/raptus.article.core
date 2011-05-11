@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from zope.interface import Interface
+from zope.configuration import xmlconfig
+
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import login
+from plone.app.testing import setRoles
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 import mock
 import unittest2 as unittest
@@ -145,6 +153,29 @@ class TestImage(unittest.TestCase):
         args = (context, component.image.replace('++resource++', ''))
         kwargs = {'image': 'bar'}
         self.assertEquals(resource.call_args, (args, kwargs))
+
+
+class TestIntegration(RACoreIntegrationTestCase):
+    """Test registering a new Raptus Article Component."""
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_register_component(self):
+        """Test registering a new Raptus Article Component."""
+        import raptus.article.core
+        context = xmlconfig.file('meta.zcml', raptus.article.core)
+        xmlconfig.file('tests/foo.zcml', raptus.article.core, context=context)
+
+        from raptus.article.core.interfaces import IComponents
+        components = IComponents(self.portal.article).getComponents()
+        self.assertIn('foo.bar', components[0][0])
 
 
 def test_suite():
