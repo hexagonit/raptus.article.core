@@ -11,10 +11,10 @@ import unittest2 as unittest
 
 
 class TestComponentSelectionWidgetIntegration(RACoreIntegrationTestCase):
-    """Integration tests for ComponentSelectionVocabulary."""
+    """Integration tests for ComponentSelectionWidget."""
 
     def makeComponentSelectionWidget(self):
-        """Prepares an instance of ComponentSelection."""
+        """Prepares an instance of ComponentSelectionWidget."""
         from raptus.article.core.componentselection import ComponentSelectionWidget
         return ComponentSelectionWidget()
 
@@ -46,11 +46,12 @@ class TestComponentSelectionWidgetIntegration(RACoreIntegrationTestCase):
         widget = self.makeComponentSelectionWidget()
         self.assertEquals('invisible', widget.isVisible(self.portal))
 
+
 class TestComponentSelectionDefaultIntegration(RACoreIntegrationTestCase):
-    """Integration tests for ComponentSelectionVocabulary."""
+    """Integration tests for ComponentSelectionDefault."""
 
     def makeComponentSelectionDefault(self):
-        """Prepares an instance of ComponentSelection."""
+        """Prepares an instance of ComponentSelectionDefault."""
         from raptus.article.core.componentselection import ComponentSelectionDefault
         return ComponentSelectionDefault(self.portal.article)
 
