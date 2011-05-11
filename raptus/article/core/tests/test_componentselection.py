@@ -70,6 +70,29 @@ class TestComponentSelectionDefaultIntegration(RACoreIntegrationTestCase):
         self.assertEquals([], default())
 
 
+class TestComponentSelectionVocabularyIntegration(RACoreIntegrationTestCase):
+    """Integration tests for ComponentSelectionVocabulary."""
+
+    def makeComponentSelectionVocabulary(self):
+        """Prepares an instance of ComponentSelectionVocabulary."""
+        from raptus.article.core.componentselection import ComponentSelectionVocabulary
+        return ComponentSelectionVocabulary()
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article')
+
+    def test_call(self):
+        """Test __call__() of ComponentSelectionVocabulary."""
+        vocabulary = self.makeComponentSelectionVocabulary()
+        self.assertEquals([], vocabulary(self.portal.article))
+
+
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
     above."""
