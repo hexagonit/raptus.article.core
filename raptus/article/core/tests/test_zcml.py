@@ -175,7 +175,7 @@ class TestIntegration(RACoreIntegrationTestCase):
 
         from raptus.article.core.interfaces import IComponents
         components = IComponents(self.portal.article).getComponents()
-        self.assertEquals(0, len(components))
+        self.assertEquals(2, len(components))
         name, comp = components[0]
         self.assertEquals('foo.bar', name)
 
