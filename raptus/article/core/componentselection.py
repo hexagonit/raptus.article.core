@@ -40,8 +40,7 @@ class ComponentSelectionWidget(MultiSelectionWidget):
 
     security.declarePublic('isVisible')
     def isVisible(self, instance, mode='view'):
-        """ Check if we are contained in an Article
-        """
+        """Check if we are contained in an Article."""
         container = aq_parent(instance)
         if interfaces.IArticle.providedBy(container):
             return 'visible'
