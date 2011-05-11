@@ -188,7 +188,7 @@ class TestBuildUrlShowHide(unittest.TestCase):
 
     def test_not_allowed(self):
         """Return None when user is not alowed to modify this item."""
-        manageable = self.makeManageable(checkPermission=False)
+        manageable = self.makeManageable(component='foo', checkPermission=False)
         brain = mock.Mock(spec='getObject'.split())
         self.assertEquals(None, manageable.build_url_show_hide(None, brain, None))
 
