@@ -1,0 +1,12 @@
+<configure
+    package="raptus.article.core"
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:article="http://namespaces.zope.org/article">
+
+    <article:component
+        name="foo.bar"
+        component="raptus.article.core.tests.foo.Foo"
+        viewlet="raptus.article.core.tests.foo.ViewletFoo"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle" />
+
+</configure>
