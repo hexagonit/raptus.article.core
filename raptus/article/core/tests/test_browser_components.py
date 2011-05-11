@@ -36,8 +36,7 @@ class TestComponentsIntegration(RACoreIntegrationTestCase):
         self.assertEquals(results[0]['name'], u'related')
         self.assertEquals(results[0]['title'], u'Related content')
         self.assertEquals(results[0]['image'], '++resource++related.gif')
-        self.assertEquals(results[0]['description'],
-                          u'List of related content of the article.')
+        self.assertEquals(results[0]['description'], u'List of related content of the article.')
 
 
 def test_suite():
