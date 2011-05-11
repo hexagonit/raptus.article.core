@@ -122,7 +122,8 @@ class TestActiveComponents(unittest.TestCase):
         components = Components(context)
         self.assertEquals(len(components.getComponents()), 3)
         self.assertEquals(len(components.activeComponents()), 1)
-        self.assertEquals(components.activeComponents()[0][0], 'bar')
+        name, comp = components.activeComponents()[0]
+        self.assertEquals(name, 'bar')
 
     @mock.patch('raptus.article.core.components.component')
     def test_all_active_components(self, zope_component):
