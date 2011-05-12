@@ -25,9 +25,8 @@ class Manageable(object):
                     and self.mship.checkPermission(permissions.ModifyPortalContent, self.context)) or False
 
     def getList(self, brains, component=''):
-        """
-        Returns a list of dicts holding the specific links for viewing, editing, sorting and
-        deleting the obj.
+        """Returns a list of dicts holding the specific links for viewing,
+        editing, sorting and deleting the obj.
         """
         items = []
         i = 0

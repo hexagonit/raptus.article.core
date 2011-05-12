@@ -29,7 +29,8 @@ ORDERED_VIEWLET_MANAGERS = (
 
 class ComponentFilter(object):
     """Filters and sorts components based on the registration of their
-    viewlets."""
+    viewlets.
+    """
     interface.implements(interfaces.IComponentFilter)
     component.adapts(interface.Interface, IHTTPRequest, IBrowserView)
 
@@ -39,8 +40,7 @@ class ComponentFilter(object):
         self.view = view
 
     def filter(self, components):
-        """ Returns a filtered list of components
-        """
+        """Returns a filtered list of components."""
 
         # prevent crashing if passing in an empty list of components
         if not components:
@@ -67,7 +67,8 @@ class ComponentFilter(object):
 
     def sort_components(self, components, order):
         """Sort components based on their position in 'order'. If
-        there is an error while sorting, return unsorted list."""
+        there is an error while sorting, return unsorted list.
+        """
         # 'components' is a list of tuples: (<comp name>, <comp object>)
         # 'order' is a list of viewlet names
         # sort by comparing items in 'order' to return values of
@@ -112,7 +113,8 @@ class ComponentFilter(object):
 
     def provide_all_interfaces(self, components):
         """Make context provide all interfaces of all registered components.
-        Return those interfaces that were not provided (for later use)."""
+        Return those interfaces that were not provided (for later use).
+        """
         notprovided = []
         for name, comp in components:
             if not comp.interface.providedBy(self.context):

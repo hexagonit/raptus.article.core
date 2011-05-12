@@ -11,9 +11,9 @@ from plone.memoize.instance import memoize
 from raptus.article.core import RaptusArticleMessageFactory as _
 from raptus.article.core import interfaces
 
+
 class Components(BrowserView):
-    """Component selection
-    """
+    """Component selection."""
 
     template = ViewPageTemplateFile('components.pt')
 
@@ -33,11 +33,11 @@ class Components(BrowserView):
             context = aq_inner(self.context)
             components = interfaces.IComponents(context).getComponents()
             active = self.request.form.get('form.components', ())
-            for name, component in components:
+            for name, comp in components:
                 if name in active:
-                    interface.alsoProvides(context, component.interface)
-                elif component.interface.providedBy(context):
-                    interface.noLongerProvides(context, component.interface)
+                    interface.alsoProvides(context, comp.interface)
+                elif comp.interface.providedBy(context):
+                    interface.noLongerProvides(context, comp.interface)
         except:
             return False
         return True
@@ -51,9 +51,9 @@ class Components(BrowserView):
         components = sorter.filter(components)
         items = []
         for name, comp in components:
-            items.append({'name' : name,
-                          'title' : comp.title,
-                          'description' : comp.description,
-                          'image' : comp.image,
-                          'selected' : comp.interface.providedBy(context)})
+            items.append({'name': name,
+                          'title': comp.title,
+                          'description': comp.description,
+                          'image': comp.image,
+                          'selected': comp.interface.providedBy(context)})
         return items
