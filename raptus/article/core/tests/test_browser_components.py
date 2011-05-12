@@ -13,7 +13,7 @@ import unittest2 as unittest
 
 
 class TestCall(unittest.TestCase):
-    """Unit tests for edge cases of __call__()."""
+    """Unit tests for edge cases of __call__() of @@components BrowserView."""
 
     def makeComponentsView(self, form={}, request=None):
         """Prepares an instance of Components view."""
@@ -89,8 +89,8 @@ class TestCall(unittest.TestCase):
         request.RESPONSE.redirect.assert_called_with('http://plone/article')
 
 
-class TestComponentsIntegration(RACoreIntegrationTestCase):
-    """Test components() method of raptus.article.core.browser.components."""
+class TestComponentsViewIntegration(RACoreIntegrationTestCase):
+    """Integration tests for @@components BrowserView."""
 
     def get_active_components(self):
         """Get components that are activated for Article."""
