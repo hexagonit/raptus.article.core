@@ -314,12 +314,10 @@ class TestManageableFlagsIntegration(RACoreIntegrationTestCase):
 class TestGetListIntegration(RACoreIntegrationTestCase):
     """Integration test for Manageable.getList()."""
 
-    def makeManageable(self, article=None):
+    def makeManageable(self):
         """Prepares an instance of Manageable."""
         from raptus.article.core.interfaces import IManageable
-        if not article:
-            article = self.portal.article
-        return IManageable(article)
+        return IManageable(self.portal.article)
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -345,7 +343,7 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
                                'depth': 1},)
 
         # get list to test it
-        manageable = self.makeManageable(self.portal.article)
+        manageable = self.makeManageable()
         results = manageable.getList(brains, 'raptus.related')
         self.assertEquals(len(results), 1)
 
@@ -391,7 +389,7 @@ class TestGetListIntegration(RACoreIntegrationTestCase):
                                'depth': 1},)
 
         # get list to test it
-        manageable = self.makeManageable(self.portal.article)
+        manageable = self.makeManageable()
         results = manageable.getList(brains, 'raptus.related')
         self.assertEquals(len(results), 3)
 
