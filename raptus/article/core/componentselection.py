@@ -11,11 +11,11 @@ from Products.Archetypes.Widget import MultiSelectionWidget
 
 from raptus.article.core import interfaces
 
+
 class ComponentSelectionVocabulary(object):
-    """ Archetypes vocabulary for component selection field
-    """
+    """Archetypes vocabulary for component selection field."""
     interface.implements(IVocabularyFactory)
-    
+
     def __call__(self, context):
         container = aq_parent(context)
         if context.isTemporary() and isinstance(container, TempFolder):
@@ -30,7 +30,8 @@ class ComponentSelectionVocabulary(object):
         for name, comp in components:
             items.append(SimpleTerm(name, None, comp.title))
         return items
-    
+
+
 class ComponentSelectionWidget(MultiSelectionWidget):
     _properties = MultiSelectionWidget._properties.copy()
     _properties.update({
@@ -46,8 +47,10 @@ class ComponentSelectionWidget(MultiSelectionWidget):
             return 'visible'
         return 'invisible'
 
+
 class ComponentSelectionDefault(object):
-    """ Archetypes default component selection for fields using component selection vocabulary
+    """Archetypes default component selection for fields using component
+    selection vocabulary.
     """
     component.adapts(interface.Interface)
     interface.implements(IFieldDefaultProvider)
