@@ -80,6 +80,23 @@ class TestComponentsIntegration(RACoreIntegrationTestCase):
         self.assertEquals(results[0]['image'], '++resource++related.gif')
         self.assertEquals(results[0]['description'], u'List of related content of the article.')
 
+    def test_default_output(self):
+        """Test default html output of @@components."""
+
+        # activate the default component
+        from raptus.article.core.browser.related import IRelated
+        alsoProvides(self.portal.article, IRelated)
+
+        # we need to set this so we can get our view's output
+        self.request.set('URL', self.portal.article.absolute_url() + '/@@components')
+        self.request.set('ACTUAL_URL', self.portal.article.absolute_url() + '/@@components')
+
+        view = self.portal.article.restrictedTraverse('@@components')
+        output = view()
+        self.assertIn('Component selection', output)
+        self.assertIn('Related content', output)
+        self.assertIn('List of related content of the article.', output)
+
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
