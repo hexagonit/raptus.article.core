@@ -66,9 +66,9 @@ class TestComponentsIntegration(RACoreIntegrationTestCase):
 
     def test_default_component(self):
         """Test component 'related' that is available by default."""
-        from raptus.article.core.browser.related import IRelated
 
         # activate the default component
+        from raptus.article.core.browser.related import IRelated
         alsoProvides(self.portal.article, IRelated)
 
         view = self.portal.article.restrictedTraverse('@@components')
