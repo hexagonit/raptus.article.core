@@ -6,8 +6,87 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
 
+import mock
 import unittest2 as unittest
+
+
+class TestCall(unittest.TestCase):
+    """Unit tests for edge cases of __call__()."""
+
+    def makeComponentsView(self, form={}, request=None):
+        """Prepares an instance of Components view."""
+        from raptus.article.core.browser.components import Components
+        context = mock.Mock()
+        context.absolute_url.return_value = 'http://plone/article'
+        if not request:
+            request = TestRequest(form=form)
+        return Components(context, request)
+
+    @mock.patch('raptus.article.core.browser.components.IStatusMessage')
+    @mock.patch('raptus.article.core.browser.components.Components._save')
+    @mock.patch('raptus.article.core.browser.components.Components.template')
+    def test_save_successful(self, template, save, statusmessage):
+        """Test status messages when Save button is clicked and
+        _save() call is successful.
+        """
+
+        # don't bother with returning HTML, just return True
+        template.return_value = True
+
+        # patch self._save() to just return True
+        save.return_value = True
+
+        # fill test request with values
+        form = {'form.submitted': True}
+
+        view = self.makeComponentsView(form=form)
+        view()
+        statusmessage().addStatusMessage.assert_called_with(u'Components saved successfully', u'info')
+
+    @mock.patch('raptus.article.core.browser.components.IStatusMessage')
+    @mock.patch('raptus.article.core.browser.components.Components._save')
+    @mock.patch('raptus.article.core.browser.components.Components.template')
+    def test_save_failed(self, template, save, statusmessage):
+        """Test status messages when Save button is clicked and
+        _save() call fails.
+        """
+
+        # don't bother with returning HTML, just return True
+        template.return_value = True
+
+        # patch self._save() to just return True
+        save.return_value = False
+
+        # fill test request with values
+        form = {'form.submitted': True}
+
+        view = self.makeComponentsView(form=form)
+        view()
+        statusmessage().addStatusMessage.assert_called_with(u'Saving components failed', u'error')
+
+    @mock.patch('raptus.article.core.browser.components.IStatusMessage')
+    @mock.patch('raptus.article.core.browser.components.Components._save')
+    @mock.patch('raptus.article.core.browser.components.Components.template')
+    def test_save_and_view_redirect(self, template, save, statusmessage):
+        """Test that user gets redirected back to context if he clicks
+        'Save and view' button.
+        """
+        template.return_value = True
+        save.return_value = True
+
+        # fill test request with values
+        form = {'form.view': True}
+
+        # create a Components view with a special TestRequest object
+        # that has the RESPONSE attribute
+        request = TestRequest(form=form)
+        request.RESPONSE = mock.Mock(spec='redirect'.split())
+        view = self.makeComponentsView(request=request)
+
+        view()
+        request.RESPONSE.redirect.assert_called_with('http://plone/article')
 
 
 class TestComponentsIntegration(RACoreIntegrationTestCase):
