@@ -40,7 +40,13 @@ class ComponentFilter(object):
         self.view = view
 
     def filter(self, components):
-        """Returns a filtered list of components."""
+        """Returns a filtered list of components.
+
+        :param components: (name, component) pairs of article components and their names
+        :type components: list
+        :returns: sorted (name, component) pairs of article components and their names
+        :rtype: list of tuples
+        """
 
         # prevent crashing if passing in an empty list of components
         if not components:
@@ -68,6 +74,13 @@ class ComponentFilter(object):
     def sort_components(self, components, order):
         """Sort components based on their position in 'order'. If
         there is an error while sorting, return unsorted list.
+
+        :param components: (name, component) pairs of article components and their names
+        :type components: list of tuples
+        :param order: viewlet names, sorted based on their position in site layout
+        :type order: list of strings
+        :returns: sorted (name, component) pairs
+        :rtype: list of tuples
         """
         # 'components' is a list of tuples: (<comp name>, <comp object>)
         # 'order' is a list of viewlet names
@@ -77,7 +90,11 @@ class ComponentFilter(object):
         return components
 
     def get_ordered_viewlets(self):
-        """Return all viewlets ordered by their viewlet manager."""
+        """Return all viewlets ordered by their viewlet manager.
+
+        :returns: viewlet names, sorted based on their position in site layout
+        :rtype: list of strings
+        """
         order = []
         for name, iface in ORDERED_VIEWLET_MANAGERS:
 
@@ -102,18 +119,30 @@ class ComponentFilter(object):
         return order
 
     def get_viewlet_manager(self, name, iface):
-        """Get viewlet managers with a Multi-Adapter lookup."""
+        """Get viewlet managers with a Multi-Adapter lookup.
+
+        :param name: viewlet manager's name
+        :type name: strings
+        :param name: viewlet manager's interface
+        :type name: Interface
+        :returns: ViewletManager of specified interface and name
+        :rtype: ViewletManager
+        """
 
         # viewlet managers require a view object for adaptation
         view = component.getMultiAdapter((self.context, self.request),
                                          name=u'view')
-
         return component.getMultiAdapter((self.context, self.request, view),
                                          iface, name=name)
 
     def provide_all_interfaces(self, components):
         """Make context provide all interfaces of all registered components.
         Return those interfaces that were not provided (for later use).
+
+        :param components: (name, component) pairs of article components and their names
+        :type components: list of tuples
+        :returns: Interfaces that were previously not provided (for later use in the main method)
+        :rtype: list of Interfaces
         """
         notprovided = []
         for name, comp in components:
