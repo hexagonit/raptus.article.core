@@ -89,6 +89,23 @@ class TestCall(unittest.TestCase):
         request.RESPONSE.redirect.assert_called_with('http://plone/article')
 
 
+class TestSave(unittest.TestCase):
+    """Unit tests for edge cases of _save() of @@components BrowserView."""
+
+    def makeComponentsView(self):
+        """Prepares an instance of Components view."""
+        from raptus.article.core.browser.components import Components
+        context = mock.Mock()
+        request = TestRequest()
+        return Components(context, request)
+
+    def test_return_false_on_error(self):
+        """Test that _save() returns False if something goes wrong."""
+
+        view = self.makeComponentsView()
+        self.assertEquals(False, view._save())
+
+
 class TestComponentsViewIntegration(RACoreIntegrationTestCase):
     """Integration tests for @@components BrowserView."""
 
