@@ -10,12 +10,11 @@ from raptus.article.core import interfaces
 
 
 class IRelated(interface.Interface):
-    """ Marker interface for the related items viewlet
-    """
+    """Marker interface for the related items viewlet."""
+
 
 class Component(object):
-    """ Component which lists the related items of an article
-    """
+    """Component which lists the related items of an article."""
     interface.implements(interfaces.IComponent)
     component.adapts(interfaces.IArticle)
 
@@ -30,8 +29,7 @@ class Component(object):
 
 
 class Viewlet(ViewletBase):
-    """ Viewlet listing the related items of the article
-    """
+    """Viewlet listing the related items of the article."""
     index = ViewPageTemplateFile('related.pt')
 
     @property
@@ -52,7 +50,6 @@ class Viewlet(ViewletBase):
         return items
 
 class RelatedItemsViewlet(ViewletBase):
-    """ Overrides the default related items viewlet for articles
-    """
+    """Overrides the default related items viewlet for articles."""
     def index(self):
         return ''
