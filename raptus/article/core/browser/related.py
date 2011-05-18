@@ -36,7 +36,7 @@ class Viewlet(ViewletBase):
     @memoize
     def related(self):
         plone = component.getMultiAdapter((self.context, self.request), name=u'plone')
-        use_view_action = getToolByName(self.context, 'portal_properties').site_properties.get('typesUseViewActionInListings', ())
+        use_view_action = self.get_types_that_use_view_action(self.context)
         related = self.context.computeRelatedItems()
         items = []
         for obj in related:
@@ -48,6 +48,14 @@ class Viewlet(ViewletBase):
                     'icon': plone.getIcon(obj).url}
             items.append(item)
         return items
+
+    def get_types_that_use_view_action(self, context):
+        """Returns a list of content-types that use '/view' suffix
+        in listings."""
+        portal_properties = getToolByName(context, 'portal_properties')
+        site_properties = portal_properties.site_properties
+        return site_properties.get('typesUseViewActionInListings', ())
+
 
 class RelatedItemsViewlet(ViewletBase):
     """Overrides the default related items viewlet for articles."""
