@@ -1,11 +1,137 @@
 from plone.app.testing import setRoles
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 
+from zope.publisher.browser import TestRequest
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
+
 import mock
 import unittest2 as unittest
+
+
+class TestCall(unittest.TestCase):
+    """Unit tests for edge cases of __call__() of ShowHideItem of
+    r.a.core.browser.showhide.
+    """
+
+    def makeShowHideItem(self, form={}):
+        """Prepares an instance of ShowHideItem."""
+        from raptus.article.core.browser.showhide import ShowHideItem
+        context = mock.Mock(spec=''.split())
+        request = TestRequest(form=form)
+        return ShowHideItem(context, request)
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    def test_queryAdapter_none(self, redirect):
+        """Test that ShowHideItem() returns None when no Component is found
+        for context.
+        """
+        redirect.return_value = True
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide(None, None, 'foo'))  # action, uid, component
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    def test_no_item(self, get_item, queryAdapter, redirect):
+        """Test that ShowHideItem() returns None when no item of this UID
+        is found.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value = False
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide(None, 'foo', None))  # action, uid, component
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    def test_no_components(self, get_components, get_item, queryAdapter, redirect):
+        """Test that ShowHideItem() returns None when no item of this UID
+        is found.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value = True
+        get_components.return_value = []
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide(None, None, 'foo'))  # action, uid, component
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.set_item_show')
+    def test_item_show(self, set_item_show, get_components, get_item, queryAdapter, redirect):
+        """Test that item is shown in this component by this component being added
+        to the 'components' field of item.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value.reindexObject.return_value = True
+        get_components.return_value = []
+        set_item_show.return_value = True
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide('show', None, 'foo'))  # action, uid, component
+        get_item.return_value.reindexObject.assert_called_once()
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    def test_item_show_already_shown(self, get_components, get_item, queryAdapter, redirect):
+        """Test that nothing happens if user wants to show an item that is
+        already shown -> component is already in items' 'components' field.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value.reindexObject.return_value = True
+        get_components.return_value = ['foo']
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide('show', None, 'foo'))  # action, uid, component
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.set_item_hide')
+    def test_item_hide(self, set_item_hide, get_components, get_item, queryAdapter, redirect):
+        """Test that item is hidden in this component by this component being added
+        to the 'components' field of item.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value.reindexObject.return_value = True
+        get_components.return_value = ['foo']
+        set_item_hide.return_value = True
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide('hide', None, 'foo'))  # action, uid, component
+        get_item.return_value.reindexObject.assert_called_once()
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    def test_item_hide_already_hidden(self, get_components, get_item, queryAdapter, redirect):
+        """Test that nothing happens if user wants to hide an item that is
+        already hidden -> component is not in items' 'components' field.
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value.reindexObject.return_value = True
+        get_components.return_value = []
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide('hide', None, 'foo'))  # action, uid, component
 
 
 class TestShowHideViewIntegration(RACoreIntegrationTestCase):

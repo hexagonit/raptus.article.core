@@ -18,15 +18,32 @@ class ShowHideItem(BrowserView):
         if not item:
             return
         try:
-            components = list(item.Schema()['components'].get(item))
+            components = self.get_components(item)
         except:
             return
         if action == 'show' and not component in components:
-            item.Schema()['components'].set(item, components+[component,])
+            self.set_item_show(item, component, components)
             item.reindexObject()
         if action == 'hide' and component in components:
-            item.Schema()['components'].set(item, [c for c in components if not c == component])
+            self.set_item_hide(item, component, components)
             item.reindexObject()
+    
+    def set_item_show(self, item, component, components):
+        """Show this item in this component by adding this component
+        to the 'components' field of this item."""
+        components = components+[component,]
+        item.Schema()['components'].set(item, components)
+
+    def set_item_hide(self, item, component, components):
+        """Hide this item in this component by removing this component
+        to the 'components' field of this item."""
+        components = [c for c in components if not c == component]
+        item.Schema()['components'].set(item, components)        
+        
+    def get_components(self, item):
+        """Return components set in item's components field."""
+        components = item.Schema()['components'].get(item)
+        return list(components)
     
     def get_item(self, uid):
         catalog = getToolByName(self.context, 'uid_catalog')
