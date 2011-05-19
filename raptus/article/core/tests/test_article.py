@@ -7,6 +7,32 @@ from plone.app.testing import TEST_USER_NAME, TEST_USER_ID, login, setRoles
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
+class TestArticleViewIntegration(RACoreIntegrationTestCase):
+    """Integration tests for @@view of Article."""
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+
+        # add initial test content
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Article', 'article', title='Raptus Article')
+
+    def test_default_output(self):
+        """Test default output of @@view."""
+        # we need to set this so we can get our view's output
+        self.request.set('URL', self.portal.article.absolute_url() + '/@@view')
+        self.request.set('ACTUAL_URL', self.portal.article.absolute_url() + '/@@view')
+
+        view = self.portal.article.restrictedTraverse('@@view')
+        output = view()
+        import pdb; pdb.set_trace( )
+        self.assertTrue('Raptus Article' in output)
+        self.assertTrue('class="template-view portaltype-article' in output)
+
+
 class TestInstall(RACoreIntegrationTestCase):
     """Test installation of raptus.article.core into Plone."""
 
