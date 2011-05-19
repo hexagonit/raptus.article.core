@@ -46,6 +46,7 @@ class ShowHideItem(BrowserView):
         return list(components)
 
     def get_item(self, uid):
+        """Get's an item by it's UID."""
         catalog = getToolByName(self.context, 'uid_catalog')
         results = catalog(UID=uid)
         if not len(results):
@@ -53,4 +54,5 @@ class ShowHideItem(BrowserView):
         return results[0].getObject()
 
     def redirect(self, anchor):
+        """Redirects user back to where he was: Context + item's anchor. """
         self.request.RESPONSE.redirect('%s#%s' % (self.context.absolute_url(), anchor))
