@@ -7,9 +7,8 @@ from raptus.article.core import interfaces
 
 
 class ShowHideItem(BrowserView):
-    """Shows/hides an item in a component
-    """
-    
+    """Shows/hides an item in a component."""
+
     def __call__(self, action, uid, component, anchor=''):
         self.redirect(anchor)
         if not queryAdapter(self.context, interface=interfaces.IComponent, name=component):
@@ -30,13 +29,15 @@ class ShowHideItem(BrowserView):
 
     def set_item_show(self, item, component, components):
         """Show this item in this component by adding this component
-        to the 'components' field of this item."""
-        components = components+[component,]
+        to the 'components' field of this item.
+        """
+        components = components + [component, ]
         item.Schema()['components'].set(item, components)
 
     def set_item_hide(self, item, component, components):
         """Hide this item in this component by removing this component
-        to the 'components' field of this item."""
+        to the 'components' field of this item.
+        """
         components = [c for c in components if not c == component]
         item.Schema()['components'].set(item, components)
 
