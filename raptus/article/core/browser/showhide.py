@@ -1,10 +1,10 @@
-from zope.interface import alsoProvides, noLongerProvides
 from zope.component import queryAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 
 from raptus.article.core import interfaces
+
 
 class ShowHideItem(BrowserView):
     """Shows/hides an item in a component
@@ -27,7 +27,7 @@ class ShowHideItem(BrowserView):
         if action == 'hide' and component in components:
             self.set_item_hide(item, component, components)
             item.reindexObject()
-    
+
     def set_item_show(self, item, component, components):
         """Show this item in this component by adding this component
         to the 'components' field of this item."""
@@ -38,19 +38,19 @@ class ShowHideItem(BrowserView):
         """Hide this item in this component by removing this component
         to the 'components' field of this item."""
         components = [c for c in components if not c == component]
-        item.Schema()['components'].set(item, components)        
-        
+        item.Schema()['components'].set(item, components)
+
     def get_components(self, item):
         """Return components set in item's components field."""
         components = item.Schema()['components'].get(item)
         return list(components)
-    
+
     def get_item(self, uid):
         catalog = getToolByName(self.context, 'uid_catalog')
         results = catalog(UID=uid)
         if not len(results):
             return None
         return results[0].getObject()
-    
+
     def redirect(self, anchor):
         self.request.RESPONSE.redirect('%s#%s' % (self.context.absolute_url(), anchor))
