@@ -28,7 +28,6 @@ class TestArticleViewIntegration(RACoreIntegrationTestCase):
 
         view = self.portal.article.restrictedTraverse('@@view')
         output = view()
-        import pdb; pdb.set_trace( )
         self.assertTrue('Raptus Article' in output)
         self.assertTrue('class="template-view portaltype-article' in output)
 
