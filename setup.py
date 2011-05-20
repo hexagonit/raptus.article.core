@@ -4,7 +4,7 @@ import os
 version = '2.0b8'
 
 install_requires = [
-    'setuptools'
+    'setuptools',
     'mock',
     'plone.app.testing',
     'unittest2',
