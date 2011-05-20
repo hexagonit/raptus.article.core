@@ -3,8 +3,8 @@ import os
 
 version = '2.0b8'
 
-install_requires = ['setuptools']
-tests_require = [
+install_requires = [
+    'setuptools'
     'mock',
     'plone.app.testing',
     'unittest2',
@@ -31,8 +31,6 @@ setup(name='raptus.article.core',
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
-      tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
