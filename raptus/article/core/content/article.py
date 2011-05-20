@@ -21,43 +21,43 @@ ArticleSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         atapi.TextField('text',
             required=False,
             searchable=True,
-            storage = atapi.AnnotationStorage(),
-            validators = ('isTidyHtmlWithCleanup',),
-            default_output_type = 'text/x-html-safe',
-            widget = atapi.RichWidget(
-                description = '',
-                label = _at(u'label_body_text', default=u'Body Text'),
-                rows = 25,
-                allow_file_upload = zconf.ATDocument.allow_document_upload
+            storage=atapi.AnnotationStorage(),
+            validators=('isTidyHtmlWithCleanup',),
+            default_output_type='text/x-html-safe',
+            widget=atapi.RichWidget(
+                description='',
+                label=_at(u'label_body_text', default=u'Body Text'),
+                rows=25,
+                allow_file_upload=zconf.ATDocument.allow_document_upload
             ),
         ),
         atapi.BooleanField('hideTitle',
-            required = False,
-            languageIndependent = True,
-            default = False,
-            storage = atapi.AnnotationStorage(),
-            schemata = 'settings',
-            accessor = 'HideTitle',
-            widget = atapi.BooleanWidget(
+            required=False,
+            languageIndependent=True,
+            default=False,
+            storage=atapi.AnnotationStorage(),
+            schemata='settings',
+            accessor='HideTitle',
+            widget=atapi.BooleanWidget(
                 description='',
-                label = _(u'label_hide_title', default=u'Hide title'),
-                visible={'view' : 'hidden',
-                         'edit' : 'visible'},
+                label=_(u'label_hide_title', default=u'Hide title'),
+                visible={'view': 'hidden',
+                         'edit': 'visible'},
             ),
         ),
-        
+
         atapi.BooleanField('hideDescription',
-            required = False,
-            languageIndependent = True,
-            default = False,
-            storage = atapi.AnnotationStorage(),
-            schemata = 'settings',
-            accessor = 'HideDescription',
-            widget = atapi.BooleanWidget(
+            required=False,
+            languageIndependent=True,
+            default=False,
+            storage=atapi.AnnotationStorage(),
+            schemata='settings',
+            accessor='HideDescription',
+            widget=atapi.BooleanWidget(
                 description='',
-                label = _(u'label_hide_description', default=u'Hide description'),
-                visible={'view' : 'hidden',
-                         'edit' : 'visible'},
+                label=_(u'label_hide_description', default=u'Hide description'),
+                visible={'view': 'hidden',
+                         'edit': 'visible'},
             ),
         ),
     ))
@@ -76,10 +76,11 @@ schemata.finalizeATCTSchema(ArticleSchema, folderish=True, moveDiscussion=True)
 ArticleSchema['relatedItems'].widget.visible = {'edit': 'visible', 'view': 'invisible'}
 ArticleSchema.changeSchemataForField('relatedItems', 'default')
 
+
 class Article(folder.ATFolder):
     """An article"""
     implements(IArticle)
-    
+
     portal_type = "Article"
     schema = ArticleSchema
 
@@ -88,9 +89,9 @@ class Article(folder.ATFolder):
     text = atapi.ATFieldProperty('text')
     hideTitle = atapi.ATFieldProperty('hideTitle')
     hideDescription = atapi.ATFieldProperty('hideDescription')
-    
+
     security = ClassSecurityInfo()
-    
+
     security.declarePublic('canSetDefaultPage')
     def canSetDefaultPage(self):
         """
