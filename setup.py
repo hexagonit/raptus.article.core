@@ -39,4 +39,3 @@ setup(name='raptus.article.core',
       target = plone
       """,
       )
-
