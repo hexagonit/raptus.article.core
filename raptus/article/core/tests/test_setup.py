@@ -6,7 +6,7 @@ from zope.component import queryMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView as View
+from Products.Five.browser import BrowserView
 
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
@@ -118,7 +118,7 @@ class TestInstall(RACoreIntegrationTestCase):
         request = self.layer['request']
 
         # viewlet managers also require a view object for adaptation
-        view = View(context, request)
+        view = BrowserView(context, request)
 
         # finally, you need the name of the manager you want to find
         manager_name = 'plone.belowcontentbody'
