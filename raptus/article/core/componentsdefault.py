@@ -1,4 +1,9 @@
-from zope import interface, component
+# -*- coding: utf-8 -*-
+"""Setting default Components."""
+
+from zope import component
+from zope import interface
+
 from raptus.article.core import interfaces
 
 

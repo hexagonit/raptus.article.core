@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Tests for Article content type."""
 
 import unittest2 as unittest
 
-from plone.app.testing import TEST_USER_NAME, TEST_USER_ID, login, setRoles
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 

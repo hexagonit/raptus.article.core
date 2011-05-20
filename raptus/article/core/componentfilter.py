@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+"""Filtering and sorting a list of Components."""
+
 import logging
 
-from zope import interface, component
+from zope import component
+from zope import interface
 from zope.component.interfaces import ComponentLookupError
-from zope.publisher.interfaces.http import IHTTPRequest
 from zope.publisher.interfaces.browser import IBrowserView
+from zope.publisher.interfaces.http import IHTTPRequest
+
 from plone.app.layout.viewlets import interfaces as viewletmanagers
 
 from raptus.article.core import interfaces

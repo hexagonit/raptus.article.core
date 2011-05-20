@@ -1,10 +1,14 @@
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
+# -*- coding: utf-8 -*-
+"""Tests for our override of the 'Add new ...' drop-down menu."""
 
 import unittest2 as unittest
+
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
 class TestGetMenuItemsIntegration(RACoreIntegrationTestCase):

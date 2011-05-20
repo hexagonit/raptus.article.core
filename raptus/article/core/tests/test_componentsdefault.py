@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Tests for Components selected by default."""
 
 import mock
 import unittest2 as unittest

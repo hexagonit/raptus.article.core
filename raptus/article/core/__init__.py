@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 """Main product initializer."""
-from raptus.article.core import config
 
 from Products.Archetypes import atapi
 from Products.CMFCore import utils as cmfutils
+
+from raptus.article.core import config
 
 from zope.i18nmessageid import MessageFactory
 RaptusArticleMessageFactory = MessageFactory('raptus.article')

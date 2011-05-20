@@ -1,13 +1,17 @@
-from Acquisition import aq_parent
+# -*- coding: utf-8 -*-
+"""Archetypes vocabulary and widget for selecting Components on an item."""
+
 from AccessControl import ClassSecurityInfo
+from Acquisition import aq_parent
 
-from zope import interface, component
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleTerm
-
-from Products.CMFPlone.FactoryTool import TempFolder
 from Products.Archetypes.interfaces import IFieldDefaultProvider
 from Products.Archetypes.Widget import MultiSelectionWidget
+from Products.CMFPlone.FactoryTool import TempFolder
+
+from zope import component
+from zope import interface
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
 
 from raptus.article.core import interfaces
 

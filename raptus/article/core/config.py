@@ -1,4 +1,6 @@
-"""Common configuration constants"""
+# -*- coding: utf-8 -*-
+"""Common configuration constants."""
+
 from AccessControl import ModuleSecurityInfo
 from Products.CMFCore.permissions import setDefaultRoles
 

@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
+"""Layers and TestCases for our tests."""
+
 from __future__ import with_statement
 
-import webbrowser
-from tempfile import gettempdir
 import os
-
 import unittest2 as unittest
-
-from zope.configuration import xmlconfig
+import webbrowser
 
 from plone.testing import z2
-from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import IntegrationTesting, FunctionalTesting
-from plone.app.testing import TEST_USER_NAME, TEST_USER_PASSWORD
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
+
+from tempfile import gettempdir
+
+from zope.configuration import xmlconfig
 
 
 class RACoreIntegrationLayer(PloneSandboxLayer):

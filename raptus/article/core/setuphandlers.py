@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""Custom install steps for tasks that cannot be performed with
+GenericSetup XMLs.
+"""
+
 from Products.CMFCore.utils import getToolByName
 
 DEPENDENCIES = (

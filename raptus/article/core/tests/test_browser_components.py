@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
-from zope.interface import alsoProvides
-from zope.publisher.browser import TestRequest
+"""Tests for @@components BrowserView."""
 
 import mock
 import unittest2 as unittest
+
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+
+from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
 class TestCall(unittest.TestCase):

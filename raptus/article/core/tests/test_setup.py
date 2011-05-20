@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
+"""Tests for installation and setup of this package."""
 
 import unittest2 as unittest
 
-from zope.component import queryMultiAdapter
-from zope.viewlet.interfaces import IViewletManager
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_ID
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import login
-from plone.app.testing import setRoles
+from zope.component import queryMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
 
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 

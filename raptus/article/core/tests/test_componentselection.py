@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-from plone.app.testing import setRoles
-
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
+"""Tests for ComponentSelection Archetypes vocabulary and widget."""
 
 import unittest2 as unittest
+
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
 class TestComponentSelectionWidgetIntegration(RACoreIntegrationTestCase):

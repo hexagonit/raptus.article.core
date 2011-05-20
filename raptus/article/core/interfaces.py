@@ -1,4 +1,8 @@
-from zope.interface import Attribute, Interface
+# -*- coding: utf-8 -*-
+"""Marker and definition interfaces."""
+
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class IArticle(Interface):

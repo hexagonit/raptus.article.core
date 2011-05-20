@@ -1,11 +1,16 @@
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
+# -*- coding: utf-8 -*-
+"""Tests for the 'raptus.related' component that comes bundled with this
+package by default."""
 
 import mock
 import unittest2 as unittest
+
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
 class TestRelated(RACoreIntegrationTestCase):

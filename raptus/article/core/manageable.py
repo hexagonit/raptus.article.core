@@ -1,15 +1,20 @@
+# -*- coding: utf-8 -*-
+"""Manage Items in Artcles: move, show/hide, etc."""
+
 from OFS.interfaces import IOrderedContainer
-from zope import interface, component
 
 from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import getObjPositionInParent
 
+from zope import component
+from zope import interface
+
 from raptus.article.core.interfaces import IManageable
 
 
 class Manageable(object):
-    """Provider information dict used for the manage macro for objects
+    """Provides information dict used for the manage macro for objects
     which are manageable.
     """
     interface.implements(IManageable)
