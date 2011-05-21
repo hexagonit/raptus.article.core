@@ -13,7 +13,9 @@ from zope import interface
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 
-from raptus.article.core import interfaces
+from raptus.article.core.interfaces import IArticle
+from raptus.article.core.interfaces import IComponentFilter
+from raptus.article.core.interfaces import IComponentSelection
 
 
 class ComponentSelectionVocabulary(object):
@@ -21,19 +23,38 @@ class ComponentSelectionVocabulary(object):
     interface.implements(IVocabularyFactory)
 
     def __call__(self, context):
-        container = aq_parent(context)
-        if context.isTemporary() and isinstance(container, TempFolder):
-            container = aq_parent(aq_parent(container))
-        if not interfaces.IArticle.providedBy(container):
+
+        container = self.get_containing_article(context)
+        if not container:
             return []
-        components = [(name, comp) for name, comp in component.getAdapters((context,), interfaces.IComponentSelection)]
+
+        components = self.get_selectable_components(context)
         view = component.getMultiAdapter((container, context.REQUEST), name=u'components')
-        sorter = component.getMultiAdapter((container, context.REQUEST, view), interfaces.IComponentFilter)
+        sorter = component.getMultiAdapter((container, context.REQUEST, view), IComponentFilter)
         components = sorter.filter(components)
         items = []
         for name, comp in components:
             items.append(SimpleTerm(name, None, comp.title))
         return items
+
+    def get_containing_article(self, context):
+        """Get the Article that this Item is contained in."""
+        container = aq_parent(context)
+
+        # if this item is just being created we need to move higher
+        # up the inheritance tree to reach it's actual parent Article
+        if context.isTemporary() and isinstance(container, TempFolder):
+            container = aq_parent(aq_parent(container))
+
+        # return False for containers that are not Articles
+        if not IArticle.providedBy(container):
+            return False
+
+        return container
+
+    def get_selectable_components(self, context):
+        """Returns a list of selectable components."""
+        return [(name, comp) for name, comp in component.getAdapters((context,), IComponentSelection)]
 
 
 class ComponentSelectionWidget(MultiSelectionWidget):
@@ -47,7 +68,7 @@ class ComponentSelectionWidget(MultiSelectionWidget):
     def isVisible(self, instance, mode='view'):
         """Check if we are contained in an Article."""
         container = aq_parent(instance)
-        if interfaces.IArticle.providedBy(container):
+        if IArticle.providedBy(container):
             return 'visible'
         return 'invisible'
 
