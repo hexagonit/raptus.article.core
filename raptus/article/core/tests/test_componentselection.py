@@ -14,6 +14,66 @@ from Products.CMFPlone.FactoryTool import TempFolder
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 
+class TestComponentSelectionVocabulary(unittest.TestCase):
+    """Unit-tests for edge-cases of __call__() of
+    ComponentSelectionVocabulary.
+    """
+
+    def makeComponentSelectionVocabulary(self):
+        """Prepares an instance of ComponentFilter."""
+        from raptus.article.core.componentselection import ComponentSelectionVocabulary
+        return ComponentSelectionVocabulary()
+
+    def makeComponent(self, title):
+        """Prepares an instance of a dummy Component."""
+        component = mock.Mock(spec='title'.split())
+        component.title = title
+        return component
+
+    @mock.patch('raptus.article.core.componentselection.ComponentSelectionVocabulary.get_containing_article')
+    def test_no_container(self, get_containing_article):
+        """Test return value when there is a problem getting item's container."""
+        vocabulary = self.makeComponentSelectionVocabulary()
+
+        get_containing_article.return_value = False
+        context = mock.sentinel.mock
+
+        items = vocabulary(context)
+        self.assertEquals([], items)
+
+    @mock.patch('raptus.article.core.componentselection.component')
+    @mock.patch('raptus.article.core.componentselection.ComponentSelectionVocabulary.get_selectable_components')
+    @mock.patch('raptus.article.core.componentselection.ComponentSelectionVocabulary.get_containing_article')
+    def test_no_components(self, get_containing_article, get_selectable_components, zope_component):
+        """Test return value when there are no components."""
+        vocabulary = self.makeComponentSelectionVocabulary()
+
+        get_containing_article.return_value = mock.sentinel.container
+        zope_component.getMultiAdapter.return_value = mock.Mock(spec='filter'.split())
+        zope_component.getMultiAdapter.return_value.filter.return_value = []
+        context = mock.Mock(spec='REQUEST'.split())
+
+        items = vocabulary(context)
+        self.assertEquals([], items)
+
+    @mock.patch('raptus.article.core.componentselection.component')
+    @mock.patch('raptus.article.core.componentselection.ComponentSelectionVocabulary.get_selectable_components')
+    @mock.patch('raptus.article.core.componentselection.ComponentSelectionVocabulary.get_containing_article')
+    def test_multiple_components(self, get_containing_article, get_selectable_components, zope_component):
+        """Test return value when there are multiple components."""
+        vocabulary = self.makeComponentSelectionVocabulary()
+
+        context = mock.Mock(spec='REQUEST'.split())
+        get_containing_article.return_value = mock.sentinel.container
+        zope_component.getMultiAdapter.return_value.filter.return_value = [
+            ('foo', self.makeComponent('Foo')),
+            ('bar', self.makeComponent('Bar')),
+        ]
+
+        items = vocabulary(context)
+        self.assertEquals('Foo Bar'.split(), [i.title for i in items])
+
+
 class TestGetContainingArticle(unittest.TestCase):
     """Unit-tests for edge-cases of get_containing_article()"""
 
