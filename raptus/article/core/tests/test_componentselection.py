@@ -44,7 +44,8 @@ class TestGetContainingArticle(unittest.TestCase):
     @mock.patch('raptus.article.core.componentselection.IArticle')
     def test_container_is_article(self, IArticle, aq_parent):
         """Test that get_containing_article() returns a direct parent,
-        if that parent is an Article."""
+        if that parent is an Article.
+        """
 
         IArticle.providedBy.return_value = True
 
@@ -60,7 +61,8 @@ class TestGetContainingArticle(unittest.TestCase):
     @mock.patch('raptus.article.core.componentselection.IArticle')
     def test_container_not_article(self, IArticle):
         """Test that get_containing_article() returns False,
-        if the container is not an Article."""
+        if the container is not an Article.
+        """
 
         IArticle.providedBy.return_value = False
 
@@ -75,7 +77,8 @@ class TestGetContainingArticle(unittest.TestCase):
 
 class TestGetSelectableComponents(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    get_selectable_components()."""
+    get_selectable_components().
+    """
 
     def makeComponentSelectionVocabulary(self):
         """Prepares an instance of ComponentFilter."""
@@ -135,7 +138,8 @@ class TestComponentSelectionWidgetIntegration(RACoreIntegrationTestCase):
 
     def test_is_visible(self):
         """Test is_visible() of ComponentSelectionWidget on a child
-        of Article."""
+        of Article.
+        """
 
         # create a subcontent in Article
         self.portal.article.invokeFactory('Folder', 'subfolder')
