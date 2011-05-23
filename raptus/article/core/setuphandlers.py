@@ -32,9 +32,9 @@ def install(context):
     try:  # try updating kupu library tool if available
         kupu = getToolByName(portal, 'kupu_library_tool')
         linkable = list(kupu.getPortalTypesForResourceType('linkable'))
-        if 'Article' not in linkable:
-            linkable.append('Article')
-            kupu.updateResourceTypes(({'resource_type': 'linkable',
+        if 'Article' not in linkable:  # pragma: no cover
+            linkable.append('Article')  # pragma: no cover
+            kupu.updateResourceTypes(({'resource_type': 'linkable',  # pragma: no cover
                                        'old_type': 'linkable',
                                        'portal_types': linkable},))
     except:
