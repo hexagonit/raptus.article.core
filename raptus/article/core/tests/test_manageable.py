@@ -212,11 +212,10 @@ class TestGetPositionsIntegration(RACoreIntegrationTestCase):
     in parent.
     """
 
-    def makeManageable(self, article=None):
+    def makeManageable(self):
         """Prepares an instance of Manageable."""
         from raptus.article.core.interfaces import IManageable
-        if not article:
-            article = self.portal.article
+        article = self.portal.article
         return IManageable(article)
 
     def setUp(self):
