@@ -34,9 +34,9 @@ class Components(BrowserView):
             components = interfaces.IComponents(context).getComponents()
             active = self.request.form.get('form.components', ())
             for name, comp in components:
-                if name in active:
+                if name in active:  # activate component
                     interface.alsoProvides(context, comp.interface)
-                elif comp.interface.providedBy(context):
+                else:  # deactivate component
                     interface.noLongerProvides(context, comp.interface)
         except:
             return False
