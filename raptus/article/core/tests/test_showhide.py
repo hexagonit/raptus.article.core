@@ -70,6 +70,23 @@ class TestCall(unittest.TestCase):
     @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
     @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
     @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
+    def test_get_components_raises(self, get_components, get_item, queryAdapter, redirect):
+        """Test that ShowHideItem() does not crash if there is an error with retrieving
+        components with get_components().
+        """
+        redirect.return_value = True
+        queryAdapter.return_value = True
+        get_item.return_value = True
+        get_components.return_value = []
+        get_components.side_effect = Exception()
+
+        showhide = self.makeShowHideItem()
+        self.assertEquals(None, showhide(None, None, 'foo'))  # action, uid, component
+
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
+    @mock.patch('raptus.article.core.browser.showhide.queryAdapter')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_item')
+    @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.get_components')
     @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.set_item_show')
     def test_item_show(self, set_item_show, get_components, get_item, queryAdapter, redirect):
         """Test that item is shown in this component by this component being added
