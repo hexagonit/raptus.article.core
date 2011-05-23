@@ -154,6 +154,58 @@ class TestCall(unittest.TestCase):
         self.assertEquals(None, showhide('hide', None, 'foo'))  # action, uid, component
 
 
+class TestHelperMethods(unittest.TestCase):
+    """Unit tests for edge cases of helper methods in
+    r.a.core.browser.showhide.
+    """
+
+    def makeShowHideItem(self, form={}):
+        """Prepares an instance of ShowHideItem."""
+        from raptus.article.core.browser.showhide import ShowHideItem
+        context = mock.Mock(spec=''.split())
+        request = TestRequest(form=form)
+        return ShowHideItem(context, request)
+
+    def test_set_item_show(self):
+        """Test that component is shown by being added to the components
+        field."""
+        schema = {'components': mock.Mock(spec='set'.split())}
+        item = mock.Mock()
+        item.Schema.return_value = schema
+
+        component = 'Foo'
+        components = ['Bar', ]
+
+        showhide = self.makeShowHideItem()
+        showhide.set_item_show(item, component, components)
+        schema['components'].set.assert_called_once_with(item, 'Bar Foo'.split())
+
+    def test_set_item_hide(self):
+        """Test that component is hidden by being removed from the components
+        field."""
+        schema = {'components': mock.Mock(spec='set'.split())}
+        item = mock.Mock()
+        item.Schema.return_value = schema
+
+        component = 'Foo'
+        components = ['Foo', 'Bar']
+
+        showhide = self.makeShowHideItem()
+        showhide.set_item_hide(item, component, components)
+        schema['components'].set.assert_called_once_with(item, 'Bar'.split())
+
+    def test_get_components(self):
+        """Test that components are returned in a list."""
+        schema = {'components': mock.Mock(spec='get'.split())}
+        schema['components'].get.return_value = ('Foo', 'Bar')
+        item = mock.Mock()
+        item.Schema.return_value = schema
+
+        showhide = self.makeShowHideItem()
+        components = showhide.get_components(item)
+        self.assertEquals(['Foo', 'Bar'], components)
+
+
 class TestShowHideViewIntegration(RACoreIntegrationTestCase):
     """Integration tests for @@article_showhide BrowserView."""
 
