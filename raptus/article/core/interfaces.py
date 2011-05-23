@@ -16,10 +16,10 @@ class IArticleView(Interface):
 class IComponents(Interface):
     """Provides information about available and active components."""
 
-    def getComponents():
+    def getComponents():  # pragma: no cover
         """Returns a list of available components."""
 
-    def activeComponents():
+    def activeComponents():  # pragma: no cover
         """Returns a list of the active components."""
 
 
@@ -38,7 +38,7 @@ class IComponentFilter(Interface):
     of their viewlets.
     """
 
-    def filter(components):
+    def filter(components):  # pragma: no cover
         """Returns a filtered list of components."""
 
 
@@ -51,7 +51,7 @@ class IComponentSelection(IComponent):
 class IDefaultComponents(Interface):
     """Provider to define default components on newly created articles."""
 
-    def getComponents():
+    def getComponents():  # pragma: no cover
         """Returns a list of components which should be activated."""
 
 
@@ -60,7 +60,7 @@ class IManageable(Interface):
     for objects which are manageable.
     """
 
-    def getList(brains):
+    def getList(brains):  # pragma: no cover
         """Returns a list of dicts holding the specific links for viewing,
         editing, sorting and deleting the object.
         """

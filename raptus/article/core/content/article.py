@@ -68,7 +68,7 @@ ArticleSchema = folder.ATFolderSchema.copy() + atapi.Schema((
 
 try:
     from Products.DynamicHeader.config import DynamicHeaderMixinSchema
-    ArticleSchema = ArticleSchema + DynamicHeaderMixinSchema
+    ArticleSchema = ArticleSchema + DynamicHeaderMixinSchema  # pragma: no cover
 except:
     # No dynamic header support
     pass
@@ -106,7 +106,7 @@ class Article(folder.ATFolder):
 
 try:
     from Products.DynamicHeader.interfaces import IDynamicHeader
-    classImplements(Article, IDynamicHeader)
+    classImplements(Article, IDynamicHeader)  # pragma: no cover
 except:
     # No dynamic header support
     pass
