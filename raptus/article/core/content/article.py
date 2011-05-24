@@ -82,7 +82,7 @@ ArticleSchema.changeSchemataForField('relatedItems', 'default')
 
 
 class Article(folder.ATFolder):
-    """An article"""
+    """An article."""
     implements(IArticle)
 
     portal_type = "Article"
