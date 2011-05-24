@@ -28,7 +28,6 @@ class TestGetMenuItemsIntegration(RACoreIntegrationTestCase):
         from raptus.article.core.browser.menu import FactoriesMenu
         return FactoriesMenu(context)
 
-    @unittest.expectedFailure
     def test_default_output(self):
         """Test default output of getMenuItems."""
         context = self.portal.article
@@ -38,16 +37,8 @@ class TestGetMenuItemsIntegration(RACoreIntegrationTestCase):
         menu = self.makeFactoriesMenu(context)
 
         results = menu.getMenuItems(context, request)
-        self.assertEquals(len(results), 3)
-
-        # TODO: this tests fails because the menu object is an instance of
-        # Products.Five.metaclass.SimpleViewClass from
-        # ./eggs/plone.app.content-2.0.5-py2.6.egg/plone/app/content/browser/folderfactories.pt
-        #
-        # Instead, it should be an instance of
-        # Products.Five.metaclass.SimpleViewClass from
-        # ./src/raptus.article.core/raptus/article/core/browser/folderfactories.pt
-        # (it's like this when you use bin/instance fg)
+        self.assertEquals(len(results), 2)
+        self.assertEquals('Folder folder_add_settings'.split(), [r['title'] for r in results])
 
 
 def test_suite():
