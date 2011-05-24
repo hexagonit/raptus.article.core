@@ -12,8 +12,6 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 
-from zope.configuration import xmlconfig
-
 
 class RaptusArticleCoreLayer(PloneSandboxLayer):
     """Layer for Raptus Article Core tests."""
