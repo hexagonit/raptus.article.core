@@ -6,17 +6,17 @@ default Page content type.
 
 The following features for raptus.article are provided by this package:
 
- * Content
+* Content
 
-   - Article - Page Type - folderish
+  - Article - Page Type - folderish
 
- * Components
+* Components
 
-   - Related Items - Component - Component showing related Items.
+  - Related Items - Component - Component showing related Items.
 
- * Other
+* Other
 
-   - zcml namespace (article) - used to initialize new components.
+  - zcml namespace (article) - used to initialize new components.
 
 
 Installation
