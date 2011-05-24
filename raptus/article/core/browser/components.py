@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Activating/deactivating Components."""
+
 from Acquisition import aq_inner
 
 from zope import interface, component

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Main Article view."""
+
 from zope.interface import implements
 
 from Products.Five.browser import BrowserView

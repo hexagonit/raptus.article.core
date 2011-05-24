@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""The `raptus.related` Component that comes bundled with this
+package by default."""
+
 from zope import interface, component
 
 from Products.CMFCore.utils import getToolByName

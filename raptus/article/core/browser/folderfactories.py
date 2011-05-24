@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Backend for constructing the `Add new ...` drop-down menu."""
+
 from urllib import quote_plus
 
 from zope.component import getMultiAdapter, queryMultiAdapter, getAdapters, queryUtility
