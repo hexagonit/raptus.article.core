@@ -16,7 +16,7 @@ from raptus.article.core import interfaces
 
 
 class Components(BrowserView):
-    """Component selection."""
+    """A @@components view for activating/deactivating Components."""
 
     template = ViewPageTemplateFile('components.pt')
 

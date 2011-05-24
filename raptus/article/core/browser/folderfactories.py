@@ -21,8 +21,7 @@ from plone.memoize.instance import memoize
 from plone.app.content.browser.folderfactories import _allowedTypes, FolderFactoriesView as BaseFolderFactoriesView
 
 class FolderFactoriesView(BaseFolderFactoriesView):
-    """The folder_factories view - show addable types
-    """
+    """The folder_factories view - show addable types."""
     
     def default_page_can_constrain_types(self):
         constrain_types = ISelectableConstrainTypes(self.default_page_add_context(), None)

@@ -12,6 +12,7 @@ from Products.CMFPlone import PloneMessageFactory as _p
 
 
 class FactoriesMenu(BaseFactoriesMenu):
+    """Override Plone's FactoriesMenu to add custom functionality."""
     
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
