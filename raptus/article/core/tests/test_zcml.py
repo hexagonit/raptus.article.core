@@ -179,6 +179,7 @@ class TestIntegration(RACoreIntegrationTestCase):
         self.assertEquals(2, len(components))
         name, comp = components[0]
         self.assertEquals('foo.bar', name)
+        self.assertEquals(u'Föö', comp.title)
 
 
 def test_suite():

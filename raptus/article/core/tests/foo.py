@@ -20,7 +20,7 @@ class Foo(object):
     interface.implements(IComponent, IComponentSelection)
     component.adapts(IArticle)
 
-    title = u'Foo'
+    title = u'Föö'
     image = '++resource++foo.gif'
     interface = IFoo
     viewlet = 'raptus.article.foo'

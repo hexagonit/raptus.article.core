@@ -38,15 +38,23 @@ start adding a new Article.
     >>> browser.getLink(id='article').click()
 
 	Fill in fields.
-    >>> browser.getControl(name='title').value = "Ninjas Attack"
-    >>> browser.getControl(name='description').value = "Attack of the Ninjas. People angry."
-    >>> browser.getControl(name='text').value = "<b>Who doesn't like attacking ninjas?</b>"
+    >>> browser.getControl(name='title').value = "Ñinjas Ättack"
+    >>> browser.getControl(name='description').value = "Ättack of the Ñinjas. People ängry."
+    >>> browser.getControl(name='text').value = "<b>Who doësn't like ättacking ninjas?</b>"
 
 	Click submit to create the article.
     >>> browser.getControl(name='form.button.save').click()
 
 	Was our article really created?
 	>>> 'ninjas-attack' in portal.objectIds()
+	True
+
+	Are articles fields visible?
+	>>> "Ñinjas Ättack" in browser.contents
+	True
+	>>> "Ättack of the Ñinjas. People ängry." in browser.contents
+	True
+	>>> "<b>Who doësn't like ättacking ninjas?</b>" in browser.contents
 	True
 
 
@@ -79,17 +87,17 @@ button.
 	Verify that we have a checkbox for 'related' Component and that it's not checked
 	>>> browser.getControl('related').selected
 	False
-	
+
 	Click on the checkbox to make it selected
 	>>> browser.getControl('related').click()
 
 	Save our changes by clicking the Save button.
 	>>> browser.getControl(name='form.submitted').click()
-	
+
 	Did we get the success notification?
 	>>> 'Components saved successfully' in browser.contents
 	True
-	
+
 	The 'related' checkbox should now be selected.
 	>>> browser.getControl('related').selected
 	True
@@ -102,11 +110,11 @@ the `related` Component.
 
 	Save our changes by clicking the Save button.
 	>>> browser.getControl(name='form.submitted').click()
-	
+
 	Did we get the success notification?
 	>>> 'Components saved successfully' in browser.contents
 	True
-	
+
 	The `related` checkbox should now be selected.
 	>>> browser.getControl('related').selected
 	False
@@ -123,22 +131,21 @@ save your settings and go directly back to the main view of your Article.
 
 	Select a checkbox.
 	>>> browser.getControl('related').selected = True
-	
+
 	Click `Save and View` to save your settings and go back to the main view.
 	>>> browser.getControl(name='form.view').click()
 
 	Did we get the success notification?
 	>>> 'Components saved successfully' in browser.contents
 	True
-	
+
 	Are we on the main view of the Article?
 	>>> browser.url.endswith('/ninjas-attack')
-	True	
+	True
 
 	Go back to Components tab and check that `related` checkbox is selected.
 	>>> browser.getLink('Components').click()
 	>>> browser.getControl('related').selected
 	True
-	
-	
-	
+
+

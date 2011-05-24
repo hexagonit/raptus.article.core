@@ -22,7 +22,7 @@ class TestArticleViewIntegration(RACoreIntegrationTestCase):
         # add initial test content
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory('Article', 'article', title='Raptus Article')
+        self.portal.invokeFactory('Article', 'article', title='Räptus Articlë')
 
     def test_default_output(self):
         """Test default output of @@view."""
@@ -32,7 +32,7 @@ class TestArticleViewIntegration(RACoreIntegrationTestCase):
 
         view = self.portal.article.restrictedTraverse('@@view')
         output = view()
-        self.assertTrue('Raptus Article' in output)
+        self.assertTrue(u'R\xe4ptus Articl\xeb' in output)
         self.assertTrue('class="template-view portaltype-article' in output)
 
 
@@ -51,18 +51,18 @@ class TestArticle(RACoreIntegrationTestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Article', 'article',
-                             title="Article Title",
-                             description="Article Description",
-                             text="<b>Article</b> Text",
+                             title="Articlë Titlë",
+                             description="Articlë Dëscription",
+                             text="<b>Articlë</b> Tëxt",
                              hideTitle=True,
                              hideDescription=True,
                              )
 
         # test it's fields
         article = self.portal.article
-        self.assertEquals(article.title, "Article Title")
-        self.assertEquals(article.description, "Article Description")
-        self.assertEquals(article.text, "<b>Article</b> Text")
+        self.assertEquals(article.title, "Articlë Titlë")
+        self.assertEquals(article.description, "Articlë Dëscription")
+        self.assertEquals(article.text, "<b>Articlë</b> Tëxt")
         self.assertEquals(article.hideTitle, True)
         self.assertEquals(article.hideDescription, True)
 
