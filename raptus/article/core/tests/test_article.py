@@ -36,8 +36,8 @@ class TestArticleViewIntegration(RACoreIntegrationTestCase):
         self.assertTrue('class="template-view portaltype-article' in output)
 
 
-class TestInstall(RACoreIntegrationTestCase):
-    """Test installation of raptus.article.core into Plone."""
+class TestArticle(RACoreIntegrationTestCase):
+    """Test an Article instance."""
 
     def setUp(self):
         """Custom shared utility setup for tests."""

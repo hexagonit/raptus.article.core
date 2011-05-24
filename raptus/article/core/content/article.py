@@ -98,9 +98,8 @@ class Article(folder.ATFolder):
 
     security.declarePublic('canSetDefaultPage')
     def canSetDefaultPage(self):
-        """
-        Override BrowserDefaultMixin because default page stuff doesn't make
-        sense for topics.
+        """Override BrowserDefaultMixin because default page stuff doesn't
+        make sense for topics.
         """
         return False
 

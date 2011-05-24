@@ -1,25 +1,19 @@
-from leo.testing.browser import Browser
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.testing import layered
+from plone.testing.z2 import Browser
 from raptus.article.core.tests.base import FUNCTIONAL_TESTING
-from zope.testing import renormalizing
 
 import doctest
 import manuel.codeblock
 import manuel.doctest
 import manuel.testing
-import re
 import transaction
 import unittest2 as unittest
 
 FLAGS = doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS | doctest.REPORT_NDIFF | doctest.REPORT_ONLY_FIRST_FAILURE
-
-CHECKER = renormalizing.RENormalizing([
-    (re.compile(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'), '<UUID>'),
-])
 
 
 def setUp(self):
@@ -35,7 +29,6 @@ def setUp(self):
     portal = self.globs['portal']
     browser = self.globs['browser']
 
-    browser.setBaseUrl(portal.absolute_url())
     browser.handleErrors = True
     portal.error_log._ignored_exceptions = ()
     setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -60,7 +53,7 @@ def DocFileSuite(testfile, flags=FLAGS, setUp=setUp, layer=FUNCTIONAL_TESTING):
 
     :rtype: `manuel.testing.TestSuite`
     """
-    m = manuel.doctest.Manuel(optionflags=flags, checker=CHECKER)
+    m = manuel.doctest.Manuel(optionflags=flags)
     m += manuel.codeblock.Manuel()
 
     suite = layered(

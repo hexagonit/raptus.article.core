@@ -34,7 +34,6 @@ class Manageable(object):
         editing, sorting and deleting the obj.
         """
         items = []
-        i = 0
 
         self.component = component
         self.len = len(brains)
@@ -42,7 +41,7 @@ class Manageable(object):
 
         # iterate through objects and set dict values we need
         # in the template
-        for brain in brains:
+        for i, brain in enumerate(brains):
             obj = brain.getObject()
 
             # get a list of components for which this item is shown
@@ -68,7 +67,7 @@ class Manageable(object):
                     'hide': self.build_url_show_hide(components, brain, 'hide'),
                    }
             items.append(item)
-            i += 1
+
         return items
 
     def get_positions(self, objects):

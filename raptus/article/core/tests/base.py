@@ -21,6 +21,7 @@ class RaptusArticleCoreLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         import raptus.article.core
         self.loadZCML(package=raptus.article.core)
+        self.loadZCML('overrides.zcml', package=raptus.article.core)
         z2.installProduct(app, 'raptus.article.core')
 
     def setUpPloneSite(self, portal):

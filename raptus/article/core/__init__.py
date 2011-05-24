@@ -13,7 +13,7 @@ RaptusArticleMessageFactory = MessageFactory('raptus.article')
 def initialize(context):
 
     # this needs to be here so that module-level functions in article.py
-    # are run when Zope starts; 'del article' is here so that pyflakes is happy
+    # are run when Zope starts
     from content import article
 
     content_types, constructors, ftis = atapi.process_types(

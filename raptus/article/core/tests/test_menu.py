@@ -31,7 +31,6 @@ class TestGetMenuItemsIntegration(RACoreIntegrationTestCase):
     @unittest.expectedFailure
     def test_default_output(self):
         """Test default output of getMenuItems."""
-
         context = self.portal.article
         request = self.layer['request']
         request.set('URL', self.portal.article.absolute_url() + '/folder_contents')
