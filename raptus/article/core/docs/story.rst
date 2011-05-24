@@ -12,7 +12,7 @@ which we can add with the `Add new ...` drop-down menu.
 To use this menu, we first need to login.
 
 	Go to login screen.
-	>>> browser.open('/login')
+	>>> browser.open(portal.absolute_url() + '/login')
 
 	Fill in your credentials.
     >>> browser.getControl(name='__ac_name').value = TEST_USER_NAME
@@ -30,7 +30,7 @@ Since we are now logged-in let's locate the `Add new ...` drop-down menu and
 start adding a new Article.
 
 	Verify that we have the link to create an Article.
-	>>> browser.open('/')
+	>>> browser.open(portal.absolute_url() + '/')
     >>> browser.getLink(id='article').url.endswith("createObject?type_name=Article")
     True
 
@@ -57,7 +57,7 @@ Great! Our Article has been successfully created. Now let's see if we can use th
 Components tab.
 
 	Verify that we have the link to access Components tab.
-	>>> browser.open('ninjas-attack')
+	>>> browser.open(portal.absolute_url() + '/ninjas-attack')
 	>>> browser.getLink('Components').url.endswith("@@components")
 	True
 
