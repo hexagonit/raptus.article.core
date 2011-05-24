@@ -19,11 +19,11 @@ class TestCall(unittest.TestCase):
     r.a.core.browser.showhide.
     """
 
-    def makeShowHideItem(self, form={}):
+    def makeShowHideItem(self):
         """Prepares an instance of ShowHideItem."""
         from raptus.article.core.browser.showhide import ShowHideItem
         context = mock.Mock(spec=''.split())
-        request = TestRequest(form=form)
+        request = TestRequest()
         return ShowHideItem(context, request)
 
     @mock.patch('raptus.article.core.browser.showhide.ShowHideItem.redirect')
