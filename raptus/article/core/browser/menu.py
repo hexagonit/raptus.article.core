@@ -7,6 +7,7 @@ from Products.CMFPlone.interfaces.constrains import IConstrainTypes
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from Products.CMFPlone import PloneMessageFactory as _p
 
+
 class FactoriesMenu(BaseFactoriesMenu):
     
     def getMenuItems(self, context, request):
