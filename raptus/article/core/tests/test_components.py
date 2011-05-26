@@ -16,7 +16,8 @@ from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 class TestGetComponents(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.Components.getComponents()."""
+    raptus.article.core.components.Components.getComponents().
+    """
 
     @mock.patch('raptus.article.core.components.component')
     def test_no_available_components(self, zope_component):
@@ -75,7 +76,8 @@ class TestGetComponentsIntegration(RACoreIntegrationTestCase):
 
 class TestActiveComponents(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.Components.activeComponents()."""
+    raptus.article.core.components.Components.activeComponents().
+    """
 
     def makeComponent(self, active):
         """Creates a mock component that is either active or passive."""
@@ -177,5 +179,6 @@ class TestActiveComponentsIntegration(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

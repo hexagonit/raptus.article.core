@@ -45,7 +45,8 @@ class TestArticle(RACoreIntegrationTestCase):
 
     def test_article_fields(self):
         """Tests if Article's field values are correctly
-        stored and can be retrieved."""
+        stored and can be retrieved.
+        """
 
         # add test Article
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -81,5 +82,6 @@ class TestArticle(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

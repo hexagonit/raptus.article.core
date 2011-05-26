@@ -86,7 +86,8 @@ class TestGetContainingArticle(unittest.TestCase):
     @mock.patch('raptus.article.core.componentselection.IArticle')
     def test_item_in_creation(self, IArticle, aq_parent):
         """Test that get_containing_article() returns a 3 level higher parent,
-        if the Item is just being created."""
+        if the Item is just being created.
+        """
 
         IArticle.providedBy.return_value = True
         aq_parent.return_value = mock.Mock(spec=TempFolder)
@@ -265,5 +266,6 @@ class TestComponentSelectionVocabularyIntegration(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

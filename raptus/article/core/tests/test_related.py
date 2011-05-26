@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Tests for the 'raptus.related' component that comes bundled with this
-package by default."""
+package by default.
+"""
 
 import mock
 import unittest2 as unittest
@@ -129,5 +130,6 @@ class TestRelatedIntegration(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

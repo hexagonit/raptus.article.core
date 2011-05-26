@@ -168,7 +168,8 @@ class TestHelperMethods(unittest.TestCase):
 
     def test_set_item_show(self):
         """Test that component is shown by being added to the components
-        field."""
+        field.
+        """
         schema = {'components': mock.Mock(spec='set'.split())}
         item = mock.Mock()
         item.Schema.return_value = schema
@@ -182,7 +183,8 @@ class TestHelperMethods(unittest.TestCase):
 
     def test_set_item_hide(self):
         """Test that component is hidden by being removed from the components
-        field."""
+        field.
+        """
         schema = {'components': mock.Mock(spec='set'.split())}
         item = mock.Mock()
         item.Schema.return_value = schema
@@ -227,7 +229,8 @@ class TestShowHideViewIntegration(RACoreIntegrationTestCase):
 
     def test_get_item_none(self):
         """Test that get_item() returns None if it cannot
-        find an item with this UID."""
+        find an item with this UID.
+        """
         article = self.portal.article
         view = article.restrictedTraverse('@@article_showhideitem')
         self.assertEquals(None, view.get_item('foo'))
@@ -253,5 +256,6 @@ class TestShowHideViewIntegration(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

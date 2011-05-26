@@ -7,7 +7,8 @@ import unittest2 as unittest
 
 class TestSetDefaults(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.componentsdefault.SetDefaults()."""
+    raptus.article.core.componentsdefault.SetDefaults().
+    """
 
     def makeComponent(self, interface):
         """Creates a mock component."""
@@ -60,5 +61,6 @@ class TestSetDefaults(unittest.TestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

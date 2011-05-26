@@ -14,7 +14,8 @@ from raptus.article.core.tests.base import RACoreIntegrationTestCase
 
 class TestProvideAllInterfaces(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.componentfilter.provide_all_interfaces()."""
+    raptus.article.core.components.componentfilter.provide_all_interfaces().
+    """
 
     def makeComponentFilter(self):
         """Prepares an instance of ComponentFilter."""
@@ -89,7 +90,8 @@ class TestProvideAllInterfaces(unittest.TestCase):
 
 class TestGetOrderedViewlets(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.componentfilter.get_ordered_viewlets()."""
+    raptus.article.core.components.componentfilter.get_ordered_viewlets().
+    """
 
     def makeComponentFilter(self):
         """Prepares an instance of ComponentFilter."""
@@ -117,7 +119,8 @@ class TestGetOrderedViewlets(unittest.TestCase):
 
     def test_no_viewlet_managers(self):
         """Test retriving an ordered list of viewlets when no viewlet managers
-        are specified."""
+        are specified.
+        """
 
         cf = self.makeComponentFilter()
 
@@ -132,7 +135,8 @@ class TestGetOrderedViewlets(unittest.TestCase):
     @mock.patch('raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
     def test_invalid_manager(self, get_viewlet_manager):
         """Test retriving a list of ordered viewlets when a viewlet manager
-        is invalid and cannot be found."""
+        is invalid and cannot be found.
+        """
 
         cf = self.makeComponentFilter()
 
@@ -149,7 +153,8 @@ class TestGetOrderedViewlets(unittest.TestCase):
     @mock.patch('raptus.article.core.componentfilter.ComponentFilter.get_viewlet_manager')
     def test_viewlet_without_name(self, get_viewlet_manager):
         """Test retriving a list of ordered viewlets when a viewlet does not
-        have a __name__."""
+        have a __name__.
+        """
 
         cf = self.makeComponentFilter()
 
@@ -172,7 +177,8 @@ class TestGetOrderedViewlets(unittest.TestCase):
 
 class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
     """Test get_ordered_viewlets() method of
-    raptus.article.core.componentfilter."""
+    raptus.article.core.componentfilter.
+    """
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -193,7 +199,8 @@ class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
 
     def test_get_ordered_viewlets(self):
         """Test retriving a list of viewlets ordered by their viewlet
-        managers."""
+        managers.
+        """
         cf = self.makeComponentFilter()
 
         order = cf.get_ordered_viewlets()
@@ -204,7 +211,8 @@ class TestGetOrderdViewletsIntegration(RACoreIntegrationTestCase):
 
 class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
     """Test get_viewlet_manager() method of
-    raptus.article.core.componentfilter."""
+    raptus.article.core.componentfilter.
+    """
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -235,7 +243,8 @@ class TestGetViewletManagerIntegration(RACoreIntegrationTestCase):
 
 class TestSortComponents(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.componentfilter.sort_components()."""
+    raptus.article.core.components.componentfilter.sort_components().
+    """
 
     def makeComponentFilter(self):
         """Prepares an instance of ComponentFilter."""
@@ -283,7 +292,8 @@ class TestSortComponents(unittest.TestCase):
 
 class TestFilter(unittest.TestCase):
     """Unit tests for logic of all edge cases in
-    raptus.article.core.components.componentfilter.filter()."""
+    raptus.article.core.components.componentfilter.filter().
+    """
 
     def makeComponentFilter(self):
         """Prepares an instance of ComponentFilter."""
@@ -340,5 +350,6 @@ class TestFilterIntegration(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

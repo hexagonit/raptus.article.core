@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """The `raptus.related` Component that comes bundled with this
-package by default."""
+package by default.
+"""
 
 from zope import interface, component
 
@@ -55,7 +56,8 @@ class Viewlet(ViewletBase):
 
     def get_types_that_use_view_action(self, context):
         """Returns a list of content-types that use '/view' suffix
-        in listings."""
+        in listings.
+        """
         portal_properties = getToolByName(context, 'portal_properties')
         site_properties = portal_properties.site_properties
         return site_properties.get('typesUseViewActionInListings', ())

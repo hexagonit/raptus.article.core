@@ -26,7 +26,8 @@ class TestInstall(RACoreIntegrationTestCase):
 
     def test_product_installed(self):
         """Test if raptus.article.core is installed with
-        portal_quickinstaller."""
+        portal_quickinstaller.
+        """
 
         qi = getToolByName(self.portal, 'portal_quickinstaller')
         self.assertTrue(qi.isProductInstalled('raptus.article.core'))
@@ -107,7 +108,8 @@ class TestInstall(RACoreIntegrationTestCase):
     # viewlets.xml
     def test_related_viewlet_registered(self):
         """Test if raptus.article.related viewlet is registered for
-        plone.belowcontentbody viewlet manager."""
+        plone.belowcontentbody viewlet manager.
+        """
 
         # add test Article
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -140,5 +142,6 @@ class TestInstall(RACoreIntegrationTestCase):
 
 def test_suite():
     """This sets up a test suite that actually runs the tests in the class
-    above."""
+    above.
+    """
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
