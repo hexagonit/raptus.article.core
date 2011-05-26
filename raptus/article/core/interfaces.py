@@ -23,6 +23,10 @@ class IComponents(Interface):
         """Returns a list of the active components."""
 
 
+class IComponentsConfiguration(Interface):
+    """Provides lookup of Components configuration."""
+
+
 class IComponent(Interface):
     """A component definition."""
 

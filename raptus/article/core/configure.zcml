@@ -25,6 +25,9 @@
       
     <adapter
       factory=".components.Components" />
+
+    <adapter
+      factory=".componentsconfiguration.ComponentsConfiguration" />
       
     <adapter
       factory=".componentfilter.ComponentFilter" />

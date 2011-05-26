@@ -4,5 +4,7 @@
     <property name="default_page_types" purge="False">
       <element value="Article"/>
     </property>
- </object>  
+  </object>  
+  <object name="raptus_article" meta_type="Plone Property Sheet" purge="False">
+  </object>
 </object>
