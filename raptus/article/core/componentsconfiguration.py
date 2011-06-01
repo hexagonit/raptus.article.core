@@ -20,6 +20,13 @@ class ComponentsConfiguration(object):
     def get(self, key, default=None):
         """Find the requested key in portal_properties and return it's
         value.
+
+        :param key: portal_properties key that needs to be looked-up
+        :type key: string
+        :param default: a value that is returned if key is not found in portal_properties
+        :type default: some Python data type
+        :returns: configuration value for key
+        :rtype: some Python data type
         """
         props = getToolByName(self.context, 'portal_properties').raptus_article
         return props.getProperty(key, default)
