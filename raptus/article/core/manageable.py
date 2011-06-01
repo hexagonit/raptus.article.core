@@ -32,6 +32,13 @@ class Manageable(object):
     def getList(self, brains, component=''):
         """Returns a list of dicts holding the specific links for viewing,
         editing, sorting and deleting the obj.
+
+        :param brains: items in Article that are manageable
+        :type brains: portal_catalog brains
+        :param component: component for which this list is being built
+        :type component: string
+        :returns: list of items along with their metadata and their manageable links
+        :rtype: list of dicts
         """
         items = []
 

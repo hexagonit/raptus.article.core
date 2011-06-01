@@ -40,6 +40,11 @@ class Viewlet(ViewletBase):
     @property
     @memoize
     def related(self):
+        """Return a list of items that this Article relates to.
+
+        :returns: List of related items (id, title, description, url and icon)
+        :rtype: list of dicts
+        """
         plone = component.getMultiAdapter((self.context, self.request), name=u'plone')
         use_view_action = self.get_types_that_use_view_action(self.context)
         related = self.context.computeRelatedItems()
@@ -57,6 +62,9 @@ class Viewlet(ViewletBase):
     def get_types_that_use_view_action(self, context):
         """Returns a list of content-types that use '/view' suffix
         in listings.
+
+        :returns: A list of portal types that need '/view' appended to their URL
+        :rtype: tuple of strings
         """
         portal_properties = getToolByName(context, 'portal_properties')
         site_properties = portal_properties.site_properties

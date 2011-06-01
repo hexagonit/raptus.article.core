@@ -21,6 +21,11 @@ class Components(BrowserView):
     template = ViewPageTemplateFile('components.pt')
 
     def __call__(self):
+        """Handles StatusMessages and redirect logic.
+
+        :returns: component.pt template or redirects to Article's absolute URL
+        :rtype: Five template or response redirect
+        """
         if self.request.get('form.submitted', False) or self.request.get('form.view', False):
             statusmessage = IStatusMessage(self.request)
             if self._save():
@@ -32,6 +37,11 @@ class Components(BrowserView):
         return self.template()
 
     def _save(self):
+        """Save user's selection of active components.
+
+        :returns: True if saving was successful, False if it was not
+        :rtype: Boolean
+        """
         try:
             context = aq_inner(self.context)
             components = interfaces.IComponents(context).getComponents()
@@ -48,6 +58,11 @@ class Components(BrowserView):
     @property
     @memoize
     def components(self):
+        """Return a list of dicts containing information about components.
+
+        :returns: Information about components (name, title, description, image and active/inactive)
+        :rtype: list of dicts
+        """
         context = aq_inner(self.context)
         components = interfaces.IComponents(context).getComponents()
         sorter = component.getMultiAdapter((context, self.request, self), interfaces.IComponentFilter)
