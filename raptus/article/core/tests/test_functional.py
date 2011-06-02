@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Functional tests for basic UI functionalities using zope.testbrowser."""
+
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
