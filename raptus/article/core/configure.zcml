@@ -5,12 +5,17 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:cmf="http://namespaces.zope.org/cmf"
     i18n_domain="raptus.article">
-    
+
     <five:registerPackage package="." initialize=".initialize" />
 
-    <!-- Include the sub-packages that use their own configure.zcml files. -->
+    <!-- Include configuration files of all setup.py dependencies -->
+    <includeDependencies package="." />
+
+    <!-- Include additional configuration files -->
     <include file="meta.zcml" />
     <include file="permissions.zcml" />
+
+    <!-- Include sub-packages that use their own configure.zcml files. -->
     <include package=".browser" />
     <include package=".content" />
 
@@ -22,13 +27,13 @@
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-      
+
     <adapter
       factory=".components.Components" />
-      
+
     <adapter
       factory=".componentfilter.ComponentFilter" />
-      
+
     <adapter
       factory=".manageable.Manageable" />
 
@@ -47,7 +52,7 @@
            Products.Archetypes.interfaces.IObjectInitializedEvent"
       handler=".componentsdefault.SetDefaults"
       />
-             
+
     <five:implements
       class="plone.app.viewletmanager.manager.ManageViewlets"
       interface="raptus.article.core.interfaces.IArticleView"
