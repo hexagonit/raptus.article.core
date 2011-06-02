@@ -3,15 +3,13 @@
 package by default.
 """
 
-from zope import interface, component
-
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.memoize.instance import memoize
-
 from raptus.article.core import RaptusArticleMessageFactory as _
 from raptus.article.core import interfaces
+from zope import interface, component
 
 
 class IRelated(interface.Interface):

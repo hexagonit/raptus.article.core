@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setting default Components."""
 
+from raptus.article.core import interfaces
 from zope import component
 from zope import interface
-
-from raptus.article.core import interfaces
 
 
 def SetDefaults(object, event):

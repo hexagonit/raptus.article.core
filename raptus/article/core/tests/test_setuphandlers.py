@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Tests for custom install steps in setuphandlers.py."""
 
+from raptus.article.core.setuphandlers import install
+
 import mock
 import unittest2 as unittest
-
-from raptus.article.core.setuphandlers import install
 
 
 class TestInstall(unittest.TestCase):

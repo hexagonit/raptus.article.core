@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 """Tests for ComponentSelection Archetypes vocabulary and widget."""
 
-import mock
-import unittest2 as unittest
-
-from plone.app.testing import login
-from plone.app.testing import setRoles
+from Products.CMFPlone.FactoryTool import TempFolder
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-
-from Products.CMFPlone.FactoryTool import TempFolder
-
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
+
+import mock
+import unittest2 as unittest
 
 
 class TestComponentSelectionVocabulary(unittest.TestCase):

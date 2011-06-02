@@ -2,17 +2,13 @@
 """Activating/deactivating Components."""
 
 from Acquisition import aq_inner
-
-from zope import interface, component
-
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
 from plone.memoize.instance import memoize
-
 from raptus.article.core import RaptusArticleMessageFactory as _
 from raptus.article.core import interfaces
+from zope import interface, component
 
 
 class Components(BrowserView):

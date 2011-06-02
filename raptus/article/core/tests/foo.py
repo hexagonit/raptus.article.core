@@ -2,13 +2,11 @@
 """A dummy component that we can use in our tests."""
 
 from plone.app.layout.viewlets.common import ViewletBase
-
-from zope import component
-from zope import interface
-
 from raptus.article.core.interfaces import IArticle
 from raptus.article.core.interfaces import IComponent
 from raptus.article.core.interfaces import IComponentSelection
+from zope import component
+from zope import interface
 
 
 class IFoo(interface.Interface):

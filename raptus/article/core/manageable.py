@@ -2,15 +2,12 @@
 """Manage Items in Artcles: move, show/hide, etc."""
 
 from OFS.interfaces import IOrderedContainer
-
 from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import getObjPositionInParent
-
+from raptus.article.core.interfaces import IManageable
 from zope import component
 from zope import interface
-
-from raptus.article.core.interfaces import IManageable
 
 
 class Manageable(object):

@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 """Tests for managing Items in Articles: moving, showing/hiding, etc."""
 
-import mock
-import unittest2 as unittest
-
+from Products.CMFCore.utils import getToolByName
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-
-from Products.CMFCore.utils import getToolByName
-
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
+
+import mock
+import unittest2 as unittest
 
 
 class TestBuildAnchor(unittest.TestCase):

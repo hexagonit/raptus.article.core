@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 """Tests for ZCML definition of a Component."""
 
-import mock
-import unittest2 as unittest
-
-from plone.app.testing import login
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from raptus.article.core.tests.base import RACoreIntegrationTestCase
 from zope.configuration import xmlconfig
 from zope.interface import Interface
 
-from raptus.article.core.tests.base import RACoreIntegrationTestCase
+import mock
+import unittest2 as unittest
 
 
 class TestSelection(unittest.TestCase):

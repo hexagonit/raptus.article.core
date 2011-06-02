@@ -1,24 +1,22 @@
 # -*- coding: utf-8 -*-
 """Definition of the Article content type."""
 
-from AccessControl import ClassSecurityInfo
-
 try:
     from Products.LinguaPlone import public as atapi
 except ImportError:
     # No multilingual support
     from Products.Archetypes import atapi
+
+from AccessControl import ClassSecurityInfo
 from Products.ATContentTypes import ATCTMessageFactory as _at
 from Products.ATContentTypes.configuration import zconf
-from Products.ATContentTypes.content import schemata
 from Products.ATContentTypes.content import folder
-
-from zope.interface import classImplements
-from zope.interface import implements
-
+from Products.ATContentTypes.content import schemata
 from raptus.article.core import RaptusArticleMessageFactory as _
 from raptus.article.core.config import PROJECTNAME
 from raptus.article.core.interfaces import IArticle
+from zope.interface import classImplements
+from zope.interface import implements
 
 
 ArticleSchema = folder.ATFolderSchema.copy() + atapi.Schema((

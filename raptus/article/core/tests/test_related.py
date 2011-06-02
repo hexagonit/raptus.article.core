@@ -3,15 +3,14 @@
 package by default.
 """
 
-import mock
-import unittest2 as unittest
-
-from plone.app.testing import login
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from raptus.article.core.tests.base import RACoreIntegrationTestCase
+
+import mock
+import unittest2 as unittest
 
 
 class TestRelated(RACoreIntegrationTestCase):

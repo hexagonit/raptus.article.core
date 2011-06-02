@@ -1,24 +1,18 @@
 # -*- coding: utf-8 -*-
 """Backend for constructing the `Add new ...` drop-down menu."""
 
+from Acquisition import aq_inner
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
+from plone.app.content.browser.folderfactories import _allowedTypes, FolderFactoriesView as BaseFolderFactoriesView
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.memoize.instance import memoize
 from urllib import quote_plus
-
-from zope.component import getMultiAdapter, queryMultiAdapter, getAdapters, queryUtility
-
-from zope.component.interfaces import IFactory
-from zope.i18n import translate
 from zope.app.container.constraints import checkFactory
 from zope.app.publisher.interfaces.browser import AddMenu
+from zope.component import getMultiAdapter, queryMultiAdapter, getAdapters, queryUtility
+from zope.component.interfaces import IFactory
+from zope.i18n import translate
 
-from Acquisition import aq_inner
-
-from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-
-from plone.i18n.normalizer.interfaces import IIDNormalizer
-
-from plone.memoize.instance import memoize
-
-from plone.app.content.browser.folderfactories import _allowedTypes, FolderFactoriesView as BaseFolderFactoriesView
 
 class FolderFactoriesView(BaseFolderFactoriesView):
     """The folder_factories view - show addable types."""

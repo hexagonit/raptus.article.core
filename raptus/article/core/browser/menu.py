@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """Factory for constructing the `Add new ...` drop-down menu."""
 
-from zope.component import getMultiAdapter
-
-from plone.app.contentmenu.menu import FactoriesMenu as BaseFactoriesMenu
-from plone.app.contentmenu.menu import _allowedTypes
-
+from Products.CMFPlone import PloneMessageFactory as _p
 from Products.CMFPlone.interfaces.constrains import IConstrainTypes
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-from Products.CMFPlone import PloneMessageFactory as _p
+from plone.app.contentmenu.menu import FactoriesMenu as BaseFactoriesMenu
+from plone.app.contentmenu.menu import _allowedTypes
+from zope.component import getMultiAdapter
 
 
 class FactoriesMenu(BaseFactoriesMenu):

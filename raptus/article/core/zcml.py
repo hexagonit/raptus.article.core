@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """A ZCML directive for defining a Component."""
 
-import os
-
-from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.browser.metaconfigure import resource
-
+from Products.Five.viewlet.metaconfigure import viewletDirective
+from raptus.article.core import interfaces
 from zope import interface
 from zope.component.zcml import adapter
 from zope.configuration.fields import GlobalObject
@@ -13,7 +11,7 @@ from zope.configuration.fields import Path
 from zope.configuration.fields import PythonIdentifier
 from zope.security.zcml import Permission
 
-from raptus.article.core import interfaces
+import os
 
 
 class IComponentDirective(interface.Interface):

@@ -3,19 +3,16 @@
 
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_parent
-
-from Products.Archetypes.interfaces import IFieldDefaultProvider
 from Products.Archetypes.Widget import MultiSelectionWidget
+from Products.Archetypes.interfaces import IFieldDefaultProvider
 from Products.CMFPlone.FactoryTool import TempFolder
-
+from raptus.article.core.interfaces import IArticle
+from raptus.article.core.interfaces import IComponentFilter
+from raptus.article.core.interfaces import IComponentSelection
 from zope import component
 from zope import interface
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
-
-from raptus.article.core.interfaces import IArticle
-from raptus.article.core.interfaces import IComponentFilter
-from raptus.article.core.interfaces import IComponentSelection
 
 
 class ComponentSelectionVocabulary(object):

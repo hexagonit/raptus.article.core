@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Utilities for retrieving available and active Components."""
 
+from raptus.article.core import interfaces
 from zope import component
 from zope import interface
-
-from raptus.article.core import interfaces
 
 
 class Components(object):
