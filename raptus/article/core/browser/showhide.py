@@ -1,9 +1,10 @@
-from zope.component import queryAdapter
+# -*- coding: utf-8 -*-
+"""Support for showing/hiding Items in Article."""
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-
 from raptus.article.core import interfaces
+from zope.component import queryAdapter
 
 
 class ShowHideItem(BrowserView):
