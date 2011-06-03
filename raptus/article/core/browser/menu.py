@@ -11,11 +11,11 @@ from zope.component import getMultiAdapter
 
 class FactoriesMenu(BaseFactoriesMenu):
     """Override Plone's FactoriesMenu to add custom functionality."""
-    
+
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
         results = BaseFactoriesMenu.getMenuItems(self, context, request)
-        
+
         factories_view = getMultiAdapter((context, request), name='folder_factories')
 
         haveMore = False
@@ -31,7 +31,7 @@ class FactoriesMenu(BaseFactoriesMenu):
             include = constraints.getImmediatelyAddableTypes()
             if len(include) < len(allowedTypes):
                 haveMore = True
-                
+
         results.append({'title'       : _p(u'folder_add_to_default_page', default=u'Add to default page'),
                         'description' : _p(u'Add content to the default page'),
                         'action'      : None,
