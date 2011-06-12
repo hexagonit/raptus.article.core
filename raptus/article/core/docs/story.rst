@@ -45,7 +45,9 @@ start adding a new Article.
     Click submit to create the article.
     >>> browser.getControl(name='form.button.save').click()
 
-    Was our article really created?
+    Was our article successfully created?
+    >>> 'Changes saved' in browser.contents
+    True
     >>> 'ninjas-attack' in portal.objectIds()
     True
 
