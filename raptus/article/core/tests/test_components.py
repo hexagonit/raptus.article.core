@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tests for utility methods for retrieving avaiable and active Components. """
+"""Tests for utility methods for retrieving available and active Components. """
 
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
