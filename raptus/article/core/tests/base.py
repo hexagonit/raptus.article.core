@@ -19,13 +19,14 @@ class RaptusArticleCoreLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
+        """Prepare Zope."""
         import raptus.article.core
         self.loadZCML(package=raptus.article.core)
         self.loadZCML('overrides.zcml', package=raptus.article.core)
         z2.installProduct(app, 'raptus.article.core')
 
     def setUpPloneSite(self, portal):
-        # Install into Plone site using portal_setup
+        """Install into Plone site using portal_setup."""
         applyProfile(portal, 'raptus.article.core:default')
 
     def tearDownZope(self, app):
