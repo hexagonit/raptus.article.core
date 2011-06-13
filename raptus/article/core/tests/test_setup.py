@@ -73,8 +73,8 @@ class TestInstall(RACoreIntegrationTestCase):
         self.failIf(document_fti.global_allow)
 
     # skins.xml
-    def test_skins_folders_registered(self):
-        """Test if all ./skins folders are registered."""
+    def test_skins_folder_registered(self):
+        """Test if raptus_article_core skins folders is registered."""
         skins = getToolByName(self.portal, 'portal_skins')
         skin_layer = skins.getSkinPath('Plone Default')
 
