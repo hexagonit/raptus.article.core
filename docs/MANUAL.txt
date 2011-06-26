@@ -181,6 +181,8 @@ The following interfaces are defined by raptus.article.core.
     - filter - method (Returns a filtered list of components)
 
 - **IComponentSelection** (A component selection registering a component for selection on a content type)
+
+- **IComponentsConfiguration** (Provides lookup for configuration of components):
     
 - **IDefaultComponents** (Provider to define default components for newly created articles)
     - getComponents - method (Returns a list of components which should be activated)
