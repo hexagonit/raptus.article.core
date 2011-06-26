@@ -23,10 +23,6 @@ class IComponents(Interface):
         """Returns a list of the active components."""
 
 
-class IComponentsConfiguration(Interface):
-    """Provides lookup of Components configuration."""
-
-
 class IComponent(Interface):
     """A component definition."""
 
@@ -50,6 +46,10 @@ class IComponentSelection(IComponent):
     """A component selection registering a component for selection
     on a content type.
     """
+
+
+class IComponentsConfiguration(Interface):
+    """Provides lookup of Components configuration."""
 
 
 class IDefaultComponents(Interface):
