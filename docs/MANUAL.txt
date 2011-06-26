@@ -313,7 +313,8 @@ List of dependencies between the different raptus.article packages
         * archetypes.schemaextender
         * plone.app.imaging
         * raptus.article.core
-
+* raptus.article.configuration
+    * raptus.article.core
 
 Add new component
 =================
